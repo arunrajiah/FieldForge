@@ -1,0 +1,176 @@
+<?php
+/**
+ * Public template helper functions.
+ *
+ * @package FieldForge
+ */
+
+if ( ! defined( 'ABSPATH' ) ) {
+	exit;
+}
+
+/**
+ * Get a field value for the given post (defaults to the current post in the loop).
+ *
+ * @param string   $field_name
+ * @param int|null $post_id    Defaults to get_the_ID().
+ * @return mixed
+ */
+function fieldforge_get( string $field_name, ?int $post_id = null ) {
+	if ( null === $post_id ) {
+		$post_id = (int) get_the_ID();
+	}
+
+	$field_config = fieldforge_find_field_config( $field_name, $post_id );
+	if ( ! $field_config ) {
+		return get_post_meta( $post_id, $field_name, true );
+	}
+
+	$ff    = FieldForge::get_instance();
+	$field = $ff->registry->make_field( $field_config );
+	if ( ! $field ) {
+		return get_post_meta( $post_id, $field_name, true );
+	}
+
+	return $field->load( $post_id );
+}
+
+/**
+ * Echo a field value, escaping it as plain text.
+ *
+ * @param string   $field_name
+ * @param int|null $post_id
+ */
+function fieldforge_the( string $field_name, ?int $post_id = null ): void {
+	echo esc_html( (string) fieldforge_get( $field_name, $post_id ) );
+}
+
+// ---------------------------------------------------------------------------
+// Repeater loop helpers
+// ---------------------------------------------------------------------------
+
+/** @var array Stack of current repeater row data. */
+global $fieldforge_repeater_row;
+$fieldforge_repeater_row = array();
+
+/**
+ * Check whether there are more repeater rows and advance the pointer.
+ *
+ * Usage: while ( fieldforge_have_rows('gallery_items') ) { ... }
+ *
+ * @param string   $field_name
+ * @param int|null $post_id
+ * @return bool
+ */
+function fieldforge_have_rows( string $field_name, ?int $post_id = null ): bool {
+	global $fieldforge_repeater_row;
+
+	if ( null === $post_id ) {
+		$post_id = (int) get_the_ID();
+	}
+
+	$cache_key = $field_name . '_' . $post_id;
+
+	if ( ! isset( $fieldforge_repeater_row[ $cache_key ] ) ) {
+		$rows = fieldforge_get( $field_name, $post_id );
+		$fieldforge_repeater_row[ $cache_key ] = array(
+			'rows'  => is_array( $rows ) ? array_values( $rows ) : array(),
+			'index' => -1,
+		);
+	}
+
+	$next = $fieldforge_repeater_row[ $cache_key ]['index'] + 1;
+
+	if ( $next < count( $fieldforge_repeater_row[ $cache_key ]['rows'] ) ) {
+		$fieldforge_repeater_row[ $cache_key ]['index'] = $next;
+		return true;
+	}
+
+	// Reset for re-use.
+	unset( $fieldforge_repeater_row[ $cache_key ] );
+	return false;
+}
+
+/**
+ * Advance to the next repeater row (no-op — have_rows() already advances the pointer).
+ * Required for ACF-compatible template syntax: while ( have_rows() ) : the_row(); ...
+ */
+function fieldforge_the_row(): void {}
+
+/**
+ * Get the layout name for the current Flexible Content row.
+ * Use inside a fieldforge_have_rows() loop on a flexible_content field.
+ *
+ * @return string Layout name, or empty string if not in a flexible content loop.
+ */
+function fieldforge_get_row_layout(): string {
+	global $fieldforge_repeater_row;
+
+	foreach ( $fieldforge_repeater_row as $data ) {
+		$row = $data['rows'][ $data['index'] ] ?? array();
+		if ( isset( $row['acf_fc_layout'] ) ) {
+			return (string) $row['acf_fc_layout'];
+		}
+	}
+	return '';
+}
+
+/**
+ * Get the value of a sub-field within the current repeater row.
+ *
+ * @param string $field_name
+ * @return mixed
+ */
+function fieldforge_sub_field( string $field_name ) {
+	global $fieldforge_repeater_row;
+
+	foreach ( $fieldforge_repeater_row as $cache_key => $data ) {
+		$row = $data['rows'][ $data['index'] ] ?? array();
+		if ( isset( $row[ $field_name ] ) ) {
+			return $row[ $field_name ];
+		}
+	}
+	return null;
+}
+
+/**
+ * Echo a sub-field value, escaped as plain text.
+ *
+ * @param string $field_name
+ */
+function fieldforge_the_sub_field( string $field_name ): void {
+	echo esc_html( (string) fieldforge_sub_field( $field_name ) );
+}
+
+// ---------------------------------------------------------------------------
+// Internal helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Find the field config array for a given field name in any active group.
+ *
+ * @param string $field_name
+ * @param int    $post_id
+ * @return array|null
+ */
+function fieldforge_find_field_config( string $field_name, int $post_id ): ?array {
+	$ff     = FieldForge::get_instance();
+	$groups = $ff->field_group->get_all_groups();
+
+	foreach ( $groups as $group ) {
+		foreach ( $group['fields'] as $field_config ) {
+			if ( ( $field_config['name'] ?? '' ) === $field_name ) {
+				return $field_config;
+			}
+			// Check sub-fields for nested look-ups.
+			if ( 'repeater' === ( $field_config['type'] ?? '' ) && ! empty( $field_config['sub_fields'] ) ) {
+				foreach ( $field_config['sub_fields'] as $sub ) {
+					if ( ( $sub['name'] ?? '' ) === $field_name ) {
+						return $sub;
+					}
+				}
+			}
+		}
+	}
+	return null;
+}

@@ -1,0 +1,60 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+
+jobs:
+  build:
+    name: Build release zip
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2
+
+      - name: Install Composer dependencies (production only)
+        run: composer install --no-dev --prefer-dist --optimize-autoloader
+
+      - name: Get tag name
+        id: tag
+        run: echo "TAG=${GITHUB_REF#refs/tags/}" >> "$GITHUB_OUTPUT"
+
+      - name: Build zip archive
+        run: |
+          ZIP_NAME="fieldforge-${{ steps.tag.outputs.TAG }}.zip"
+          mkdir -p build
+
+          # Files and directories to include in the release zip.
+          zip -r "build/${ZIP_NAME}" \
+            fieldforge.php \
+            includes/ \
+            admin/ \
+            assets/ \
+            languages/ \
+            readme.txt \
+            LICENSE \
+            CHANGELOG.md \
+            -x "*/.*" \
+            -x "*/node_modules/*" \
+            -x "*/vendor/*/test*" \
+            -x "*/vendor/*/Test*"
+
+          echo "Built build/${ZIP_NAME}"
+          ls -lh "build/${ZIP_NAME}"
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          name: FieldForge ${{ steps.tag.outputs.TAG }}
+          body_path: CHANGELOG.md
+          files: build/fieldforge-${{ steps.tag.outputs.TAG }}.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

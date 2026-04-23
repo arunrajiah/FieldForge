@@ -1,0 +1,1267 @@
+/* ==========================================================================
+   FieldForge Admin — Design System
+   ==========================================================================
+   Design tokens → component styles → page-level layouts
+   Uses WordPress admin CSS custom properties where possible.
+   ========================================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+  --ff-radius:        4px;
+  --ff-radius-lg:     8px;
+  --ff-shadow-sm:     0 1px 3px rgba(0,0,0,.08);
+  --ff-shadow:        0 2px 8px rgba(0,0,0,.12);
+  --ff-shadow-lg:     0 8px 24px rgba(0,0,0,.15);
+  --ff-transition:    150ms cubic-bezier(.4,0,.2,1);
+  --ff-transition-lg: 250ms cubic-bezier(.4,0,.2,1);
+
+  /* Brand */
+  --ff-primary:       #2271b1;
+  --ff-primary-dark:  #135e96;
+  --ff-primary-light: #e8f0fb;
+  --ff-danger:        #d63638;
+  --ff-danger-light:  #fcf0f1;
+  --ff-success:       #00a32a;
+  --ff-success-light: #edfaef;
+  --ff-warning:       #dba617;
+  --ff-warning-light: #fef8ee;
+
+  /* Surfaces */
+  --ff-bg:            #f0f0f1;
+  --ff-surface:       #fff;
+  --ff-surface-alt:   #f6f7f7;
+  --ff-border:        #dcdcde;
+  --ff-border-focus:  #2271b1;
+
+  /* Text */
+  --ff-text:          #1d2327;
+  --ff-text-muted:    #50575e;
+  --ff-text-light:    #8c8f94;
+
+  /* Field type colour palette */
+  --ff-type-text:       #2271b1;
+  --ff-type-choice:     #8b5cf6;
+  --ff-type-media:      #059669;
+  --ff-type-relation:   #d97706;
+  --ff-type-layout:     #db2777;
+  --ff-type-content:    #0891b2;
+  --ff-type-misc:       #64748b;
+}
+
+/* ==========================================================================
+   Meta box — post edit screen fields
+   ========================================================================== */
+
+.fieldforge-meta-box {
+  padding: 4px 0;
+}
+
+/* Field wrapper */
+.fieldforge-field {
+  position: relative;
+  margin-bottom: 18px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid var(--ff-border);
+  transition: opacity var(--ff-transition);
+}
+
+.fieldforge-field:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* Hidden by conditional logic */
+.fieldforge-field[data-ff-hidden] {
+  display: none;
+}
+
+/* Label */
+.fieldforge-label {
+  display: block;
+  font-weight: 600;
+  font-size: 13px;
+  margin-bottom: 5px;
+  color: var(--ff-text);
+}
+
+.fieldforge-required-indicator {
+  color: var(--ff-danger);
+  margin-left: 2px;
+}
+
+/* Instructions */
+.fieldforge-instructions {
+  color: var(--ff-text-muted);
+  font-size: 12px;
+  margin: 0 0 7px;
+  line-height: 1.5;
+}
+
+.fieldforge-field-control {
+  margin-top: 2px;
+}
+
+/* Inputs */
+.fieldforge-input {
+  border-radius: var(--ff-radius);
+  transition: border-color var(--ff-transition), box-shadow var(--ff-transition);
+}
+
+.fieldforge-input:focus {
+  border-color: var(--ff-border-focus);
+  box-shadow: 0 0 0 1px var(--ff-border-focus);
+  outline: none;
+}
+
+.fieldforge-input--color {
+  height: 36px;
+  width: 64px;
+  padding: 2px 3px;
+  cursor: pointer;
+  border-radius: var(--ff-radius);
+}
+
+.fieldforge-select {
+  border-radius: var(--ff-radius);
+}
+
+/* Checkbox / Radio */
+.fieldforge-checkbox-list,
+.fieldforge-radio-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.fieldforge-checkbox-list li,
+.fieldforge-radio-list li {
+  margin-bottom: 5px;
+}
+
+.fieldforge-checkbox-list label,
+.fieldforge-radio-list label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  cursor: pointer;
+}
+
+/* True/False */
+.fieldforge-true-false {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* Message */
+.fieldforge-message {
+  background: var(--ff-primary-light);
+  border-left: 4px solid var(--ff-primary);
+  padding: 10px 14px;
+  border-radius: 0 var(--ff-radius) var(--ff-radius) 0;
+  color: var(--ff-text);
+  font-size: 13px;
+  line-height: 1.5;
+}
+
+/* Image/File */
+.fieldforge-image-field,
+.fieldforge-file-field {
+  display: inline-flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 320px;
+}
+
+.fieldforge-image-preview {
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  max-width: 150px;
+  display: block;
+  transition: opacity var(--ff-transition);
+}
+
+/* Gallery */
+.fieldforge-gallery-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  list-style: none;
+  margin: 0 0 10px;
+  padding: 0;
+}
+
+.fieldforge-gallery-list li {
+  position: relative;
+  width: 80px;
+  height: 80px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  overflow: hidden;
+  transition: box-shadow var(--ff-transition);
+}
+
+.fieldforge-gallery-list li:hover {
+  box-shadow: var(--ff-shadow);
+}
+
+.fieldforge-gallery-list img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.fieldforge-gallery-remove {
+  position: absolute;
+  top: 3px;
+  right: 3px;
+  background: rgba(0,0,0,.65);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  line-height: 20px;
+  text-align: center;
+  cursor: pointer;
+  font-size: 13px;
+  padding: 0;
+  opacity: 0;
+  transition: opacity var(--ff-transition);
+}
+
+.fieldforge-gallery-list li:hover .fieldforge-gallery-remove {
+  opacity: 1;
+}
+
+/* Link */
+.fieldforge-link-field {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  max-width: 480px;
+}
+
+.fieldforge-sub-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--ff-text-light);
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* ==========================================================================
+   Repeater field — post edit screen
+   ========================================================================== */
+
+.fieldforge-repeater {
+  width: 100%;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.fieldforge-repeater-header {
+  display: flex;
+  background: var(--ff-surface-alt);
+  border-bottom: 1px solid var(--ff-border);
+}
+
+.fieldforge-repeater-header-cell {
+  flex: 1;
+  padding: 8px 12px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ff-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+.fieldforge-repeater-header-cell.fieldforge-repeater-order {
+  flex: 0 0 72px;
+  text-align: center;
+}
+
+.fieldforge-repeater-rows {
+  background: var(--ff-surface);
+}
+
+.fieldforge-repeater-row {
+  border-bottom: 1px solid var(--ff-border);
+  display: flex;
+  align-items: stretch;
+  transition: background var(--ff-transition);
+}
+
+.fieldforge-repeater-row:last-child {
+  border-bottom: none;
+}
+
+.fieldforge-repeater-row:hover {
+  background: #fafafa;
+}
+
+.fieldforge-repeater-row.ui-sortable-helper {
+  background: var(--ff-surface);
+  box-shadow: var(--ff-shadow-lg);
+  border-radius: var(--ff-radius);
+}
+
+.fieldforge-repeater-row-cells {
+  flex: 1;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.fieldforge-repeater-cell {
+  flex: 1;
+  padding: 12px;
+  min-width: 120px;
+}
+
+.fieldforge-repeater[data-layout="table"] .fieldforge-repeater-cell .fieldforge-label,
+.fieldforge-repeater[data-layout="table"] .fieldforge-repeater-cell .fieldforge-instructions {
+  display: none;
+}
+
+.fieldforge-repeater-row-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px;
+  background: var(--ff-surface-alt);
+  border-left: 1px solid var(--ff-border);
+  min-width: 60px;
+}
+
+.fieldforge-repeater-drag {
+  cursor: grab;
+  color: var(--ff-text-light);
+  font-size: 18px;
+  transition: color var(--ff-transition);
+}
+
+.fieldforge-repeater-drag:hover {
+  color: var(--ff-text-muted);
+}
+
+.fieldforge-repeater-drag:active {
+  cursor: grabbing;
+}
+
+.fieldforge-repeater-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--ff-text-light);
+  font-style: italic;
+  font-size: 13px;
+  margin: 0;
+}
+
+.fieldforge-repeater-add-row {
+  margin: 10px 0 2px 0 !important;
+}
+
+/* ==========================================================================
+   Flexible Content field — post edit screen
+   ========================================================================== */
+
+.fieldforge-flexible-content {
+  width: 100%;
+}
+
+.fieldforge-fc-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.fieldforge-fc-empty {
+  padding: 28px;
+  text-align: center;
+  color: var(--ff-text-light);
+  font-style: italic;
+  border: 2px dashed var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  margin: 0;
+}
+
+.fieldforge-fc-row {
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--ff-shadow-sm);
+  transition: box-shadow var(--ff-transition);
+}
+
+.fieldforge-fc-row.ui-sortable-helper {
+  box-shadow: var(--ff-shadow-lg);
+}
+
+.fieldforge-fc-row-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  background: linear-gradient(135deg, #f8f0ff 0%, #fdf4ff 100%);
+  border-bottom: 1px solid #e9d5ff;
+  cursor: pointer;
+}
+
+.fieldforge-fc-drag {
+  cursor: grab;
+  color: var(--ff-text-light);
+  font-size: 16px;
+}
+
+.fieldforge-fc-layout-label {
+  flex: 1;
+  font-size: 13px;
+  color: #7c3aed;
+  font-weight: 600;
+}
+
+.fieldforge-fc-row-body {
+  padding: 16px;
+  background: var(--ff-surface);
+}
+
+/* Layout picker dropdown */
+.fieldforge-fc-add {
+  position: relative;
+  display: inline-block;
+}
+
+.fieldforge-fc-layout-picker {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 100;
+  background: var(--ff-surface);
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow-lg);
+  min-width: 180px;
+  margin: 4px 0 0;
+  padding: 6px 0;
+  list-style: none;
+}
+
+.fieldforge-fc-layout-picker li {
+  margin: 0;
+}
+
+.fieldforge-fc-pick-layout {
+  display: block;
+  width: 100%;
+  padding: 8px 14px;
+  text-align: left;
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--ff-text);
+  transition: background var(--ff-transition);
+}
+
+.fieldforge-fc-pick-layout:hover {
+  background: var(--ff-primary-light);
+  color: var(--ff-primary-dark);
+}
+
+/* ==========================================================================
+   Field Group Editor — field list
+   ========================================================================== */
+
+#fieldforge-fields-editor {
+  padding: 2px 0;
+}
+
+/* Empty state */
+.fieldforge-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 24px;
+  text-align: center;
+  border: 2px dashed var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  margin-bottom: 12px;
+  background: var(--ff-surface-alt);
+  transition: border-color var(--ff-transition);
+}
+
+.fieldforge-empty-state:hover {
+  border-color: var(--ff-primary);
+}
+
+.fieldforge-empty-state__icon {
+  font-size: 40px;
+  color: var(--ff-text-light);
+  margin-bottom: 12px;
+  line-height: 1;
+}
+
+.fieldforge-empty-state__title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+  margin: 0 0 6px;
+}
+
+.fieldforge-empty-state__desc {
+  font-size: 13px;
+  color: var(--ff-text-light);
+  margin: 0;
+}
+
+/* Field rows */
+.fieldforge-field-row {
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  margin-bottom: 8px;
+  background: var(--ff-surface);
+  box-shadow: var(--ff-shadow-sm);
+  transition: box-shadow var(--ff-transition), border-color var(--ff-transition);
+  overflow: hidden;
+}
+
+.fieldforge-field-row:hover {
+  border-color: #c3c4c7;
+  box-shadow: var(--ff-shadow);
+}
+
+.fieldforge-field-row.ui-sortable-helper {
+  box-shadow: var(--ff-shadow-lg);
+  border-color: var(--ff-primary);
+}
+
+/* Field row header */
+.fieldforge-field-row-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 11px 14px;
+  background: var(--ff-surface-alt);
+  cursor: default;
+  user-select: none;
+}
+
+.fieldforge-field-row-header .fieldforge-drag-handle {
+  cursor: grab;
+  color: var(--ff-text-light);
+  font-size: 16px;
+  flex-shrink: 0;
+  transition: color var(--ff-transition);
+}
+
+.fieldforge-field-row-header .fieldforge-drag-handle:hover {
+  color: var(--ff-text-muted);
+}
+
+/* Field type icon circle */
+.fieldforge-field-type-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 12px;
+}
+
+.fieldforge-field-label-preview {
+  flex: 1;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ff-text);
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.fieldforge-field-name-preview {
+  font-size: 11px;
+  color: var(--ff-text-light);
+  font-family: monospace;
+  flex-shrink: 0;
+}
+
+/* Type badge */
+.fieldforge-field-type-badge {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 10px;
+  flex-shrink: 0;
+  letter-spacing: .2px;
+}
+
+/* Row actions */
+.fieldforge-field-row-actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+.fieldforge-field-row-actions .button-link {
+  padding: 3px 6px;
+  height: auto;
+  font-size: 12px;
+  color: var(--ff-text-muted);
+  transition: color var(--ff-transition);
+  border-radius: var(--ff-radius);
+}
+
+.fieldforge-field-row-actions .button-link:hover {
+  color: var(--ff-primary);
+  background: var(--ff-primary-light);
+}
+
+.fieldforge-field-row-actions .button-link-delete {
+  color: var(--ff-text-light);
+}
+
+.fieldforge-field-row-actions .button-link-delete:hover {
+  color: var(--ff-danger);
+  background: var(--ff-danger-light);
+}
+
+/* Field row body */
+.fieldforge-field-row-body {
+  padding: 16px;
+  border-top: 1px solid var(--ff-border);
+  animation: ff-slide-down var(--ff-transition-lg) ease;
+}
+
+@keyframes ff-slide-down {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fieldforge-field-settings th {
+  width: 160px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ff-text-muted);
+  vertical-align: top;
+  padding-top: 8px;
+}
+
+.fieldforge-field-settings input[type="text"],
+.fieldforge-field-settings input[type="number"],
+.fieldforge-field-settings textarea,
+.fieldforge-field-settings select {
+  border-radius: var(--ff-radius);
+}
+
+/* Required asterisk */
+.fieldforge-required-mark {
+  color: var(--ff-danger);
+  margin-left: 1px;
+}
+
+/* Sub-fields editor (inside repeater/flex) */
+.fieldforge-sub-fields-editor {
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  padding: 12px;
+  margin-top: 10px;
+  background: var(--ff-surface-alt);
+}
+
+.fieldforge-sub-fields-editor h4 {
+  margin: 0 0 10px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* ==========================================================================
+   Type Picker Modal
+   ========================================================================== */
+
+.ff-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,.5);
+  z-index: 160000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: ff-fade-in 150ms ease;
+}
+
+@keyframes ff-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.ff-modal {
+  background: var(--ff-surface);
+  border-radius: var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow-lg);
+  width: 560px;
+  max-width: calc(100vw - 48px);
+  max-height: 80vh;
+  display: flex;
+  flex-direction: column;
+  animation: ff-modal-in var(--ff-transition-lg) cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes ff-modal-in {
+  from { opacity: 0; transform: scale(.94) translateY(8px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.ff-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--ff-border);
+  flex-shrink: 0;
+}
+
+.ff-modal-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ff-text);
+  margin: 0;
+}
+
+.ff-modal-close {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 4px;
+  color: var(--ff-text-light);
+  border-radius: var(--ff-radius);
+  transition: color var(--ff-transition), background var(--ff-transition);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.ff-modal-close:hover {
+  color: var(--ff-text);
+  background: var(--ff-surface-alt);
+}
+
+.ff-modal-search-wrap {
+  padding: 12px 20px;
+  border-bottom: 1px solid var(--ff-border);
+  flex-shrink: 0;
+}
+
+.ff-modal-search {
+  width: 100%;
+  padding: 8px 12px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  font-size: 13px;
+  box-sizing: border-box;
+  transition: border-color var(--ff-transition);
+}
+
+.ff-modal-search:focus {
+  outline: none;
+  border-color: var(--ff-border-focus);
+  box-shadow: 0 0 0 1px var(--ff-border-focus);
+}
+
+.ff-modal-body {
+  overflow-y: auto;
+  padding: 12px 20px 20px;
+  flex: 1;
+}
+
+/* Type group headings */
+.ff-type-group-label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .8px;
+  color: var(--ff-text-light);
+  margin: 16px 0 8px;
+  padding-bottom: 4px;
+  border-bottom: 1px solid var(--ff-border);
+}
+
+.ff-type-group-label:first-child {
+  margin-top: 4px;
+}
+
+/* Type grid */
+.ff-type-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+}
+
+.ff-type-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  background: var(--ff-surface);
+  cursor: pointer;
+  transition: border-color var(--ff-transition), background var(--ff-transition), box-shadow var(--ff-transition);
+  text-align: left;
+}
+
+.ff-type-btn:hover {
+  border-color: var(--ff-primary);
+  background: var(--ff-primary-light);
+  box-shadow: 0 0 0 1px var(--ff-primary);
+}
+
+.ff-type-btn.ff-hidden {
+  display: none;
+}
+
+.ff-type-btn__icon {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--ff-radius);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 14px;
+}
+
+.ff-type-btn__label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text);
+  line-height: 1.3;
+}
+
+/* Type colours */
+.ff-color-text     { background: #dbeafe; color: var(--ff-type-text); }
+.ff-color-choice   { background: #ede9fe; color: var(--ff-type-choice); }
+.ff-color-media    { background: #d1fae5; color: var(--ff-type-media); }
+.ff-color-relation { background: #fef3c7; color: var(--ff-type-relation); }
+.ff-color-layout   { background: #fce7f3; color: var(--ff-type-layout); }
+.ff-color-content  { background: #cffafe; color: var(--ff-type-content); }
+.ff-color-misc     { background: #f1f5f9; color: var(--ff-type-misc); }
+
+/* Badge colours */
+.ff-badge-text     { background: #dbeafe; color: var(--ff-type-text); }
+.ff-badge-choice   { background: #ede9fe; color: var(--ff-type-choice); }
+.ff-badge-media    { background: #d1fae5; color: var(--ff-type-media); }
+.ff-badge-relation { background: #fef3c7; color: var(--ff-type-relation); }
+.ff-badge-layout   { background: #fce7f3; color: var(--ff-type-layout); }
+.ff-badge-content  { background: #cffafe; color: var(--ff-type-content); }
+.ff-badge-misc     { background: #f1f5f9; color: var(--ff-type-misc); }
+
+/* No results */
+.ff-type-no-results {
+  text-align: center;
+  color: var(--ff-text-light);
+  font-size: 13px;
+  padding: 24px 0;
+  display: none;
+}
+
+/* ==========================================================================
+   Conditional Logic builder
+   ========================================================================== */
+
+.fieldforge-conditional-logic {
+  margin-top: 12px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  overflow: hidden;
+}
+
+.fieldforge-conditional-logic-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 12px;
+  background: var(--ff-surface-alt);
+  border-bottom: 1px solid var(--ff-border);
+}
+
+.fieldforge-conditional-logic-header label {
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ff-text-muted);
+}
+
+.fieldforge-conditional-rules {
+  padding: 10px 12px;
+  display: none;
+}
+
+.fieldforge-conditional-rules.is-active {
+  display: block;
+}
+
+.fieldforge-conditional-rule-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 7px;
+}
+
+.fieldforge-conditional-rule-row select {
+  flex: 1;
+  min-width: 0;
+}
+
+.fieldforge-conditional-rule-row input[type="text"] {
+  flex: 1;
+  min-width: 0;
+}
+
+.fieldforge-conditional-rule-remove {
+  color: var(--ff-text-light);
+  flex-shrink: 0;
+  transition: color var(--ff-transition);
+}
+
+.fieldforge-conditional-rule-remove:hover {
+  color: var(--ff-danger);
+}
+
+/* ==========================================================================
+   Location editor
+   ========================================================================== */
+
+#fieldforge-location-editor .fieldforge-location-group {
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  overflow: hidden;
+  margin-bottom: 10px;
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.fieldforge-location-group-header {
+  padding: 8px 14px;
+  background: var(--ff-surface-alt);
+  border-bottom: 1px solid var(--ff-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+}
+
+.fieldforge-location-rules {
+  padding: 12px 14px;
+}
+
+.fieldforge-location-rule {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-bottom: 8px;
+  animation: ff-slide-down var(--ff-transition-lg) ease;
+}
+
+.fieldforge-location-rule:last-child {
+  margin-bottom: 0;
+}
+
+.fieldforge-location-rule select {
+  flex: 1;
+  min-width: 0;
+  border-radius: var(--ff-radius);
+}
+
+.fieldforge-location-or {
+  text-align: center;
+  padding: 6px 0;
+  position: relative;
+}
+
+.fieldforge-location-or::before,
+.fieldforge-location-or::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 20px);
+  height: 1px;
+  background: var(--ff-border);
+}
+
+.fieldforge-location-or::before { left: 0; }
+.fieldforge-location-or::after  { right: 0; }
+
+.fieldforge-location-or strong {
+  position: relative;
+  background: var(--ff-surface);
+  padding: 0 8px;
+  font-size: 11px;
+  color: var(--ff-text-light);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+}
+
+/* ==========================================================================
+   Toast notifications
+   ========================================================================== */
+
+#ff-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 999999;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.ff-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow-lg);
+  font-size: 13px;
+  font-weight: 500;
+  min-width: 240px;
+  max-width: 360px;
+  pointer-events: auto;
+  animation: ff-toast-in var(--ff-transition-lg) cubic-bezier(.34,1.56,.64,1);
+}
+
+@keyframes ff-toast-in {
+  from { opacity: 0; transform: translateX(24px) scale(.96); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+
+.ff-toast.is-leaving {
+  animation: ff-toast-out var(--ff-transition-lg) ease forwards;
+}
+
+@keyframes ff-toast-out {
+  to { opacity: 0; transform: translateX(24px) scale(.96); }
+}
+
+.ff-toast--success { background: var(--ff-success-light); color: #166534; border: 1px solid #bbf7d0; }
+.ff-toast--error   { background: var(--ff-danger-light);  color: #991b1b; border: 1px solid #fecaca; }
+.ff-toast--info    { background: var(--ff-primary-light); color: var(--ff-primary-dark); border: 1px solid #bfdbfe; }
+.ff-toast--warning { background: var(--ff-warning-light); color: #92400e; border: 1px solid #fde68a; }
+
+.ff-toast .dashicons {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Tools page
+   ========================================================================== */
+
+.fieldforge-tools-section {
+  background: var(--ff-surface);
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  padding: 20px 24px;
+  margin-bottom: 20px;
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.fieldforge-tools-section h2 {
+  margin-top: 0;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+#fieldforge-import-json,
+#fieldforge-export-result {
+  font-family: ui-monospace, 'SF Mono', 'Cascadia Code', monospace;
+  font-size: 12px;
+  border-radius: var(--ff-radius);
+  line-height: 1.5;
+}
+
+#fieldforge-export-result {
+  max-height: 360px;
+  overflow: auto;
+  white-space: pre-wrap;
+  word-break: break-all;
+  background: #1e293b;
+  color: #e2e8f0;
+  border: none;
+  padding: 14px 16px;
+}
+
+/* ==========================================================================
+   Misc utilities
+   ========================================================================== */
+
+/* Inline spinner */
+.ff-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--ff-border);
+  border-top-color: var(--ff-primary);
+  border-radius: 50%;
+  animation: ff-spin 600ms linear infinite;
+  vertical-align: middle;
+  margin-right: 6px;
+}
+
+@keyframes ff-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Sync JSON button in notice */
+.fieldforge-sync-json {
+  vertical-align: baseline !important;
+}
+
+/* Options page groups */
+.fieldforge-options-group {
+  box-shadow: var(--ff-shadow-sm) !important;
+  border-radius: var(--ff-radius-lg) !important;
+}
+
+/* Required field validation error state */
+.fieldforge-field--error {
+  border-left: 3px solid var(--ff-danger);
+  padding-left: 10px;
+  background: var(--ff-danger-light);
+  border-radius: 0 var(--ff-radius) var(--ff-radius) 0;
+}
+
+.fieldforge-required-error {
+  color: var(--ff-danger);
+  font-size: 12px;
+  margin: 4px 0 0;
+  font-style: italic;
+}
+
+/* Orphaned value warning */
+.fieldforge-orphaned-warning {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: var(--ff-warning);
+  margin-top: 4px;
+}
+
+/* Repeater row collapse */
+.fieldforge-repeater-row-toggle {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 2px 4px;
+  color: var(--ff-text-muted);
+}
+
+.fieldforge-repeater-row-toggle:hover {
+  color: var(--ff-primary);
+}
+
+.fieldforge-repeater-row-body {
+  overflow: hidden;
+}
+
+/* AJAX search picker */
+.fieldforge-picker {
+  position: relative;
+}
+
+.fieldforge-picker-search {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.fieldforge-picker-dropdown {
+  position: absolute;
+  z-index: 9999;
+  background: var(--ff-surface);
+  border: 1px solid var(--ff-border);
+  border-top: none;
+  border-radius: 0 0 var(--ff-radius) var(--ff-radius);
+  box-shadow: var(--ff-shadow);
+  max-height: 220px;
+  overflow-y: auto;
+  width: 100%;
+}
+
+.fieldforge-picker-option {
+  padding: 7px 10px;
+  cursor: pointer;
+  font-size: 13px;
+  border-bottom: 1px solid var(--ff-border);
+}
+
+.fieldforge-picker-option:last-child {
+  border-bottom: none;
+}
+
+.fieldforge-picker-option:hover,
+.fieldforge-picker-option.is-focused {
+  background: var(--ff-primary-light);
+}
+
+.fieldforge-picker-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+  min-height: 24px;
+}
+
+.fieldforge-picker-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: var(--ff-primary-light);
+  color: var(--ff-primary-dark);
+  border-radius: 3px;
+  padding: 2px 6px;
+  font-size: 12px;
+}
+
+.fieldforge-picker-tag-remove {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  font-size: 14px;
+  line-height: 1;
+  color: var(--ff-primary);
+}
+
+.fieldforge-picker-tag-remove:hover {
+  color: var(--ff-danger);
+}
+
+.fieldforge-picker-empty {
+  padding: 8px 10px;
+  color: var(--ff-text-muted);
+  font-size: 12px;
+  font-style: italic;
+}
