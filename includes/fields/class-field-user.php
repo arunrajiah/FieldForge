@@ -12,11 +12,11 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FieldForge_Field_User extends FieldForge_Field_Base {
 
 	public function render( int $post_id ): void {
-		$saved    = $this->load( $post_id );
-		$multiple = ! empty( $this->field['multiple'] );
-		$role     = sanitize_text_field( $this->field['role'] ?? '' );
-		$name     = esc_attr( $this->field['name'] );
-		$field_id = esc_attr( 'fieldforge_field_' . $this->field['name'] );
+		$saved     = $this->load( $post_id );
+		$multiple  = ! empty( $this->field['multiple'] );
+		$role      = sanitize_text_field( $this->field['role'] ?? '' );
+		$name      = esc_attr( $this->field['name'] );
+		$field_id  = esc_attr( 'fieldforge_field_' . $this->field['name'] );
 		$name_attr = $multiple ? $name . '[]' : $name;
 
 		$saved_ids = $multiple ? (array) $saved : ( $saved ? array( (int) $saved ) : array() );
@@ -27,7 +27,10 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 			if ( $uid ) {
 				$u = get_userdata( $uid );
 				if ( $u ) {
-					$selected_items[] = array( 'id' => $uid, 'title' => $u->display_name . ' (' . $u->user_email . ')' );
+					$selected_items[] = array(
+						'id'    => $uid,
+						'title' => $u->display_name . ' (' . $u->user_email . ')',
+					);
 				} else {
 					// Referenced user no longer exists — log and return empty state.
 					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
@@ -36,7 +39,10 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 			}
 		}
 
-		$html  = '<div class="fieldforge-picker" data-type="user" data-multiple="' . ( $multiple ? '1' : '0' ) . '" data-role="' . esc_attr( $role ) . '" data-field-name="' . esc_attr( $name_attr ) . '">';
+		$html  = '<div class="fieldforge-picker" data-type="user"'
+			. ' data-multiple="' . ( $multiple ? '1' : '0' ) . '"'
+			. ' data-role="' . esc_attr( $role ) . '"'
+			. ' data-field-name="' . esc_attr( $name_attr ) . '">';
 		$html .= '<input type="text" class="fieldforge-picker-search widefat" placeholder="' . esc_attr__( 'Search users…', 'fieldforge' ) . '" autocomplete="off" />';
 		$html .= '<div class="fieldforge-picker-dropdown" style="display:none"></div>';
 		$html .= '<div class="fieldforge-picker-tags">';
@@ -98,9 +104,15 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 		}
 		$users = get_users( $args );
 
-		$results = array_map( function( $u ) {
-			return array( 'id' => $u->ID, 'title' => $u->display_name . ' (' . $u->user_email . ')' );
-		}, $users );
+		$results = array_map(
+			function ( $u ) {
+				return array(
+					'id'    => $u->ID,
+					'title' => $u->display_name . ' (' . $u->user_email . ')',
+				);
+			},
+			$users
+		);
 
 		wp_send_json_success( $results );
 	}

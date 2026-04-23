@@ -36,7 +36,7 @@ elif [[ $WP_VERSION == 'nightly' || $WP_VERSION == 'trunk' ]]; then
 else
     # Resolve "latest" to a concrete version tag.
     download https://api.wordpress.org/core/version-check/1.7/ /tmp/wp-latest.json
-    LATEST_VERSION=$(grep -o '"version":"[^"]*"' /tmp/wp-latest.json | sed 's/"version":"//;s/"//')
+    LATEST_VERSION=$(grep -o '"version":"[^"]*"' /tmp/wp-latest.json | sed 's/"version":"//;s/"//' | head -1)
     if [[ -z "$LATEST_VERSION" ]]; then
         echo "Failed to resolve latest WordPress version." >&2
         exit 1

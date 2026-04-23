@@ -68,15 +68,18 @@ class FieldForge_Options_Page {
 			'autoload'    => false,
 		);
 
-		$page = array_merge( $defaults, $args );
+		$page              = array_merge( $defaults, $args );
 		$page['menu_slug'] = sanitize_key( $page['menu_slug'] );
 
 		self::$pages[ $page['menu_slug'] ] = $page;
 
 		// Hook admin_menu once per registration call.
-		add_action( 'admin_menu', function () use ( $page ) {
-			self::add_menu_page( $page );
-		} );
+		add_action(
+			'admin_menu',
+			function () use ( $page ) {
+				self::add_menu_page( $page );
+			}
+		);
 
 		// Handle form saves.
 		add_action( 'admin_post_fieldforge_save_options_' . $page['menu_slug'], array( __CLASS__, 'handle_save' ) );
@@ -164,7 +167,7 @@ class FieldForge_Options_Page {
 					<?php
 					printf(
 						/* translators: %s: link to add new field group */
-						esc_html__( 'Go to %s and set the location rule to "Options Page is equal to %s".', 'fieldforge' ),
+						esc_html__( 'Go to %1$s and set the location rule to "Options Page is equal to %2$s".', 'fieldforge' ),
 						'<a href="' . esc_url( admin_url( 'edit.php?post_type=fieldforge_group' ) ) . '">' . esc_html__( 'Field Groups', 'fieldforge' ) . '</a>',
 						'<code>' . esc_html( $page['menu_slug'] ) . '</code>'
 					);
@@ -232,8 +235,8 @@ class FieldForge_Options_Page {
 				if ( ! $field ) {
 					continue;
 				}
-				$name  = $field_config['name'] ?? '';
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above.
+				$name = $field_config['name'] ?? '';
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; value passed through field sanitize().
 				$raw   = isset( $_POST[ $name ] ) ? wp_unslash( $_POST[ $name ] ) : $field->get_empty_value();
 				$clean = $field->sanitize( $raw );
 				self::update_option( $slug, $name, $clean, $page['autoload'] );
@@ -315,7 +318,7 @@ class FieldForge_Options_Page {
 				foreach ( $or_group as $rule ) {
 					if ( 'options_page' === ( $rule['param'] ?? '' )
 						&& '==' === ( $rule['operator'] ?? '' )
-						&& $page_slug === ( $rule['value'] ?? '' ) ) {
+						&& ( $rule['value'] ?? '' ) === $page_slug ) {
 						$result[] = $group;
 						break 2;
 					}

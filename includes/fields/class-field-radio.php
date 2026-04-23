@@ -19,7 +19,7 @@ class FieldForge_Field_Radio extends FieldForge_Field_Base {
 
 		$html = '<ul class="fieldforge-radio-list">';
 		foreach ( $choices as $val => $label ) {
-			$id      = esc_attr( 'fieldforge_field_' . $this->field['name'] . '_' . $i++ );
+			$id      = esc_attr( 'fieldforge_field_' . $this->field['name'] . '_' . ( $i++ ) );
 			$checked = checked( $saved, (string) $val, false );
 			$html   .= sprintf(
 				'<li><label><input type="radio" name="%s" id="%s" value="%s"%s /> %s</label></li>',

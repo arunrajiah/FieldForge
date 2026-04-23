@@ -28,6 +28,6 @@ class FieldForge_Field_Color extends FieldForge_Field_Base {
 
 	public function sanitize( $value ): string {
 		$value = sanitize_hex_color( (string) $value );
-		return $value ?: '';
+		return $value ? $value : '';
 	}
 }

@@ -16,13 +16,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 
 	public function render( int $post_id ): void {
-		$rows        = $this->load( $post_id );
-		$sub_fields  = $this->field['sub_fields'] ?? array();
-		$name        = esc_attr( $this->field['name'] );
+		$rows         = $this->load( $post_id );
+		$sub_fields   = $this->field['sub_fields'] ?? array();
+		$name         = esc_attr( $this->field['name'] );
 		$button_label = esc_html( $this->field['button_label'] ?? __( 'Add Row', 'fieldforge' ) );
-		$min         = (int) ( $this->field['min'] ?? 0 );
-		$max         = (int) ( $this->field['max'] ?? 0 );
-		$layout      = in_array( $this->field['layout'] ?? 'table', array( 'table', 'block', 'row' ), true ) ? $this->field['layout'] : 'table';
+		$min          = (int) ( $this->field['min'] ?? 0 );
+		$max          = (int) ( $this->field['max'] ?? 0 );
+		$layout       = in_array( $this->field['layout'] ?? 'table', array( 'table', 'block', 'row' ), true ) ? $this->field['layout'] : 'table';
 
 		$ff       = FieldForge::get_instance();
 		$registry = $ff->registry;
@@ -84,9 +84,12 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 		$html  = '<div class="fieldforge-repeater-row" data-row="' . esc_attr( (string) $row_index ) . '">';
 		$html .= '<div class="fieldforge-repeater-row-header">';
 		$html .= '<span class="fieldforge-repeater-drag dashicons dashicons-menu" title="' . esc_attr__( 'Drag to reorder', 'fieldforge' ) . '"></span>';
+		/* translators: %d: row number */
 		$html .= '<span class="fieldforge-repeater-row-label">' . sprintf( esc_html__( 'Row %d', 'fieldforge' ), $row_index + 1 ) . '</span>';
 		$html .= '<div class="fieldforge-repeater-row-actions">';
-		$html .= '<button type="button" class="fieldforge-repeater-row-toggle button-link" title="' . esc_attr__( 'Collapse row', 'fieldforge' ) . '"><span class="dashicons dashicons-arrow-up-alt2"></span></button>';
+		$toggle_title = esc_attr__( 'Collapse row', 'fieldforge' );
+		$html        .= '<button type="button" class="fieldforge-repeater-row-toggle button-link" title="' . $toggle_title . '">'
+			. '<span class="dashicons dashicons-arrow-up-alt2"></span></button>';
 		$html .= '<button type="button" class="button fieldforge-repeater-remove-row">' . esc_html__( 'Remove', 'fieldforge' ) . '</button>';
 		$html .= '</div>';
 		$html .= '</div>';
@@ -94,15 +97,15 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 		$html .= '<div class="fieldforge-repeater-row-cells">';
 
 		foreach ( $sub_fields as $sub_config ) {
-			$sub_name    = $sub_config['name'] ?? '';
-			$namespaced  = array_merge(
+			$sub_name   = $sub_config['name'] ?? '';
+			$namespaced = array_merge(
 				$sub_config,
 				array(
 					'name' => $name . '_' . $row_index . '_' . $sub_name,
 					'key'  => $sub_config['key'] ?? '',
 				)
 			);
-			$sub_field = $registry->make_field( $namespaced );
+			$sub_field  = $registry->make_field( $namespaced );
 			if ( ! $sub_field ) {
 				continue;
 			}
@@ -115,7 +118,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 			// Render sub-field with pre-populated value.
 			ob_start();
 			$sub_field->render_with_value( $sub_value );
-			$cell = ob_get_clean();
+			$cell  = ob_get_clean();
 			$html .= $cell;
 			$html .= '</div>';
 		}
@@ -174,7 +177,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 				if ( ! $sub_field ) {
 					continue;
 				}
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; value passed through field sanitize().
 				$raw   = isset( $_POST[ $meta_key ] ) ? wp_unslash( $_POST[ $meta_key ] ) : $sub_field->get_empty_value();
 				$clean = $sub_field->sanitize( $raw );
 				update_post_meta( $post_id, $meta_key, $clean );
@@ -198,7 +201,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 		for ( $i = 0; $i < $row_count; $i++ ) {
 			$row = array();
 			foreach ( $sub_fields as $sub ) {
-				$sub_name       = $sub['name'] ?? '';
+				$sub_name         = $sub['name'] ?? '';
 				$row[ $sub_name ] = get_post_meta( $post_id, $name . '_' . $i . '_' . $sub_name, true );
 			}
 			$rows[] = $row;

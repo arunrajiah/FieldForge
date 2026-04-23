@@ -34,7 +34,7 @@ class FieldForge_Local_JSON {
 		add_action( 'save_post_' . FieldForge_Field_Group::CPT, array( $this, 'on_group_save' ), 20, 2 );
 
 		// Delete JSON when a field group is trashed/deleted.
-		add_action( 'trashed_post',   array( $this, 'on_group_delete' ) );
+		add_action( 'trashed_post', array( $this, 'on_group_delete' ) );
 		add_action( 'before_delete_post', array( $this, 'on_group_delete' ) );
 
 		// Admin notice when files are out of sync.
@@ -135,7 +135,8 @@ class FieldForge_Local_JSON {
 			if ( ! is_dir( $path ) ) {
 				continue;
 			}
-			foreach ( glob( $path . '/group_*.json' ) ?: array() as $file ) {
+			$json_files = glob( $path . '/group_*.json' );
+			foreach ( $json_files ? $json_files : array() as $file ) {
 				// phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
 				$raw = file_get_contents( $file );
 				if ( ! $raw ) {
@@ -215,16 +216,14 @@ class FieldForge_Local_JSON {
 		<div class="notice notice-warning">
 			<p>
 				<?php
-				printf(
-					/* translators: %d: number of out-of-sync JSON files */
-					esc_html( _n(
-						'FieldForge: %d field group JSON file is newer than the database.',
-						'FieldForge: %d field group JSON files are newer than the database.',
-						$count,
-						'fieldforge'
-					) ),
-					(int) $count
+				/* translators: %d: number of out-of-sync JSON files */
+				$msg = _n(
+					'FieldForge: %d field group JSON file is newer than the database.',
+					'FieldForge: %d field group JSON files are newer than the database.',
+					$count,
+					'fieldforge'
 				);
+				printf( esc_html( $msg ), (int) $count );
 				?>
 				<button type="button" class="button button-small fieldforge-sync-json" style="margin-left:8px"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'fieldforge_sync_json' ) ); ?>">
@@ -252,17 +251,19 @@ class FieldForge_Local_JSON {
 		$synced = 0;
 		foreach ( $this->get_pending_sync() as $entry ) {
 			if ( $this->sync_file( $entry ) ) {
-				$synced++;
+				++$synced;
 			}
 		}
 
-		wp_send_json_success( array(
-			'message' => sprintf(
+		wp_send_json_success(
+			array(
+				'message' => sprintf(
 				/* translators: %d: number of groups synced */
-				_n( '%d group synced.', '%d groups synced.', $synced, 'fieldforge' ),
-				$synced
-			),
-		) );
+					_n( '%d group synced.', '%d groups synced.', $synced, 'fieldforge' ),
+					$synced
+				),
+			)
+		);
 	}
 
 	// ------------------------------------------------------------------

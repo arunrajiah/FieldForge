@@ -86,9 +86,9 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 
 		$html .= '<div class="fieldforge-fc-row-body">';
 		foreach ( $layout['sub_fields'] ?? array() as $sub_config ) {
-			$sub_name    = $sub_config['name'] ?? '';
-			$namespaced  = array_merge( $sub_config, array( 'name' => $name . '_' . $i . '_' . $sub_name ) );
-			$sub_field   = $registry->make_field( $namespaced );
+			$sub_name   = $sub_config['name'] ?? '';
+			$namespaced = array_merge( $sub_config, array( 'name' => $name . '_' . $i . '_' . $sub_name ) );
+			$sub_field  = $registry->make_field( $namespaced );
 			if ( ! $sub_field ) {
 				continue;
 			}
@@ -170,7 +170,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 				if ( ! $sub_field ) {
 					continue;
 				}
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; value passed through field sanitize().
 				$raw   = isset( $_POST[ $meta_key ] ) ? wp_unslash( $_POST[ $meta_key ] ) : $sub_field->get_empty_value();
 				$clean = $sub_field->sanitize( $raw );
 				update_post_meta( $post_id, $meta_key, $clean );
@@ -197,7 +197,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 
 			if ( $layout ) {
 				foreach ( $layout['sub_fields'] ?? array() as $sub ) {
-					$sub_name       = $sub['name'] ?? '';
+					$sub_name         = $sub['name'] ?? '';
 					$row[ $sub_name ] = get_post_meta( $post_id, $name . '_' . $i . '_' . $sub_name, true );
 				}
 			}

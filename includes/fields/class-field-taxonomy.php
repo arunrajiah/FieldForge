@@ -81,20 +81,28 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 		$search   = sanitize_text_field( wp_unslash( $_POST['search'] ?? '' ) );
 		$taxonomy = sanitize_key( wp_unslash( $_POST['taxonomy'] ?? 'category' ) );
 
-		$terms = get_terms( array(
-			'taxonomy'   => $taxonomy,
-			'hide_empty' => false,
-			'search'     => $search,
-			'number'     => 20,
-		) );
+		$terms = get_terms(
+			array(
+				'taxonomy'   => $taxonomy,
+				'hide_empty' => false,
+				'search'     => $search,
+				'number'     => 20,
+			)
+		);
 
 		if ( is_wp_error( $terms ) ) {
 			$terms = array();
 		}
 
-		$results = array_map( function( $t ) {
-			return array( 'id' => $t->term_id, 'title' => $t->name );
-		}, $terms );
+		$results = array_map(
+			function ( $t ) {
+				return array(
+					'id'    => $t->term_id,
+					'title' => $t->name,
+				);
+			},
+			$terms
+		);
 
 		wp_send_json_success( $results );
 	}

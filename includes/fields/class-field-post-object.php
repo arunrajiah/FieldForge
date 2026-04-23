@@ -28,7 +28,10 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			if ( $sid ) {
 				$p = get_post( $sid );
 				if ( $p ) {
-					$selected_items[] = array( 'id' => $sid, 'title' => $p->post_title );
+					$selected_items[] = array(
+						'id'    => $sid,
+						'title' => $p->post_title,
+					);
 				} else {
 					// Referenced post no longer exists — log and return empty state.
 					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
@@ -37,7 +40,10 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			}
 		}
 
-		$html  = '<div class="fieldforge-picker" data-type="post_object" data-multiple="' . ( $multiple ? '1' : '0' ) . '" data-post-types="' . esc_attr( implode( ',', $post_types ) ) . '" data-field-name="' . esc_attr( $name_attr ) . '">';
+		$html  = '<div class="fieldforge-picker" data-type="post_object"'
+			. ' data-multiple="' . ( $multiple ? '1' : '0' ) . '"'
+			. ' data-post-types="' . esc_attr( implode( ',', $post_types ) ) . '"'
+			. ' data-field-name="' . esc_attr( $name_attr ) . '">';
 		$html .= '<input type="text" class="fieldforge-picker-search widefat" placeholder="' . esc_attr__( 'Search…', 'fieldforge' ) . '" autocomplete="off" />';
 		$html .= '<div class="fieldforge-picker-dropdown" style="display:none"></div>';
 		$html .= '<div class="fieldforge-picker-tags">';
@@ -87,21 +93,31 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			wp_send_json_error( null, 403 );
 		}
 
-		$search     = sanitize_text_field( wp_unslash( $_POST['search'] ?? '' ) );
-		$post_types = array_map( 'sanitize_key', explode( ',', wp_unslash( $_POST['post_types'] ?? 'post' ) ) );
+		$search = sanitize_text_field( wp_unslash( $_POST['search'] ?? '' ) );
+		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized via array_map/sanitize_key below.
+		$raw_types  = wp_unslash( $_POST['post_types'] ?? 'post' );
+		$post_types = array_map( 'sanitize_key', explode( ',', $raw_types ) );
 
-		$posts = get_posts( array(
-			'post_type'      => $post_types,
-			'post_status'    => 'publish',
-			'posts_per_page' => 20,
-			's'              => $search,
-			'orderby'        => $search ? 'relevance' : 'title',
-			'order'          => 'ASC',
-		) );
+		$posts = get_posts(
+			array(
+				'post_type'      => $post_types,
+				'post_status'    => 'publish',
+				'posts_per_page' => 20,
+				's'              => $search,
+				'orderby'        => $search ? 'relevance' : 'title',
+				'order'          => 'ASC',
+			)
+		);
 
-		$results = array_map( function( $p ) {
-			return array( 'id' => $p->ID, 'title' => $p->post_title . ' (' . $p->post_type . ')' );
-		}, $posts );
+		$results = array_map(
+			function ( $p ) {
+				return array(
+					'id'    => $p->ID,
+					'title' => $p->post_title . ' (' . $p->post_type . ')',
+				);
+			},
+			$posts
+		);
 
 		wp_send_json_success( $results );
 	}

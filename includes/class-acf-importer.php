@@ -16,40 +16,40 @@ class FieldForge_ACF_Importer {
 
 	/** Maps ACF field types to FieldForge equivalents. */
 	private const TYPE_MAP = array(
-		'text'          => 'text',
-		'textarea'      => 'textarea',
-		'number'        => 'number',
-		'range'         => 'number',
-		'email'         => 'email',
-		'url'           => 'url',
-		'password'      => 'password',
-		'image'         => 'image',
-		'file'          => 'file',
-		'wysiwyg'       => 'wysiwyg',
-		'oembed'        => 'url',
-		'gallery'       => 'gallery',
-		'select'        => 'select',
-		'checkbox'      => 'checkbox',
-		'radio'         => 'radio',
-		'button_group'  => 'radio',
-		'true_false'    => 'true_false',
-		'link'          => 'link',
-		'post_object'   => 'post_object',
-		'page_link'     => 'url',
-		'relationship'  => 'post_object',
-		'taxonomy'      => 'taxonomy',
-		'user'          => 'user',
-		'google_map'    => 'text',
-		'date_picker'   => 'date_picker',
+		'text'             => 'text',
+		'textarea'         => 'textarea',
+		'number'           => 'number',
+		'range'            => 'number',
+		'email'            => 'email',
+		'url'              => 'url',
+		'password'         => 'password',
+		'image'            => 'image',
+		'file'             => 'file',
+		'wysiwyg'          => 'wysiwyg',
+		'oembed'           => 'url',
+		'gallery'          => 'gallery',
+		'select'           => 'select',
+		'checkbox'         => 'checkbox',
+		'radio'            => 'radio',
+		'button_group'     => 'radio',
+		'true_false'       => 'true_false',
+		'link'             => 'link',
+		'post_object'      => 'post_object',
+		'page_link'        => 'url',
+		'relationship'     => 'post_object',
+		'taxonomy'         => 'taxonomy',
+		'user'             => 'user',
+		'google_map'       => 'text',
+		'date_picker'      => 'date_picker',
 		'date_time_picker' => 'date_picker',
-		'time_picker'   => 'text',
-		'color_picker'  => 'color_picker',
-		'message'       => 'message',
-		'accordion'     => 'message',
-		'tab'           => 'message',
-		'group'         => 'repeater',
-		'repeater'      => 'repeater',
-		'clone'         => 'text',
+		'time_picker'      => 'text',
+		'color_picker'     => 'color_picker',
+		'message'          => 'message',
+		'accordion'        => 'message',
+		'tab'              => 'message',
+		'group'            => 'repeater',
+		'repeater'         => 'repeater',
+		'clone'            => 'text',
 	);
 
 	public function __construct( FieldForge_Field_Group $field_group ) {
@@ -177,9 +177,9 @@ class FieldForge_ACF_Importer {
 				break;
 
 			case 'wysiwyg':
-				$field['tabs']          = sanitize_text_field( $acf['tabs'] ?? 'all' );
-				$field['toolbar']       = sanitize_text_field( $acf['toolbar'] ?? 'full' );
-				$field['media_upload']  = (bool) ( $acf['media_upload'] ?? true );
+				$field['tabs']         = sanitize_text_field( $acf['tabs'] ?? 'all' );
+				$field['toolbar']      = sanitize_text_field( $acf['toolbar'] ?? 'full' );
+				$field['media_upload'] = (bool) ( $acf['media_upload'] ?? true );
 				break;
 
 			case 'post_object':

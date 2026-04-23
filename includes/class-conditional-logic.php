@@ -149,9 +149,9 @@ class FieldForge_Conditional_Logic {
 			return;
 		}
 
-		$ff       = FieldForge::get_instance();
-		$groups   = $ff->field_group->get_all_groups();
-		$logic    = array();
+		$ff     = FieldForge::get_instance();
+		$groups = $ff->field_group->get_all_groups();
+		$logic  = array();
 
 		foreach ( $groups as $group ) {
 			foreach ( $group['fields'] as $field ) {

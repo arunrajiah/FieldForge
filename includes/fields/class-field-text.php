@@ -12,7 +12,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FieldForge_Field_Text extends FieldForge_Field_Base {
 
 	public function render( int $post_id ): void {
-		$value = (string) $this->load( $post_id );
+		$value       = (string) $this->load( $post_id );
 		$placeholder = esc_attr( $this->field['placeholder'] ?? '' );
 		$maxlength   = ! empty( $this->field['maxlength'] ) ? ' maxlength="' . esc_attr( $this->field['maxlength'] ) . '"' : '';
 

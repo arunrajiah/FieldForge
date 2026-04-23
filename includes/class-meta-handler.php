@@ -52,8 +52,8 @@ class FieldForge_Meta_Handler {
 					continue;
 				}
 
-				$name  = $field_config['name'] ?? '';
-				// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above.
+				$name = $field_config['name'] ?? '';
+				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; value passed through field sanitize().
 				$value = isset( $_POST[ $name ] ) ? $field->sanitize( wp_unslash( $_POST[ $name ] ) ) : $field->get_empty_value();
 
 				$field->save( $post_id, $value );

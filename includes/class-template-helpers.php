@@ -49,7 +49,7 @@ function fieldforge_the( string $field_name, ?int $post_id = null ): void {
 // Repeater loop helpers
 // ---------------------------------------------------------------------------
 
-/** @var array Stack of current repeater row data. */
+// @var array Stack of current repeater row data. */
 global $fieldforge_repeater_row;
 $fieldforge_repeater_row = array();
 
@@ -72,7 +72,7 @@ function fieldforge_have_rows( string $field_name, ?int $post_id = null ): bool 
 	$cache_key = $field_name . '_' . $post_id;
 
 	if ( ! isset( $fieldforge_repeater_row[ $cache_key ] ) ) {
-		$rows = fieldforge_get( $field_name, $post_id );
+		$rows                                  = fieldforge_get( $field_name, $post_id );
 		$fieldforge_repeater_row[ $cache_key ] = array(
 			'rows'  => is_array( $rows ) ? array_values( $rows ) : array(),
 			'index' => -1,

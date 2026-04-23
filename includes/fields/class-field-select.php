@@ -22,7 +22,7 @@ class FieldForge_Field_Select extends FieldForge_Field_Base {
 		$multi_attr = $multiple ? ' multiple' : '';
 		$name_attr  = $multiple ? $name . '[]' : $name;
 
-		$html  = '<select name="' . $name_attr . '" id="' . $id . '" class="fieldforge-select widefat"' . $multi_attr . '>';
+		$html = '<select name="' . $name_attr . '" id="' . $id . '" class="fieldforge-select widefat"' . $multi_attr . '>';
 		if ( $allow_null ) {
 			$html .= '<option value="">' . esc_html__( '— Select —', 'fieldforge' ) . '</option>';
 		}
@@ -30,7 +30,7 @@ class FieldForge_Field_Select extends FieldForge_Field_Base {
 			$selected = $multiple
 				? ( in_array( (string) $val, (array) $saved, true ) ? ' selected' : '' )
 				: selected( $saved, (string) $val, false );
-			$html .= '<option value="' . esc_attr( $val ) . '"' . $selected . '>' . esc_html( $label ) . '</option>';
+			$html    .= '<option value="' . esc_attr( $val ) . '"' . $selected . '>' . esc_html( $label ) . '</option>';
 		}
 		$html .= '</select>';
 

@@ -61,9 +61,9 @@ class FieldForge_Field_Group_Editor {
 	public function render_fields_meta_box( WP_Post $post ): void {
 		wp_nonce_field( 'fieldforge_save_group', 'fieldforge_group_nonce' );
 
-		$fields     = get_post_meta( $post->ID, '_fieldforge_fields', true );
-		$fields     = is_array( $fields ) ? $fields : array();
-		$types      = $this->registry->get_all_types();
+		$fields      = get_post_meta( $post->ID, '_fieldforge_fields', true );
+		$fields      = is_array( $fields ) ? $fields : array();
+		$types       = $this->registry->get_all_types();
 		$type_labels = $this->get_type_labels();
 
 		echo '<div id="fieldforge-fields-editor" data-types="' . esc_attr( wp_json_encode( $type_labels ) ) . '">';
@@ -93,7 +93,7 @@ class FieldForge_Field_Group_Editor {
 		echo '<div class="fieldforge-field-row" data-index="' . esc_attr( (string) $index ) . '">';
 		echo '<div class="fieldforge-field-row-header">';
 		echo '<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>';
-		echo '<strong class="fieldforge-field-label-preview">' . esc_html( $label ?: __( '(empty)', 'fieldforge' ) ) . '</strong>';
+		echo '<strong class="fieldforge-field-label-preview">' . esc_html( $label ? $label : __( '(empty)', 'fieldforge' ) ) . '</strong>';
 		echo '<span class="fieldforge-field-type-badge">' . esc_html( $type_labels[ $type ] ?? $type ) . '</span>';
 		echo '<button type="button" class="button button-link fieldforge-toggle-field">' . esc_html__( 'Edit', 'fieldforge' ) . '</button>';
 		echo '<button type="button" class="button button-link-delete fieldforge-remove-field">' . esc_html__( 'Delete', 'fieldforge' ) . '</button>';
@@ -185,7 +185,7 @@ class FieldForge_Field_Group_Editor {
 				echo '<h4>' . esc_html__( 'Sub Fields', 'fieldforge' ) . '</h4>';
 				$sub_fields = $field['sub_fields'] ?? array();
 				foreach ( $sub_fields as $sub_index => $sub ) {
-					$this->render_field_row( $sub, 0, $this->get_type_labels() ); // simplified
+					$this->render_field_row( $sub, 0, $this->get_type_labels() ); // Simplified placeholder.
 				}
 				echo '<button type="button" class="button fieldforge-add-sub-field">' . esc_html__( '+ Add Sub Field', 'fieldforge' ) . '</button>';
 				echo '</div>';
@@ -204,7 +204,9 @@ class FieldForge_Field_Group_Editor {
 			<tr>
 				<th><?php esc_html_e( 'Choices', 'fieldforge' ); ?></th>
 				<td>
-					<textarea name="<?php echo esc_attr( $prefix ); ?>[choices_raw]" rows="6" class="widefat" placeholder="<?php esc_attr_e( 'red : Red\nblue : Blue', 'fieldforge' ); ?>"><?php echo esc_textarea( implode( "\n", $lines ) ); ?></textarea>
+					<textarea name="<?php echo esc_attr( $prefix ); ?>[choices_raw]" rows="6" class="widefat"
+						placeholder="<?php esc_attr_e( 'red : Red\nblue : Blue', 'fieldforge' ); ?>"
+					><?php echo esc_textarea( implode( "\n", $lines ) ); ?></textarea>
 					<p class="description"><?php esc_html_e( 'One per line. Format: value : Label', 'fieldforge' ); ?></p>
 				</td>
 			</tr>
@@ -222,7 +224,15 @@ class FieldForge_Field_Group_Editor {
 		echo '<p class="description">' . esc_html__( 'Show this field group when:', 'fieldforge' ) . '</p>';
 
 		if ( empty( $location ) ) {
-			$location = array( array( array( 'param' => 'post_type', 'operator' => '==', 'value' => 'post' ) ) );
+			$location = array(
+				array(
+					array(
+						'param'    => 'post_type',
+						'operator' => '==',
+						'value'    => 'post',
+					),
+				),
+			);
 		}
 
 		foreach ( $location as $group_index => $or_group ) :
@@ -265,8 +275,10 @@ class FieldForge_Field_Group_Editor {
 	}
 
 	public function render_settings_meta_box( WP_Post $post ): void {
-		$position    = get_post_meta( $post->ID, '_fieldforge_position', true ) ?: 'normal';
-		$description = get_post_meta( $post->ID, '_fieldforge_description', true ) ?: '';
+		$pos         = get_post_meta( $post->ID, '_fieldforge_position', true );
+		$position    = $pos ? $pos : 'normal';
+		$desc        = get_post_meta( $post->ID, '_fieldforge_description', true );
+		$description = $desc ? $desc : '';
 		?>
 		<table class="form-table">
 			<tr>
@@ -311,13 +323,13 @@ class FieldForge_Field_Group_Editor {
 		}
 
 		// Fields.
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- nonce verified above.
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; passed through sanitize_fields().
 		$raw_fields = isset( $_POST['fieldforge_fields'] ) ? wp_unslash( $_POST['fieldforge_fields'] ) : array();
 		$fields     = $this->sanitize_fields( (array) $raw_fields );
 		update_post_meta( $post_id, '_fieldforge_fields', $fields );
 
 		// Location.
-		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; passed through sanitize_location().
 		$raw_location = isset( $_POST['fieldforge_location'] ) ? wp_unslash( $_POST['fieldforge_location'] ) : array();
 		$location     = $this->sanitize_location( (array) $raw_location );
 		update_post_meta( $post_id, '_fieldforge_location', $location );
@@ -342,14 +354,14 @@ class FieldForge_Field_Group_Editor {
 			$type = sanitize_key( $f['type'] ?? 'text' );
 
 			$field = array(
-				'key'          => sanitize_key( $f['key'] ?? 'field_' . uniqid() ),
-				'label'        => sanitize_text_field( $f['label'] ?? '' ),
-				'name'         => sanitize_key( $f['name'] ?? '' ),
-				'type'         => $type,
-				'instructions' => wp_kses_post( $f['instructions'] ?? '' ),
-				'required'     => ! empty( $f['required'] ) ? 1 : 0,
-				'default_value'=> sanitize_text_field( $f['default_value'] ?? '' ),
-				'placeholder'  => sanitize_text_field( $f['placeholder'] ?? '' ),
+				'key'           => sanitize_key( $f['key'] ?? 'field_' . uniqid() ),
+				'label'         => sanitize_text_field( $f['label'] ?? '' ),
+				'name'          => sanitize_key( $f['name'] ?? '' ),
+				'type'          => $type,
+				'instructions'  => wp_kses_post( $f['instructions'] ?? '' ),
+				'required'      => ! empty( $f['required'] ) ? 1 : 0,
+				'default_value' => sanitize_text_field( $f['default_value'] ?? '' ),
+				'placeholder'   => sanitize_text_field( $f['placeholder'] ?? '' ),
 			);
 
 			// Parse choices from raw textarea.
@@ -388,7 +400,7 @@ class FieldForge_Field_Group_Editor {
 				continue;
 			}
 			if ( strpos( $line, ':' ) !== false ) {
-				list( $val, $label ) = explode( ':', $line, 2 );
+				list( $val, $label )                            = explode( ':', $line, 2 );
 				$choices[ trim( sanitize_text_field( $val ) ) ] = trim( sanitize_text_field( $label ) );
 			} else {
 				$choices[ sanitize_text_field( $line ) ] = sanitize_text_field( $line );
@@ -446,8 +458,8 @@ class FieldForge_Field_Group_Editor {
 			wp_die( esc_html__( 'Security check failed.', 'fieldforge' ) );
 		}
 
-		$ff        = FieldForge::get_instance();
-		$group_id  = isset( $_GET['fieldforge_dl_id'] ) ? absint( $_GET['fieldforge_dl_id'] ) : 0;
+		$ff       = FieldForge::get_instance();
+		$group_id = isset( $_GET['fieldforge_dl_id'] ) ? absint( $_GET['fieldforge_dl_id'] ) : 0;
 
 		if ( $group_id > 0 ) {
 			$json     = $ff->field_group->export_json( $group_id );
@@ -486,7 +498,13 @@ class FieldForge_Field_Group_Editor {
 
 			<h2><?php esc_html_e( 'Export Field Group', 'fieldforge' ); ?></h2>
 			<?php
-			$groups = get_posts( array( 'post_type' => FieldForge_Field_Group::CPT, 'post_status' => 'any', 'posts_per_page' => -1 ) );
+			$groups = get_posts(
+				array(
+					'post_type'      => FieldForge_Field_Group::CPT,
+					'post_status'    => 'any',
+					'posts_per_page' => -1,
+				)
+			);
 			if ( $groups ) :
 				echo '<select id="fieldforge-export-select">';
 				foreach ( $groups as $g ) {
@@ -496,26 +514,36 @@ class FieldForge_Field_Group_Editor {
 				echo '<button type="button" class="button" id="fieldforge-do-export">' . esc_html__( 'Preview JSON', 'fieldforge' ) . '</button>';
 
 				$dl_nonce = wp_create_nonce( 'fieldforge_download_export' );
-				echo ' <a class="button button-primary" id="fieldforge-download-one" href="' . esc_url( add_query_arg( array(
-					'page'                => 'fieldforge-tools',
-					'post_type'           => FieldForge_Field_Group::CPT,
-					'fieldforge_download' => '1',
-					'fieldforge_dl_nonce' => $dl_nonce,
-					'fieldforge_dl_id'    => $groups[0]->ID,
-				), admin_url( 'edit.php' ) ) ) . '">' . esc_html__( 'Download JSON', 'fieldforge' ) . '</a>';
+				echo ' <a class="button button-primary" id="fieldforge-download-one" href="' . esc_url(
+					add_query_arg(
+						array(
+							'page'                => 'fieldforge-tools',
+							'post_type'           => FieldForge_Field_Group::CPT,
+							'fieldforge_download' => '1',
+							'fieldforge_dl_nonce' => $dl_nonce,
+							'fieldforge_dl_id'    => $groups[0]->ID,
+						),
+						admin_url( 'edit.php' )
+					)
+				) . '">' . esc_html__( 'Download JSON', 'fieldforge' ) . '</a>';
 
 				echo '<pre id="fieldforge-export-result" style="margin-top:10px;background:#f6f6f6;padding:10px;display:none"></pre>';
 
 				echo '<hr />';
 				echo '<h3>' . esc_html__( 'Export All Field Groups', 'fieldforge' ) . '</h3>';
 				echo '<p>' . esc_html__( 'Download all field groups as a single JSON file.', 'fieldforge' ) . '</p>';
-				echo '<a class="button button-primary" href="' . esc_url( add_query_arg( array(
-					'page'                => 'fieldforge-tools',
-					'post_type'           => FieldForge_Field_Group::CPT,
-					'fieldforge_download' => '1',
-					'fieldforge_dl_nonce' => $dl_nonce,
-					'fieldforge_dl_id'    => '0',
-				), admin_url( 'edit.php' ) ) ) . '">' . esc_html__( 'Download All Groups JSON', 'fieldforge' ) . '</a>';
+				echo '<a class="button button-primary" href="' . esc_url(
+					add_query_arg(
+						array(
+							'page'                => 'fieldforge-tools',
+							'post_type'           => FieldForge_Field_Group::CPT,
+							'fieldforge_download' => '1',
+							'fieldforge_dl_nonce' => $dl_nonce,
+							'fieldforge_dl_id'    => '0',
+						),
+						admin_url( 'edit.php' )
+					)
+				) . '">' . esc_html__( 'Download All Groups JSON', 'fieldforge' ) . '</a>';
 			else :
 				echo '<p>' . esc_html__( 'No field groups found.', 'fieldforge' ) . '</p>';
 			endif;
@@ -533,18 +561,19 @@ class FieldForge_Field_Group_Editor {
 		$ff       = FieldForge::get_instance();
 		$importer = new FieldForge_ACF_Importer( $ff->field_group );
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$json     = isset( $_POST['json'] ) ? wp_unslash( $_POST['json'] ) : '';
-		$result   = $importer->import( $json );
+		$json   = isset( $_POST['json'] ) ? wp_unslash( $_POST['json'] ) : '';
+		$result = $importer->import( $json );
 
 		if ( is_wp_error( $result ) ) {
 			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
 		}
-		wp_send_json_success( array(
-			'message' => sprintf(
-				_n( '%d field group imported.', '%d field groups imported.', count( $result ), 'fieldforge' ),
-				count( $result )
-			),
-		) );
+		/* translators: %d: number of imported field groups */
+		$msg = _n( '%d field group imported.', '%d field groups imported.', count( $result ), 'fieldforge' );
+		wp_send_json_success(
+			array(
+				'message' => sprintf( $msg, count( $result ) ),
+			)
+		);
 	}
 
 	public function ajax_export_group(): void {
@@ -600,6 +629,7 @@ class FieldForge_Field_Group_Editor {
 					'removeRow'    => __( 'Remove Row', 'fieldforge' ),
 					'noRows'       => __( 'No rows yet.', 'fieldforge' ),
 					'confirm'      => __( 'Are you sure?', 'fieldforge' ),
+					/* translators: %s: field label */
 					'requiredMsg'  => __( 'Required: %s', 'fieldforge' ),
 					'requiredFail' => __( 'Please fill in all required fields before saving.', 'fieldforge' ),
 					'maxRows'      => __( 'Maximum number of rows reached.', 'fieldforge' ),
@@ -650,7 +680,10 @@ class FieldForge_Field_Group_Editor {
 		$pts    = get_post_types( array( 'public' => true ), 'objects' );
 		$result = array();
 		foreach ( $pts as $pt ) {
-			$result[] = array( 'value' => $pt->name, 'label' => $pt->label );
+			$result[] = array(
+				'value' => $pt->name,
+				'label' => $pt->label,
+			);
 		}
 		return $result;
 	}

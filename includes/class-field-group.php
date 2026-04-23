@@ -23,27 +23,27 @@ class FieldForge_Field_Group {
 
 	public static function register_cpt(): void {
 		$labels = array(
-			'name'               => __( 'Field Groups', 'fieldforge' ),
-			'singular_name'      => __( 'Field Group', 'fieldforge' ),
-			'add_new'            => __( 'Add New', 'fieldforge' ),
-			'add_new_item'       => __( 'Add New Field Group', 'fieldforge' ),
-			'edit_item'          => __( 'Edit Field Group', 'fieldforge' ),
-			'menu_name'          => __( 'FieldForge', 'fieldforge' ),
+			'name'          => __( 'Field Groups', 'fieldforge' ),
+			'singular_name' => __( 'Field Group', 'fieldforge' ),
+			'add_new'       => __( 'Add New', 'fieldforge' ),
+			'add_new_item'  => __( 'Add New Field Group', 'fieldforge' ),
+			'edit_item'     => __( 'Edit Field Group', 'fieldforge' ),
+			'menu_name'     => __( 'FieldForge', 'fieldforge' ),
 		);
 
 		register_post_type(
 			self::CPT,
 			array(
-				'labels'              => $labels,
-				'public'              => false,
-				'show_ui'             => true,
-				'show_in_menu'        => true,
-				'menu_icon'           => 'dashicons-editor-table',
-				'capability_type'     => 'post',
-				'supports'            => array( 'title' ),
-				'rewrite'             => false,
-				'query_var'           => false,
-				'show_in_rest'        => false,
+				'labels'          => $labels,
+				'public'          => false,
+				'show_ui'         => true,
+				'show_in_menu'    => true,
+				'menu_icon'       => 'dashicons-editor-table',
+				'capability_type' => 'post',
+				'supports'        => array( 'title' ),
+				'rewrite'         => false,
+				'query_var'       => false,
+				'show_in_rest'    => false,
 			)
 		);
 	}
@@ -93,11 +93,11 @@ class FieldForge_Field_Group {
 			'ID'          => $post_id,
 			'key'         => 'group_' . $post_id,
 			'title'       => $post->post_title,
-			'description' => get_post_meta( $post_id, '_fieldforge_description', true ) ?: '',
+			'description' => (string) get_post_meta( $post_id, '_fieldforge_description', true ),
 			'fields'      => is_array( $fields ) ? $fields : array(),
 			'location'    => is_array( $location ) ? $location : array(),
 			'menu_order'  => (int) $post->menu_order,
-			'position'    => get_post_meta( $post_id, '_fieldforge_position', true ) ?: 'normal',
+			'position'    => get_post_meta( $post_id, '_fieldforge_position', true ) ? get_post_meta( $post_id, '_fieldforge_position', true ) : 'normal',
 			'active'      => 'publish' === $post->post_status,
 		);
 	}
@@ -214,8 +214,8 @@ class FieldForge_Field_Group {
 				// value is "taxonomy_name:term_slug".
 				if ( $post_id && strpos( $value, ':' ) !== false ) {
 					list( $tax, $term_slug ) = explode( ':', $value, 2 );
-					$terms  = wp_get_post_terms( $post_id, $tax, array( 'fields' => 'slugs' ) );
-					$actual = in_array( $term_slug, (array) $terms, true ) ? $value : '';
+					$terms                   = wp_get_post_terms( $post_id, $tax, array( 'fields' => 'slugs' ) );
+					$actual                  = in_array( $term_slug, (array) $terms, true ) ? $value : '';
 				}
 				break;
 
@@ -225,7 +225,8 @@ class FieldForge_Field_Group {
 				break;
 
 			case 'page_template':
-				$actual = get_page_template_slug( $post_id ) ?: 'default';
+				$tpl    = get_page_template_slug( $post_id );
+				$actual = $tpl ? $tpl : 'default';
 				break;
 
 			case 'user_role':
@@ -267,7 +268,7 @@ class FieldForge_Field_Group {
 			case 'post_format':
 				if ( $post_id ) {
 					$format = get_post_format( $post_id );
-					$actual = $format ?: 'standard';
+					$actual = $format ? $format : 'standard';
 				}
 				break;
 		}

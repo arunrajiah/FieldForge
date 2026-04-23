@@ -36,7 +36,11 @@ class FieldForge_Field_Link extends FieldForge_Field_Base {
 
 	public function sanitize( $value ): array {
 		if ( ! is_array( $value ) ) {
-			return array( 'url' => '', 'title' => '', 'target' => '' );
+			return array(
+				'url'    => '',
+				'title'  => '',
+				'target' => '',
+			);
 		}
 		return array(
 			'url'    => esc_url_raw( $value['url'] ?? '' ),
@@ -46,6 +50,10 @@ class FieldForge_Field_Link extends FieldForge_Field_Base {
 	}
 
 	public function get_empty_value(): array {
-		return array( 'url' => '', 'title' => '', 'target' => '' );
+		return array(
+			'url'    => '',
+			'title'  => '',
+			'target' => '',
+		);
 	}
 }

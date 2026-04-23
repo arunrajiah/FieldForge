@@ -89,19 +89,20 @@ abstract class FieldForge_Field_Base {
 	 * @param string $inner_html Already-escaped HTML for the control.
 	 */
 	protected function render_wrapper( string $inner_html ): void {
-		$required = ! empty( $this->field['required'] ) ? ' fieldforge-required' : '';
-		$width    = ! empty( $this->field['wrapper']['width'] ) ? ' style="width:' . esc_attr( $this->field['wrapper']['width'] ) . '%"' : '';
+		$required    = ! empty( $this->field['required'] ) ? ' fieldforge-required' : '';
+		$width       = ! empty( $this->field['wrapper']['width'] ) ? ' style="width:' . esc_attr( $this->field['wrapper']['width'] ) . '%"' : '';
 		$extra_class = ! empty( $this->field['wrapper']['class'] ) ? ' ' . esc_attr( $this->field['wrapper']['class'] ) : '';
 		$extra_id    = ! empty( $this->field['wrapper']['id'] ) ? ' id="' . esc_attr( $this->field['wrapper']['id'] ) . '"' : '';
-		$type = $this->field['type'] ?? 'text';
+		$type        = $this->field['type'] ?? 'text';
 
+		// phpcs:disable WordPress.Security.EscapeOutput.OutputNotEscaped -- $extra_id and $width are pre-escaped above.
 		printf(
 			'<div class="fieldforge-field fieldforge-field--%s%s%s"%s%s>',
 			esc_attr( $type ),
 			esc_attr( $required ),
 			esc_attr( $extra_class ),
-			$extra_id, // already escaped
-			$width    // already escaped
+			$extra_id,
+			$width
 		);
 
 		printf(
@@ -109,13 +110,15 @@ abstract class FieldForge_Field_Base {
 			esc_html( $this->field['label'] ?? '' ),
 			! empty( $this->field['required'] ) ? ' <span class="fieldforge-required-indicator">*</span>' : ''
 		);
+		// phpcs:enable WordPress.Security.EscapeOutput.OutputNotEscaped
 
 		if ( ! empty( $this->field['instructions'] ) ) {
 			printf( '<p class="fieldforge-instructions">%s</p>', wp_kses_post( $this->field['instructions'] ) );
 		}
 
 		echo '<div class="fieldforge-field-control">';
-		echo $inner_html; // $inner_html is constructed internally and already escaped.
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- $inner_html is constructed internally and pre-escaped.
+		echo $inner_html;
 		echo '</div>';
 		echo '</div>';
 	}
