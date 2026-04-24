@@ -223,6 +223,28 @@ class FieldForge_ACF_Importer {
 				break;
 		}
 
+		// Import conditional logic rules.
+		if ( ! empty( $acf['conditional_logic'] ) && is_array( $acf['conditional_logic'] ) ) {
+			$has_rules = false;
+			$ff_rules  = array();
+			foreach ( $acf['conditional_logic'] as $or_group ) {
+				foreach ( (array) $or_group as $rule ) {
+					if ( ! empty( $rule['field'] ) ) {
+						$ff_rules[] = array(
+							'field'    => sanitize_key( $rule['field'] ),
+							'operator' => sanitize_text_field( $rule['operator'] ?? '==' ),
+							'value'    => sanitize_text_field( $rule['value'] ?? '' ),
+						);
+						$has_rules = true;
+					}
+				}
+			}
+			if ( $has_rules ) {
+				$field['conditional_logic']       = 1;
+				$field['conditional_logic_rules'] = $ff_rules;
+			}
+		}
+
 		return $field;
 	}
 
