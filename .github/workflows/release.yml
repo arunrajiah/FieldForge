@@ -30,24 +30,32 @@ jobs:
       - name: Build zip archive
         run: |
           ZIP_NAME="fieldforge-${{ steps.tag.outputs.TAG }}.zip"
-          mkdir -p build
+          mkdir -p build/fieldforge
 
-          # Files and directories to include in the release zip.
-          zip -r "build/${ZIP_NAME}" \
-            fieldforge.php \
-            includes/ \
-            admin/ \
-            assets/ \
-            languages/ \
-            readme.txt \
-            CHANGELOG.md \
-            -x "*/.*" \
-            -x "*/node_modules/*" \
-            -x "*/vendor/*/test*" \
-            -x "*/vendor/*/Test*"
+          # Copy plugin files into a fieldforge/ subdirectory so the zip
+          # extracts as wp-content/plugins/fieldforge/ when installed via WP.
+          cp fieldforge.php build/fieldforge/
+          cp readme.txt CHANGELOG.md build/fieldforge/
+          cp -r includes admin assets languages build/fieldforge/
+
+          # Remove dev artifacts from the staged directory.
+          find build/fieldforge -name '.*' -delete
+          find build/fieldforge -type d -name node_modules -prune -exec rm -rf {} +
+
+          # Create the zip from the staged directory.
+          cd build
+          zip -r "${ZIP_NAME}" fieldforge/ -x "*/.*"
+          cd ..
 
           echo "Built build/${ZIP_NAME}"
           ls -lh "build/${ZIP_NAME}"
+
+      - name: Upload zip as workflow artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: fieldforge-${{ steps.tag.outputs.TAG }}
+          path: build/fieldforge-${{ steps.tag.outputs.TAG }}.zip
+          retention-days: 30
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
