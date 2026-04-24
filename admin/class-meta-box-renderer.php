@@ -43,7 +43,8 @@ class FieldForge_Meta_Box_Renderer {
 	 */
 	public function ajax_render_field(): void {
 		check_ajax_referer( 'fieldforge_admin', 'nonce' );
-		if ( ! current_user_can( 'edit_posts' ) ) {
+		$ajax_post_id = isset( $_POST['post_id'] ) ? (int) $_POST['post_id'] : 0; // phpcs:ignore WordPress.Security.NonceVerification.Missing -- verified above
+		if ( ! current_user_can( $ajax_post_id ? 'edit_post' : 'edit_posts', $ajax_post_id ?: null ) ) {
 			wp_send_json_error( null, 403 );
 		}
 

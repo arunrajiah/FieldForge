@@ -97,8 +97,16 @@ class FieldForge_Local_JSON {
 
 		$group['modified'] = time();
 		$file              = $save_path . '/' . sanitize_file_name( 'group_' . $post_id ) . '.json';
-		// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
-		file_put_contents( $file, wp_json_encode( $group, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE ) );
+		$encoded = wp_json_encode( $group, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE );
+		if ( $encoded ) {
+			// phpcs:ignore WordPress.WP.AlternativeFunctions.file_system_operations_file_put_contents
+			$written = file_put_contents( $file, $encoded );
+			if ( false === $written ) {
+				// Log write failure; do not fatal — field group is still in the DB.
+				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+				error_log( 'FieldForge: failed to write local JSON file: ' . $file );
+			}
+		}
 	}
 
 	/**
