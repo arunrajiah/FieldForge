@@ -100,16 +100,42 @@ class FieldForge_Field_Renderer {
 			FIELDFORGE_VERSION,
 			true
 		);
+		// Build conditional logic data for the current post's field groups.
+		$cl_fields = array();
+		$post_id   = (int) ( $_GET['post'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( $post_id ) {
+			$post   = get_post( $post_id );
+			$screen = get_current_screen();
+			if ( $post && $screen ) {
+				foreach ( $this->field_group->get_groups_for_screen( $screen, $post_id ) as $group ) {
+					foreach ( $group['fields'] ?? array() as $fc ) {
+						if ( ! empty( $fc['name'] ) ) {
+							$cl_fields[ $fc['name'] ] = array(
+								'key'                    => $fc['key'] ?? '',
+								'type'                   => $fc['type'] ?? 'text',
+								'conditional_logic'       => (int) ( $fc['conditional_logic'] ?? 0 ),
+								'conditional_logic_rules' => $fc['conditional_logic_rules'] ?? array(),
+							);
+						}
+					}
+				}
+			}
+		}
+
 		wp_localize_script(
 			'fieldforge-admin',
 			'fieldforgeData',
 			array(
-				'ajaxUrl' => admin_url( 'admin-ajax.php' ),
-				'nonce'   => wp_create_nonce( 'fieldforge_admin' ),
-				'i18n'    => array(
+				'ajaxUrl'        => admin_url( 'admin-ajax.php' ),
+				'nonce'          => wp_create_nonce( 'fieldforge_admin' ),
+				'conditionalLogic' => $cl_fields,
+				'i18n'           => array(
 					'addRow'    => __( 'Add Row', 'fieldforge' ),
 					'removeRow' => __( 'Remove Row', 'fieldforge' ),
 					'noRows'    => __( 'No rows yet.', 'fieldforge' ),
+					'maxRows'   => __( 'Maximum number of rows reached.', 'fieldforge' ),
+					'minRows'   => __( 'Minimum number of rows required.', 'fieldforge' ),
+					'confirmRemove' => __( 'Remove this row?', 'fieldforge' ),
 				),
 			)
 		);
