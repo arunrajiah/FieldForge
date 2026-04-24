@@ -195,7 +195,10 @@ class FieldForge_REST_API {
 			static function ( array $group ) use ( $post ) {
 				$location = $group['location'] ?? array();
 				if ( empty( $location ) ) {
-					return true; // No rules = show everywhere.
+					// No rules = hidden everywhere (consistent with admin meta-box behaviour).
+					// A group with an empty location array matches no post type in the admin,
+					// so we must not expose its fields over REST either.
+					return false;
 				}
 				// OR groups: any group matching means visible.
 				foreach ( $location as $or_group ) {
