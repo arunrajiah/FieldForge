@@ -31,8 +31,8 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FieldForge_Conditional_Logic {
 
 	public function __construct() {
-		// Inject conditional logic data into the meta box page.
-		add_action( 'admin_footer', array( $this, 'print_logic_data' ) );
+		// Conditional logic data is injected via wp_localize_script in
+		// FieldForge_Field_Renderer::enqueue_assets() — no separate footer script needed.
 	}
 
 	/**

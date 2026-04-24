@@ -101,23 +101,25 @@ class FieldForge_Field_Renderer {
 			true
 		);
 		// Build conditional logic data for the current post's field groups.
+		// Works on both edit (post.php?post=N) and new-post (post-new.php) screens.
 		$cl_fields = array();
+		$screen    = get_current_screen();
 		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
 		$post_id = isset( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : 0;
-		if ( $post_id ) {
-			$post   = get_post( $post_id );
-			$screen = get_current_screen();
-			if ( $post && $screen ) {
-				foreach ( $this->field_group->get_groups_for_screen( $screen, $post_id ) as $group ) {
-					foreach ( $group['fields'] ?? array() as $fc ) {
-						if ( ! empty( $fc['name'] ) ) {
-							$cl_fields[ $fc['name'] ] = array(
-								'key'                    => $fc['key'] ?? '',
-								'type'                   => $fc['type'] ?? 'text',
-								'conditional_logic'       => (int) ( $fc['conditional_logic'] ?? 0 ),
-								'conditional_logic_rules' => $fc['conditional_logic_rules'] ?? array(),
-							);
-						}
+		$post    = $post_id ? get_post( $post_id ) : null;
+
+		if ( $screen ) {
+			// For new posts, pass post_id=0 so get_groups_for_screen matches by post type only.
+			$check_id = $post ? $post_id : 0;
+			foreach ( $this->field_group->get_groups_for_screen( $screen, $check_id ) as $group ) {
+				foreach ( $group['fields'] ?? array() as $fc ) {
+					if ( ! empty( $fc['name'] ) ) {
+						$cl_fields[ $fc['name'] ] = array(
+							'key'                     => $fc['key'] ?? '',
+							'type'                    => $fc['type'] ?? 'text',
+							'conditional_logic'       => (int) ( $fc['conditional_logic'] ?? 0 ),
+							'conditional_logic_rules' => $fc['conditional_logic_rules'] ?? array(),
+						);
 					}
 				}
 			}
