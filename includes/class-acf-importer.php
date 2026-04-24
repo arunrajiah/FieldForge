@@ -101,8 +101,34 @@ class FieldForge_ACF_Importer {
 			return new WP_Error( 'missing_fields', __( 'ACF group missing key or title.', 'fieldforge' ) );
 		}
 
+		$title = sanitize_text_field( $acf['title'] );
+
+		// Non-destructive check: if a group with the same title already exists, skip it
+		// and log a notice rather than silently overwriting existing configuration.
+		$existing = get_posts(
+			array(
+				'post_type'      => FieldForge_Field_Group::CPT,
+				'post_status'    => 'any',
+				'title'          => $title,
+				'posts_per_page' => 1,
+				'fields'         => 'ids',
+			)
+		);
+
+		if ( ! empty( $existing ) ) {
+			FieldForge_Settings_Page::debug_log(
+				sprintf(
+					'ACF Importer: skipped "%s" — a field group with that title already exists (ID %d). Delete it first to re-import.',
+					$title,
+					$existing[0]
+				)
+			);
+			// Return the existing post ID so the caller can report it as "handled".
+			return (int) $existing[0];
+		}
+
 		$ff_group = array(
-			'title'      => sanitize_text_field( $acf['title'] ),
+			'title'      => $title,
 			'fields'     => $this->convert_fields( $acf['fields'] ?? array() ),
 			'location'   => $this->convert_location( $acf['location'] ?? array() ),
 			'menu_order' => (int) ( $acf['menu_order'] ?? 0 ),

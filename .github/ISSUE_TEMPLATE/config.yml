@@ -1,0 +1,12 @@
+blank_issues_enabled: false
+
+contact_links:
+  - name: Documentation
+    url: https://github.com/arunrajiah/fieldforge/tree/main/docs
+    about: Read the FieldForge docs before opening an issue.
+  - name: Discussions
+    url: https://github.com/arunrajiah/fieldforge/discussions
+    about: Use Discussions for questions, show-and-tell, and ideas.
+  - name: Security vulnerability
+    url: https://github.com/arunrajiah/fieldforge/blob/main/SECURITY.md
+    about: Please report security vulnerabilities privately — see SECURITY.md.

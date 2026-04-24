@@ -14,6 +14,7 @@ class FieldForge_Meta_Handler {
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
 		add_action( 'admin_notices', array( $this, 'show_validation_errors' ) );
+		add_action( 'before_delete_post', array( $this, 'delete_field_values' ) );
 	}
 
 	/**
@@ -75,6 +76,69 @@ class FieldForge_Meta_Handler {
 		if ( ! empty( $errors ) ) {
 			$uid = get_current_user_id();
 			set_transient( 'fieldforge_validation_errors_' . $post_id . '_' . $uid, $errors, 60 );
+		}
+	}
+
+	/**
+	 * Hook: before_delete_post — remove all FieldForge field meta when a post is permanently deleted.
+	 *
+	 * Iterates every registered field group whose location rules match the post being deleted
+	 * and removes the postmeta key (and its ACF-compatible `_key` reference) for each field.
+	 *
+	 * @param int $post_id Post being permanently deleted.
+	 */
+	public function delete_field_values( int $post_id ): void {
+		$post = get_post( $post_id );
+		if ( ! $post ) {
+			return;
+		}
+		// Skip our own CPT — those are field-group definitions, not data posts.
+		if ( FieldForge_Field_Group::CPT === $post->post_type ) {
+			return;
+		}
+
+		$ff     = FieldForge::get_instance();
+		$groups = $ff->field_group->get_all_groups();
+
+		foreach ( $groups as $group ) {
+			if ( empty( $group['fields'] ) || ! is_array( $group['fields'] ) ) {
+				continue;
+			}
+			foreach ( $group['fields'] as $field_config ) {
+				$name = $field_config['name'] ?? '';
+				if ( ! $name ) {
+					continue;
+				}
+				delete_post_meta( $post_id, $name );
+				delete_post_meta( $post_id, '_' . $name );
+
+				// Delete sub-field rows for repeater / flexible content.
+				$type = $field_config['type'] ?? '';
+				if ( in_array( $type, array( 'repeater', 'flexible_content' ), true ) ) {
+					$row_count = (int) get_post_meta( $post_id, $name, true );
+					for ( $i = 0; $i < $row_count; $i++ ) {
+						$sub_fields = $field_config['sub_fields'] ?? array();
+						if ( 'flexible_content' === $type ) {
+							// Delete the layout key.
+							delete_post_meta( $post_id, $name . '_' . $i . '_acf_fc_layout' );
+							// Merge all layout sub-fields for cleanup.
+							$sub_fields = array();
+							foreach ( $field_config['layouts'] ?? array() as $layout ) {
+								foreach ( $layout['sub_fields'] ?? array() as $sf ) {
+									$sub_fields[] = $sf;
+								}
+							}
+						}
+						foreach ( $sub_fields as $sf ) {
+							$sf_name = $sf['name'] ?? '';
+							if ( $sf_name ) {
+								delete_post_meta( $post_id, $name . '_' . $i . '_' . $sf_name );
+								delete_post_meta( $post_id, '_' . $name . '_' . $i . '_' . $sf_name );
+							}
+						}
+					}
+				}
+			}
 		}
 	}
 
