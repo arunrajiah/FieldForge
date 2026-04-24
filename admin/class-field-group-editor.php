@@ -155,10 +155,25 @@ class FieldForge_Field_Group_Editor {
 		$type = $field['type'] ?? 'text';
 
 		switch ( $type ) {
-			case 'select':
 			case 'checkbox':
 			case 'radio':
 				$this->render_choices_setting( $prefix, $field );
+				break;
+
+			case 'select':
+				$this->render_choices_setting( $prefix, $field );
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Allow Null', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[allow_null]" value="1"<?php checked( ! empty( $field['allow_null'] ) ); ?> /></td>
+					</tr>
+				</table>
+				<?php
 				break;
 
 			case 'number':
@@ -337,34 +352,191 @@ class FieldForge_Field_Group_Editor {
 				break;
 
 			case 'repeater':
-				echo '<div class="fieldforge-sub-fields-editor">';
-				echo '<h4>' . esc_html__( 'Sub Fields', 'fieldforge' ) . '</h4>';
 				$sub_fields = $field['sub_fields'] ?? array();
-				foreach ( $sub_fields as $sub_index => $sub ) {
-					$this->render_field_row( $sub, 0, $this->get_type_labels() ); // Simplified placeholder.
-				}
-				echo '<button type="button" class="button fieldforge-add-sub-field">' . esc_html__( '+ Add Sub Field', 'fieldforge' ) . '</button>';
-				echo '</div>';
+				$sp_base    = $prefix . '[sub_fields]';
+				?>
+				<div class="fieldforge-sub-fields-editor" data-name-prefix="<?php echo esc_attr( $sp_base ); ?>">
+					<h4><?php esc_html_e( 'Sub Fields', 'fieldforge' ); ?></h4>
+					<div class="fieldforge-sub-fields-list">
+					<?php foreach ( $sub_fields as $si => $sub ) : ?>
+						<?php $this->render_sub_field_row( $sp_base . '[' . $si . ']', $sub, $si ); ?>
+					<?php endforeach; ?>
+					</div>
+					<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="<?php echo esc_attr( $sp_base ); ?>">
+						<?php esc_html_e( '+ Add Sub Field', 'fieldforge' ); ?>
+					</button>
+					<table class="form-table" style="margin-top:12px">
+						<tr>
+							<th><?php esc_html_e( 'Min Rows', 'fieldforge' ); ?></th>
+							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? 0 ) ); ?>" class="small-text" /></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Max Rows', 'fieldforge' ); ?></th>
+							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[max]" value="<?php echo esc_attr( (string) ( $field['max'] ?? 0 ) ); ?>" class="small-text" /></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Add Row Label', 'fieldforge' ); ?></th>
+							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Row', 'fieldforge' ) ); ?>" class="regular-text" /></td>
+						</tr>
+					</table>
+				</div>
+				<?php
 				break;
 
 			case 'flexible_content':
-				echo '<div class="fieldforge-layouts-editor">';
-				echo '<h4>' . esc_html__( 'Layouts', 'fieldforge' ) . '</h4>';
 				$layouts = $field['layouts'] ?? array();
-				foreach ( $layouts as $li => $layout ) :
-					$lp = $prefix . '[layouts][' . $li . ']';
-					echo '<div class="fieldforge-layout-row">';
-					echo '<strong>' . esc_html( $layout['label'] ?? __( '(layout)', 'fieldforge' ) ) . '</strong> ';
-					echo '<code>' . esc_html( $layout['name'] ?? '' ) . '</code>';
-					echo '<input type="hidden" name="' . esc_attr( $lp ) . '[name]" value="' . esc_attr( $layout['name'] ?? '' ) . '" />';
-					echo '<input type="hidden" name="' . esc_attr( $lp ) . '[label]" value="' . esc_attr( $layout['label'] ?? '' ) . '" />';
-					foreach ( $layout['sub_fields'] ?? array() as $sfi => $sf ) {
-						$this->render_field_row( $sf, $sfi, $this->get_type_labels() );
-					}
-					echo '</div>';
-				endforeach;
-				echo '<p class="description">' . esc_html__( 'Layouts are managed via Local JSON or programmatic registration.', 'fieldforge' ) . '</p>';
-				echo '</div>';
+				$lp_base = $prefix . '[layouts]';
+				?>
+				<div class="fieldforge-layouts-editor" data-name-prefix="<?php echo esc_attr( $lp_base ); ?>">
+					<h4><?php esc_html_e( 'Layouts', 'fieldforge' ); ?></h4>
+					<div class="fieldforge-layouts-list">
+					<?php foreach ( $layouts as $li => $layout ) : ?>
+						<?php $this->render_layout_row( $lp_base . '[' . $li . ']', $layout, $li ); ?>
+					<?php endforeach; ?>
+					</div>
+					<button type="button" class="button fieldforge-add-layout" data-name-prefix="<?php echo esc_attr( $lp_base ); ?>">
+						<?php esc_html_e( '+ Add Layout', 'fieldforge' ); ?>
+					</button>
+					<table class="form-table" style="margin-top:12px">
+						<tr>
+							<th><?php esc_html_e( 'Min Layouts', 'fieldforge' ); ?></th>
+							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? 0 ) ); ?>" class="small-text" /></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Max Layouts', 'fieldforge' ); ?></th>
+							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[max]" value="<?php echo esc_attr( (string) ( $field['max'] ?? 0 ) ); ?>" class="small-text" /></td>
+						</tr>
+						<tr>
+							<th><?php esc_html_e( 'Add Button Label', 'fieldforge' ); ?></th>
+							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Layout', 'fieldforge' ) ); ?>" class="regular-text" /></td>
+						</tr>
+					</table>
+				</div>
+				<?php
+				break;
+
+			case 'text':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Max Length', 'fieldforge' ); ?></th>
+						<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[maxlength]" value="<?php echo esc_attr( (string) ( $field['maxlength'] ?? '' ) ); ?>" class="small-text" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Prepend', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[prepend]" value="<?php echo esc_attr( $field['prepend'] ?? '' ); ?>" class="regular-text" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Append', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[append]" value="<?php echo esc_attr( $field['append'] ?? '' ); ?>" class="regular-text" /></td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'textarea':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Rows', 'fieldforge' ); ?></th>
+						<td><input type="number" min="1" name="<?php echo esc_attr( $prefix ); ?>[rows]" value="<?php echo esc_attr( (string) ( $field['rows'] ?? 4 ) ); ?>" class="small-text" /></td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'date_picker':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Display Format', 'fieldforge' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[display_format]" value="<?php echo esc_attr( $field['display_format'] ?? 'd/m/Y' ); ?>" class="regular-text" />
+							<p class="description"><?php esc_html_e( 'PHP date() format for admin display.', 'fieldforge' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[return_format]" value="<?php echo esc_attr( $field['return_format'] ?? 'Ymd' ); ?>" class="regular-text" />
+							<p class="description"><?php esc_html_e( 'PHP date() format returned by fieldforge_get().', 'fieldforge' ); ?></p>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'time_picker':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Display Format', 'fieldforge' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[display_format]" value="<?php echo esc_attr( $field['display_format'] ?? 'g:i a' ); ?>" class="regular-text" />
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[return_format]" value="<?php echo esc_attr( $field['return_format'] ?? 'H:i:s' ); ?>" class="regular-text" />
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'true_false':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Message', 'fieldforge' ); ?></th>
+						<td>
+							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[message]" value="<?php echo esc_attr( $field['message'] ?? '' ); ?>" class="widefat" />
+							<p class="description"><?php esc_html_e( 'Text shown beside the checkbox.', 'fieldforge' ); ?></p>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'link':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="array"<?php selected( $field['return_format'] ?? 'array', 'array' ); ?>><?php esc_html_e( 'Array (url, title, target)', 'fieldforge' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'array', 'url' ); ?>><?php esc_html_e( 'URL string only', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'message':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Message', 'fieldforge' ); ?></th>
+						<td>
+							<textarea name="<?php echo esc_attr( $prefix ); ?>[message_content]" rows="4" class="widefat"><?php echo esc_textarea( $field['message_content'] ?? '' ); ?></textarea>
+							<p class="description"><?php esc_html_e( 'HTML allowed. This text is shown to editors but not stored.', 'fieldforge' ); ?></p>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'New Lines', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[new_lines]">
+								<option value="wpautop"<?php selected( $field['new_lines'] ?? 'wpautop', 'wpautop' ); ?>><?php esc_html_e( 'Automatically add paragraphs', 'fieldforge' ); ?></option>
+								<option value="br"<?php selected( $field['new_lines'] ?? 'wpautop', 'br' ); ?>><?php esc_html_e( 'Automatically add &lt;br&gt;', 'fieldforge' ); ?></option>
+								<option value=""<?php selected( $field['new_lines'] ?? 'wpautop', '' ); ?>><?php esc_html_e( 'No formatting', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
 				break;
 		}
 	}
@@ -393,8 +565,6 @@ class FieldForge_Field_Group_Editor {
 	public function render_location_meta_box( WP_Post $post ): void {
 		$location = get_post_meta( $post->ID, '_fieldforge_location', true );
 		$location = is_array( $location ) ? $location : array();
-
-		$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
 		echo '<div id="fieldforge-location-editor">';
 		echo '<p class="description">' . esc_html__( 'Show this field group when:', 'fieldforge' ) . '</p>';
@@ -428,12 +598,8 @@ class FieldForge_Field_Group_Editor {
 				echo '<option value="=="' . selected( $rule['operator'] ?? '==', '==', false ) . '>' . esc_html__( 'is equal to', 'fieldforge' ) . '</option>';
 				echo '<option value="!="' . selected( $rule['operator'] ?? '==', '!=', false ) . '>' . esc_html__( 'is not equal to', 'fieldforge' ) . '</option>';
 				echo '</select>';
-				// Value.
-				echo '<select name="' . esc_attr( $p ) . '[value]">';
-				foreach ( $post_types as $pt ) {
-					echo '<option value="' . esc_attr( $pt->name ) . '"' . selected( $rule['value'] ?? '', $pt->name, false ) . '>' . esc_html( $pt->label ) . '</option>';
-				}
-				echo '</select>';
+				// Value — dynamic widget based on param.
+				echo $this->render_location_value_widget( $p . '[value]', $rule['param'] ?? 'post_type', $rule['value'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pre-escaped
 				echo '<button type="button" class="button fieldforge-remove-rule">' . esc_html__( 'Remove', 'fieldforge' ) . '</button>';
 				echo '</div>'; // .fieldforge-location-rule
 			endforeach;
@@ -592,6 +758,73 @@ class FieldForge_Field_Group_Editor {
 				$field['layouts'] = $this->sanitize_layouts( (array) $f['layouts'] );
 			}
 
+			// Text-specific settings.
+			if ( 'text' === $type ) {
+				$field['maxlength'] = '' !== ( $f['maxlength'] ?? '' ) ? absint( $f['maxlength'] ) : '';
+				$field['prepend']   = sanitize_text_field( $f['prepend'] ?? '' );
+				$field['append']    = sanitize_text_field( $f['append'] ?? '' );
+			}
+
+			// Textarea-specific.
+			if ( 'textarea' === $type ) {
+				$field['rows'] = '' !== ( $f['rows'] ?? '' ) ? absint( $f['rows'] ) : 4;
+			}
+
+			// Select-specific.
+			if ( 'select' === $type ) {
+				$field['multiple']      = ! empty( $f['multiple'] ) ? 1 : 0;
+				$field['allow_null']    = ! empty( $f['allow_null'] ) ? 1 : 0;
+				$field['return_format'] = sanitize_text_field( $f['return_format'] ?? 'value' );
+			}
+
+			// Date/time return format.
+			if ( in_array( $type, array( 'date_picker', 'time_picker' ), true ) ) {
+				$field['display_format'] = sanitize_text_field( $f['display_format'] ?? '' );
+				$field['return_format']  = sanitize_text_field( $f['return_format'] ?? '' );
+			}
+
+			// True / false.
+			if ( 'true_false' === $type ) {
+				$field['message']     = sanitize_text_field( $f['message'] ?? '' );
+				$field['ui_on_text']  = sanitize_text_field( $f['ui_on_text'] ?? '' );
+				$field['ui_off_text'] = sanitize_text_field( $f['ui_off_text'] ?? '' );
+			}
+
+			// Link.
+			if ( 'link' === $type ) {
+				$field['return_format'] = in_array( $f['return_format'] ?? 'array', array( 'array', 'url' ), true ) ? $f['return_format'] : 'array';
+			}
+
+			// Message.
+			if ( 'message' === $type ) {
+				$field['message_content'] = wp_kses_post( $f['message_content'] ?? '' );
+				$field['new_lines']       = in_array( $f['new_lines'] ?? 'wpautop', array( 'wpautop', 'br', '' ), true ) ? $f['new_lines'] : 'wpautop';
+				$field['esc_html']        = ! empty( $f['esc_html'] ) ? 1 : 0;
+			}
+
+			// Post object — allow_null + post_type list.
+			if ( 'post_object' === $type ) {
+				$field['allow_null'] = ! empty( $f['allow_null'] ) ? 1 : 0;
+				$field['post_type']  = array_map( 'sanitize_key', (array) ( $f['post_type'] ?? array() ) );
+			}
+
+			// Conditional logic rules.
+			$field['conditional_logic'] = ! empty( $f['conditional_logic'] ) ? 1 : 0;
+			if ( $field['conditional_logic'] && ! empty( $f['cl_rules'] ) && is_array( $f['cl_rules'] ) ) {
+				$cl_rules = array();
+				foreach ( $f['cl_rules'] as $rule ) {
+					if ( ! is_array( $rule ) || empty( $rule['field'] ) ) {
+						continue;
+					}
+					$cl_rules[] = array(
+						'field'    => sanitize_key( $rule['field'] ),
+						'operator' => sanitize_text_field( $rule['operator'] ?? '==' ),
+						'value'    => sanitize_text_field( $rule['value'] ?? '' ),
+					);
+				}
+				$field['conditional_logic_rules'] = $cl_rules;
+			}
+
 			if ( $field['name'] ) {
 				$fields[] = $field;
 			}
@@ -653,6 +886,106 @@ class FieldForge_Field_Group_Editor {
 		return $layouts;
 	}
 
+	/**
+	 * Render a single sub-field row inside a Repeater editor.
+	 *
+	 * @param string $prefix  Full input name prefix, e.g. `fieldforge_fields[0][sub_fields][0]`.
+	 * @param array  $sub     Sub-field config.
+	 * @param int    $index   Sub-field index.
+	 */
+	private function render_sub_field_row( string $prefix, array $sub, int $index ): void {
+		$type        = $sub['type'] ?? 'text';
+		$type_labels = $this->get_type_labels();
+		?>
+		<div class="fieldforge-sub-field-row" data-index="<?php echo esc_attr( (string) $index ); ?>">
+			<div class="fieldforge-sub-field-header">
+				<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>
+				<strong class="ff-sub-label-preview"><?php echo esc_html( $sub['label'] ?? __( '(sub field)', 'fieldforge' ) ); ?></strong>
+				<span class="ff-badge"><?php echo esc_html( $type_labels[ $type ] ?? $type ); ?></span>
+				<button type="button" class="button button-link fieldforge-toggle-sub-field"><?php esc_html_e( 'Edit', 'fieldforge' ); ?></button>
+				<button type="button" class="button button-link-delete fieldforge-remove-sub-field"><?php esc_html_e( 'Delete', 'fieldforge' ); ?></button>
+			</div>
+			<div class="fieldforge-sub-field-body" style="display:none">
+				<input type="hidden" name="<?php echo esc_attr( $prefix ); ?>[key]" value="<?php echo esc_attr( $sub['key'] ?? 'field_' . uniqid() ); ?>" />
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Label', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[label]" value="<?php echo esc_attr( $sub['label'] ?? '' ); ?>" class="widefat fieldforge-sub-label-input" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Name', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[name]" value="<?php echo esc_attr( $sub['name'] ?? '' ); ?>" class="widefat fieldforge-sub-name-input" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Type', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[type]" class="fieldforge-sub-type-select">
+								<?php foreach ( $type_labels as $slug => $label ) : ?>
+									<option value="<?php echo esc_attr( $slug ); ?>"<?php selected( $type, $slug ); ?>><?php echo esc_html( $label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Required', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[required]" value="1"<?php checked( ! empty( $sub['required'] ) ); ?> /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Instructions', 'fieldforge' ); ?></th>
+						<td><textarea name="<?php echo esc_attr( $prefix ); ?>[instructions]" rows="2" class="widefat"><?php echo esc_textarea( $sub['instructions'] ?? '' ); ?></textarea></td>
+					</tr>
+				</table>
+				<?php $this->render_type_specific_settings( $prefix, $sub ); ?>
+			</div>
+		</div>
+		<?php
+	}
+
+	/**
+	 * Render a single layout row inside a Flexible Content editor.
+	 *
+	 * @param string $prefix  Full input name prefix.
+	 * @param array  $layout  Layout config.
+	 * @param int    $index   Layout index.
+	 */
+	private function render_layout_row( string $prefix, array $layout, int $index ): void {
+		$sf_base = $prefix . '[sub_fields]';
+		?>
+		<div class="fieldforge-layout-row" data-index="<?php echo esc_attr( (string) $index ); ?>">
+			<div class="fieldforge-layout-header">
+				<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>
+				<strong class="ff-layout-label-preview"><?php echo esc_html( $layout['label'] ?? __( '(layout)', 'fieldforge' ) ); ?></strong>
+				<code><?php echo esc_html( $layout['name'] ?? '' ); ?></code>
+				<button type="button" class="button button-link fieldforge-toggle-layout"><?php esc_html_e( 'Edit', 'fieldforge' ); ?></button>
+				<button type="button" class="button button-link-delete fieldforge-remove-layout"><?php esc_html_e( 'Delete', 'fieldforge' ); ?></button>
+			</div>
+			<div class="fieldforge-layout-body" style="display:none">
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Label', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[label]" value="<?php echo esc_attr( $layout['label'] ?? '' ); ?>" class="widefat fieldforge-layout-label-input" /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Name', 'fieldforge' ); ?></th>
+						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[name]" value="<?php echo esc_attr( $layout['name'] ?? '' ); ?>" class="widefat fieldforge-layout-name-input" /></td>
+					</tr>
+				</table>
+				<div class="fieldforge-sub-fields-editor fieldforge-layout-subfields" data-name-prefix="<?php echo esc_attr( $sf_base ); ?>">
+					<h5><?php esc_html_e( 'Sub Fields', 'fieldforge' ); ?></h5>
+					<div class="fieldforge-sub-fields-list">
+					<?php foreach ( $layout['sub_fields'] ?? array() as $si => $sf ) : ?>
+						<?php $this->render_sub_field_row( $sf_base . '[' . $si . ']', $sf, $si ); ?>
+					<?php endforeach; ?>
+					</div>
+					<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="<?php echo esc_attr( $sf_base ); ?>">
+						<?php esc_html_e( '+ Add Sub Field', 'fieldforge' ); ?>
+					</button>
+				</div>
+			</div>
+		</div>
+		<?php
+	}
+
 	// ------------------------------------------------------------------
 	// Tools page (import/export)
 	// ------------------------------------------------------------------
@@ -698,7 +1031,7 @@ class FieldForge_Field_Group_Editor {
 		}
 
 		header( 'Content-Type: application/json; charset=utf-8' );
-		header( 'Content-Disposition: attachment; filename="' . $filename . '"' );
+		header( 'Content-Disposition: attachment; filename="' . sanitize_file_name( $filename ) . '"' );
 		header( 'Content-Length: ' . strlen( $json ) );
 		header( 'Cache-Control: no-cache' );
 		echo $json; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped
@@ -865,6 +1198,62 @@ class FieldForge_Field_Group_Editor {
 		);
 	}
 
+	/**
+	 * Return the HTML for the location-rule value widget based on param type.
+	 *
+	 * @param string $input_name  The HTML name attribute for the widget.
+	 * @param string $param       The location param type.
+	 * @param string $current     The currently-selected value.
+	 * @return string
+	 */
+	private function render_location_value_widget( string $input_name, string $param, string $current ): string {
+		$sel = static function ( string $val ) use ( $current ): string {
+			return selected( $current, $val, false );
+		};
+
+		switch ( $param ) {
+			case 'post_type':
+				$opts = '';
+				foreach ( get_post_types( array( 'public' => true ), 'objects' ) as $pt ) {
+					$opts .= '<option value="' . esc_attr( $pt->name ) . '"' . $sel( $pt->name ) . '>' . esc_html( $pt->label ) . '</option>';
+				}
+				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
+
+			case 'post_status':
+				$statuses = get_post_stati( array( 'internal' => false ), 'objects' );
+				$opts     = '';
+				foreach ( $statuses as $status ) {
+					$opts .= '<option value="' . esc_attr( $status->name ) . '"' . $sel( $status->name ) . '>' . esc_html( $status->label ) . '</option>';
+				}
+				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
+
+			case 'user_role':
+				$opts = '';
+				foreach ( wp_roles()->role_names as $slug => $name ) {
+					$opts .= '<option value="' . esc_attr( $slug ) . '"' . $sel( $slug ) . '>' . esc_html( $name ) . '</option>';
+				}
+				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
+
+			case 'page_template':
+				$opts = '<option value="default"' . $sel( 'default' ) . '>' . esc_html__( 'Default Template', 'fieldforge' ) . '</option>';
+				foreach ( get_page_templates() as $template_name => $template_file ) {
+					$opts .= '<option value="' . esc_attr( $template_file ) . '"' . $sel( $template_file ) . '>' . esc_html( $template_name ) . '</option>';
+				}
+				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
+
+			case 'page_parent':
+				$pages = get_posts( array( 'post_type' => 'page', 'post_status' => 'any', 'numberposts' => 200 ) );
+				$opts  = '<option value="0"' . $sel( '0' ) . '>' . esc_html__( '— No Parent —', 'fieldforge' ) . '</option>';
+				foreach ( $pages as $page ) {
+					$opts .= '<option value="' . esc_attr( $page->ID ) . '"' . $sel( (string) $page->ID ) . '>' . esc_html( $page->post_title ) . '</option>';
+				}
+				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
+
+			default:
+				return '<input type="text" name="' . esc_attr( $input_name ) . '" value="' . esc_attr( $current ) . '" class="regular-text ff-location-value-text" />';
+		}
+	}
+
 	private function get_type_labels(): array {
 		return array(
 			'text'         => __( 'Text', 'fieldforge' ),
@@ -897,10 +1286,15 @@ class FieldForge_Field_Group_Editor {
 
 	private function get_location_params(): array {
 		return array(
-			'post_type'   => __( 'Post Type', 'fieldforge' ),
-			'post_status' => __( 'Post Status', 'fieldforge' ),
-			'user_role'   => __( 'User Role', 'fieldforge' ),
-			'page_parent' => __( 'Page Parent', 'fieldforge' ),
+			'post_type'     => __( 'Post Type', 'fieldforge' ),
+			'post_status'   => __( 'Post Status', 'fieldforge' ),
+			'page_template' => __( 'Page Template', 'fieldforge' ),
+			'page_parent'   => __( 'Page Parent', 'fieldforge' ),
+			'user_role'     => __( 'User Role', 'fieldforge' ),
+			'post_taxonomy' => __( 'Post Taxonomy', 'fieldforge' ),
+			'post_format'   => __( 'Post Format', 'fieldforge' ),
+			'attachment'    => __( 'Attachment', 'fieldforge' ),
+			'options_page'  => __( 'Options Page', 'fieldforge' ),
 		);
 	}
 
