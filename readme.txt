@@ -1,30 +1,34 @@
 === FieldForge ===
 Contributors: arunrajiah
 Donate link: https://github.com/sponsors/arunrajiah
-Tags: custom fields, meta box, acf alternative, repeater, advanced custom fields
+Tags: custom fields, meta box, repeater, flexible content, field groups
 Requires at least: 6.2
-Tested up to: 6.7
+Tested up to: 6.8
 Requires PHP: 7.4
 Stable tag: 0.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-Open-source, GPL alternative to Advanced Custom Fields (ACF) Pro — with a native Repeater field and full ACF JSON import compatibility.
+Open-source, GPL custom fields plugin for WordPress — with a native Repeater field, Flexible Content, Options Pages, and full ACF JSON import compatibility.
 
 == Description ==
 
-**FieldForge** gives agencies and developers a community-governed, feature-rich alternative to ACF Pro — without the paywall.
+**FieldForge** gives agencies and developers a community-governed, feature-rich custom fields plugin for WordPress.
 
 Every feature is built and maintained in the open. No freemium gates, no SaaS backend, no phone-home. Just a solid custom-fields plugin that runs entirely inside WordPress.
 
 = Key Features =
 
 * **22 field types** — text, textarea, number, select, checkbox, radio, true/false, date picker, color picker, URL, email, password, file, image, gallery, post object, taxonomy, user, link, WYSIWYG, message, and **Repeater**.
-* **Native Repeater field** — the most-requested ACF Pro feature, free for everyone. Supports drag-to-reorder rows, configurable sub-fields, and min/max row limits.
-* **ACF JSON import** — export your existing ACF field groups as JSON and import them into FieldForge. Field types, choices, location rules, and Repeater sub-fields are all mapped automatically.
-* **ACF-compatible data storage** — values are stored in standard `wp_postmeta` using the same key conventions as ACF. If you already have ACF data in the database, FieldForge can read it without any migration.
-* **Template helpers** — `fieldforge_get()`, `fieldforge_the()`, `fieldforge_have_rows()`, `fieldforge_the_row()`, `fieldforge_sub_field()`, `fieldforge_the_sub_field()`.
-* **Location rules** — show field groups by post type, post status, user role, page parent, or page template. OR groups and AND rules, just like ACF.
+* **Native Repeater field** — supports drag-to-reorder rows, configurable sub-fields, and min/max row limits.
+* **Flexible Content field** — multiple layouts each with their own sub-fields, drag-to-reorder blocks.
+* **Options Pages** — register custom admin pages and store global settings outside of post meta.
+* **ACF JSON import** — export your existing ACF field groups as JSON and import them into FieldForge. Field types, choices, location rules, Repeater sub-fields, and Flexible Content layouts are all mapped automatically.
+* **ACF-compatible data storage** — values are stored in standard `wp_postmeta` using the same key conventions. Existing ACF data can be read without any migration.
+* **Template helpers** — `fieldforge_get()`, `fieldforge_the()`, `fieldforge_have_rows()`, `fieldforge_the_row()`, `fieldforge_sub_field()`, `fieldforge_the_sub_field()`, `fieldforge_update_field()`, `fieldforge_get_option()`, `fieldforge_update_option()`.
+* **Location rules** — show field groups by post type, post status, user role, page parent, or page template. OR groups and AND rules.
+* **Conditional logic** — show or hide individual fields based on the values of other fields.
+* **REST API** — field values exposed via the WordPress REST API with location-rule filtering.
 * **100% GPL, no SaaS** — runs entirely inside WordPress. No external services.
 
 = Basic Usage =
@@ -64,10 +68,9 @@ See `docs/acf-compatibility.md` in the plugin folder for a full field type mappi
 
 = Roadmap =
 
-* v0.2 — Flexible Content field
-* v0.3 — Gutenberg block fields
-* v0.4 — Options pages
-* v0.5 — Conditional logic UI, REST API integration, Clone field
+* v0.2 — Gutenberg block fields
+* v0.3 — Clone field
+* v0.4 — Improved conditional logic UI
 
 == Installation ==
 
@@ -90,9 +93,9 @@ See `docs/acf-compatibility.md` in the plugin folder for a full field type mappi
 
 == Frequently Asked Questions ==
 
-= Is this a drop-in replacement for ACF Free and ACF Pro? =
+= What field types and features are included? =
 
-FieldForge covers all of ACF Free's field types plus the Repeater field from ACF Pro — without a licence fee. v0.1 does not yet include Flexible Content, Options Pages, or the Clone field, which are on the roadmap. For teams whose primary blocker is the Repeater paywall, FieldForge is a solid drop-in today.
+FieldForge includes all 22 core field types, a native Repeater field, Flexible Content, Options Pages, conditional logic, a REST API, and an ACF JSON importer. The Clone field and Gutenberg block fields are on the roadmap.
 
 = Can I migrate my existing ACF data? =
 
@@ -110,24 +113,25 @@ Use `fieldforge_get( 'field_name' )` to return a value, or `fieldforge_the( 'fie
 
 The two plugins do not conflict — they register different function names, CPT slugs, and meta keys. You can run both simultaneously during a migration. Once you have imported your field groups and verified everything works in FieldForge, deactivate ACF.
 
-== Screenshots ==
-
-1. Field Group editor — add and configure fields with a clean drag-and-drop UI.
-2. Meta box on a post edit screen showing multiple field types.
-3. Repeater field with multiple rows and drag-to-reorder handles.
-4. Import / Export tools page — paste ACF JSON to import in one click.
-
 == Changelog ==
 
 = 0.1.0 =
 * Initial public release.
-* 22 field types: text, textarea, number, email, URL, password, select, checkbox, radio, true/false, date picker, color picker, file, image, gallery, post object, taxonomy, user, link, WYSIWYG, message, and Repeater.
-* Repeater field with ACF-compatible storage format (`{name}` = row count, `{name}_{i}_{sub}` = sub-field values) and drag-to-reorder rows.
-* ACF JSON importer — maps all common ACF field types to FieldForge equivalents.
+* 22 field types: text, textarea, number, email, URL, password, select, checkbox, radio, true/false, date picker, color picker, file, image, gallery, post object, taxonomy, user, link, WYSIWYG, message, time picker, tab, accordion, and Repeater.
+* Flexible Content field with multiple configurable layouts, drag-to-reorder blocks, and min/max limits.
+* Options Pages — register global settings pages outside of post meta.
+* Repeater field with ACF-compatible storage format and drag-to-reorder rows.
+* ACF JSON importer — maps all common ACF field types, conditional logic rules, Flexible Content layouts, and Repeater sub-fields.
 * FieldForge JSON export and import.
-* Template helpers: `fieldforge_get()`, `fieldforge_the()`, `fieldforge_have_rows()`, `fieldforge_the_row()`, `fieldforge_sub_field()`, `fieldforge_the_sub_field()`.
-* Location rules: post type, post status, user role, page parent, page template — with OR groups and AND rules.
-* Field Group editor with drag-to-reorder fields and live field name auto-generation.
+* Template helpers: `fieldforge_get()`, `fieldforge_the()`, `fieldforge_have_rows()`, `fieldforge_the_row()`, `fieldforge_sub_field()`, `fieldforge_the_sub_field()`, `fieldforge_update_field()`, `fieldforge_get_option()`, `fieldforge_update_option()`.
+* `fieldforge_the()` branches by field type: WYSIWYG/message use `wp_kses_post()`, link renders an `<a>` tag, others use `esc_html()`.
+* Location rules: post type, post status, user role, page parent, page template, taxonomy, format — with OR groups and AND rules.
+* Conditional logic: show/hide fields based on other field values.
+* REST API: field values for posts exposed via `/fieldforge/v1/fields/{id}` with location-rule filtering.
+* Field validation: number enforces min/max, email validates format, URL validates format, text enforces maxlength.
+* Programmatic helpers: `fieldforge_update_field()`, `fieldforge_get_option()`, `fieldforge_update_option()`.
+* Local JSON sync (acf-json equivalent) — field groups saved as JSON files in the theme.
+* Field Group editor with drag-to-reorder fields, live field name auto-generation, type-specific settings panels, Repeater/Flexible Content sub-field editors, and dynamic location rule value dropdowns.
 * PHPUnit test suite covering all field type sanitize/save/load cycles and ACF importer logic.
 * GitHub Actions CI matrix on PHP 7.4, 8.0, 8.1, 8.2, 8.3.
 
