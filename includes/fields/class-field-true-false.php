@@ -34,6 +34,27 @@ class FieldForge_Field_True_False extends FieldForge_Field_Base {
 		return absint( $value ) ? 1 : 0;
 	}
 
+	/**
+	 * Override base validate() so that a sanitized value of 0 ("No") is not
+	 * treated as empty for required-field purposes. Only null/'' means
+	 * the field was genuinely not answered.
+	 *
+	 * @param mixed $value  Already-sanitized value (int 0 or 1).
+	 * @return true|string
+	 */
+	public function validate( $value ) {
+		if ( ! empty( $this->field['required'] ) ) {
+			if ( null === $value || '' === $value ) {
+				return sprintf(
+					/* translators: %s: field label */
+					__( '"%s" is required.', 'fieldforge' ),
+					$this->field['label'] ?? $this->field['name']
+				);
+			}
+		}
+		return true;
+	}
+
 	public function load( int $post_id ) {
 		if ( null !== $this->prefilled_value ) {
 			return (bool) $this->prefilled_value;
