@@ -50,19 +50,32 @@ class FieldForge_Local_JSON {
 
 	/**
 	 * Directory where FieldForge writes JSON files.
+	 *
+	 * Respects the 'local_json_path' setting from the Settings page.
+	 * Falls back to fieldforge-json/ inside the active theme directory.
 	 */
 	public function get_save_path(): string {
-		$default = get_stylesheet_directory() . '/fieldforge-json';
+		$settings = FieldForge_Settings_Page::get_settings();
+		$from_opt = ! empty( $settings['local_json_path'] ) ? trim( $settings['local_json_path'] ) : '';
+		$default  = $from_opt ? $from_opt : get_stylesheet_directory() . '/fieldforge-json';
 		return apply_filters( 'fieldforge/local_json/save_path', $default );
 	}
 
 	/**
 	 * Directories FieldForge scans for JSON files to load.
 	 *
+	 * Respects the 'local_json_load' setting from the Settings page.
+	 * When set, that path is prepended so it takes priority over the save path.
+	 *
 	 * @return string[]
 	 */
 	public function get_load_paths(): array {
-		$default = array( $this->get_save_path() );
+		$settings  = FieldForge_Settings_Page::get_settings();
+		$from_opt  = ! empty( $settings['local_json_load'] ) ? trim( $settings['local_json_load'] ) : '';
+		$save_path = $this->get_save_path();
+		$default   = $from_opt && $from_opt !== $save_path
+			? array( $from_opt, $save_path )
+			: array( $save_path );
 		return (array) apply_filters( 'fieldforge/local_json/load_paths', $default );
 	}
 
@@ -103,8 +116,7 @@ class FieldForge_Local_JSON {
 			$written = file_put_contents( $file, $encoded );
 			if ( false === $written ) {
 				// Log write failure; do not fatal — field group is still in the DB.
-				// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-				error_log( 'FieldForge: failed to write local JSON file: ' . $file );
+				FieldForge_Settings_Page::debug_log( 'FieldForge: failed to write local JSON file: ' . $file );
 			}
 		}
 	}

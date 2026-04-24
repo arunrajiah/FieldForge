@@ -32,9 +32,8 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 						'title' => $u->display_name . ' (' . $u->user_email . ')',
 					);
 				} else {
-					// Referenced user no longer exists — log and return empty state.
-					// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-					error_log( sprintf( 'FieldForge: user field "%s" references missing user ID %d.', $this->field['name'], $uid ) );
+					// Referenced user no longer exists — log (if debug enabled) and skip.
+					FieldForge_Settings_Page::debug_log( sprintf( 'FieldForge: user field "%s" references missing user ID %d.', $this->field['name'], $uid ) );
 				}
 			}
 		}

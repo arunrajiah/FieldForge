@@ -145,4 +145,18 @@ class FieldForge_Settings_Page {
 		$saved = get_option( self::OPTION_KEY, array() );
 		return is_array( $saved ) ? array_merge( $defaults, $saved ) : $defaults;
 	}
+
+	/**
+	 * Write a message to the PHP error log, but only when debug logging is enabled
+	 * in the FieldForge Settings page.
+	 *
+	 * @param string $message Log message (should include 'FieldForge: ' prefix).
+	 */
+	public static function debug_log( string $message ): void {
+		$settings = self::get_settings();
+		if ( ! empty( $settings['debug_log'] ) ) {
+			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
+			error_log( $message );
+		}
+	}
 }

@@ -19,8 +19,7 @@ class FieldForge_Field_Image extends FieldForge_Field_Base {
 
 		if ( $attachment_id && ! $preview_url ) {
 			// Referenced attachment no longer exists.
-			// phpcs:ignore WordPress.PHP.DevelopmentFunctions.error_log_error_log
-			error_log( sprintf( 'FieldForge: image field "%s" references missing attachment ID %d.', $this->field['name'], $attachment_id ) );
+			FieldForge_Settings_Page::debug_log( sprintf( 'FieldForge: image field "%s" references missing attachment ID %d.', $this->field['name'], $attachment_id ) );
 			$attachment_id = 0;
 		}
 
