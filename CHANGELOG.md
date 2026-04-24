@@ -7,7 +7,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-## [0.1.0] — 2025-04-23
+## [0.1.0] — 2026-04-24
 
 ### Added
 
@@ -60,7 +60,7 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Accepts ACF JSON export format (single group object or array of groups).
 - Maps all common ACF field types to FieldForge equivalents.
 - Preserves location rules, field choices, Repeater sub-fields, and group settings.
-- Unsupported types (`flexible_content`) are skipped with a notice.
+- Maps all ACF field types including Flexible Content, conditional_logic rules, and layout definitions.
 - See `docs/acf-compatibility.md` for the full mapping table.
 
 **FieldForge JSON export/import**
@@ -68,15 +68,71 @@ Versioning follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Bulk export from **Import / Export** tools page.
 - Import FieldForge JSON to create or update field groups.
 
+**Flexible Content field**
+- Multiple configurable layouts, each with their own sub-fields.
+- Drag-to-reorder blocks; min/max block limits.
+- Layout picker dropdown to add new blocks by layout name.
+- ACF-compatible storage format.
+
+**Options Pages**
+- Register custom admin menu pages via `FieldForge_Options_Page`.
+- Store and retrieve global settings outside of post meta.
+- `fieldforge_get_option()` / `fieldforge_update_option()` template helpers.
+
+**Conditional Logic**
+- Show or hide individual fields based on the value of other fields in the same group.
+- Rules editor in the field group admin: field, operator, value.
+- Front-end JS evaluates rules on post edit screen in real time.
+
+**REST API**
+- `GET /fieldforge/v1/fields/{post_id}` returns all applicable field values.
+- `PUT /fieldforge/v1/fields/{post_id}` updates field values (editor capability required).
+- Location rules respected: only fields from matching groups are returned.
+
+**Field validation**
+- `number`: enforces min/max constraints.
+- `email`: validates address format via `is_email()`.
+- `url`: validates URL format via `FILTER_VALIDATE_URL`.
+- `text`: enforces optional `maxlength` constraint.
+
+**Additional template helpers**
+- `fieldforge_update_field( $name, $value, $post_id )` — programmatic field update.
+- `fieldforge_get_option( $name, $page_slug )` — read an options-page field.
+- `fieldforge_update_option( $name, $value, $page_slug )` — write an options-page field.
+- `fieldforge_the()` now branches by field type: WYSIWYG/message use `wp_kses_post()`,
+  link renders an `<a>` tag, all others use `esc_html()`.
+
+**Local JSON sync**
+- Field groups automatically saved as JSON files (acf-json equivalent).
+- Changes on disk reloaded on next admin page load.
+
 **Field Group editor UI**
 - Drag-to-reorder fields within a group.
 - Live field name auto-generation from label (with manual override).
-- Location rules editor: OR groups of AND rules, matching ACF semantics.
-- Supported location params: post type, post status, user role, page parent, page template.
+- Type-specific settings panels rendered inline for every field type.
+- Repeater sub-field editor: add/remove/reorder sub-fields without saving first.
+- Flexible Content layout editor: add/remove/reorder layouts and their sub-fields.
+- Location rules editor: OR groups of AND rules; value widget adapts to param type
+  (post-type select, status select, role select, template select, page-parent select).
+- Supported location params: post type, post status, user role, page parent, page template,
+  taxonomy, post format, attachment, options page.
 - Group position setting: Normal, Side, After Title.
+- Conditional logic builder in each field row.
+
+**Admin UI / CSS**
+- Tab field: coloured section separator.
+- Accordion field: collapsible section with animated arrow toggle.
+- Responsive layout: type picker grid, field settings grid, and repeater rows
+  all adapt at 782 px and 480 px breakpoints.
+
+**CI / deployment**
+- GitHub Actions deploy workflow pushes to WordPress.org SVN on version tags.
+- `.distignore` excludes dev-only files from the SVN build.
+- `.wordpress-org/` directory for plugin listing banner and icon assets.
 
 **Testing & tooling**
 - PHPUnit test suite covering all 22 field type `sanitize()` methods and save/load cycles.
-- ACF importer tests: single group, array of groups, repeater sub-fields, location rules, invalid JSON.
+- ACF importer tests: single group, array of groups, repeater sub-fields,
+  Flexible Content layouts, conditional logic, location rules, invalid JSON.
 - GitHub Actions CI matrix on PHP 7.4, 8.0, 8.1, 8.2, 8.3.
 - `composer lint` (WPCS) and `composer test` (PHPUnit) scripts.
