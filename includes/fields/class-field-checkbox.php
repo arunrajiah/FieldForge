@@ -16,7 +16,9 @@ class FieldForge_Field_Checkbox extends FieldForge_Field_Base {
 		$choices = $this->field['choices'] ?? array();
 		$name    = esc_attr( $this->field['name'] );
 
-		$html = '<ul class="fieldforge-checkbox-list">';
+		// Hidden fallback so unchecked checkboxes post an empty array.
+		$html  = sprintf( '<input type="hidden" name="%s[]" value="" />', $name );
+		$html .= '<ul class="fieldforge-checkbox-list">';
 		foreach ( $choices as $val => $label ) {
 			$checked = in_array( (string) $val, $saved, true ) ? ' checked' : '';
 			$html   .= sprintf(

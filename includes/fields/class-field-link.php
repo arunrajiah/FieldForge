@@ -49,6 +49,23 @@ class FieldForge_Field_Link extends FieldForge_Field_Base {
 		);
 	}
 
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		if ( ! empty( $value ) && is_array( $value ) && ! empty( $value['url'] ) ) {
+			if ( ! filter_var( $value['url'], FILTER_VALIDATE_URL ) ) {
+				return sprintf(
+					/* translators: %s: field label */
+					__( '"%s" must contain a valid URL.', 'fieldforge' ),
+					$this->field['label'] ?? $this->field['name']
+				);
+			}
+		}
+		return true;
+	}
+
 	public function get_empty_value(): array {
 		return array(
 			'url'    => '',

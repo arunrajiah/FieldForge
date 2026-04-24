@@ -79,6 +79,24 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 		return absint( $value );
 	}
 
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		$ids = is_array( $value ) ? $value : ( $value !== '' ? array( $value ) : array() );
+		foreach ( $ids as $id ) {
+			if ( $id !== '' && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
+				return sprintf(
+					/* translators: %s: field label */
+					__( '"%s" contains one or more invalid user IDs.', 'fieldforge' ),
+					$this->field['label'] ?? $this->field['name']
+				);
+			}
+		}
+		return true;
+	}
+
 	public function get_empty_value() {
 		return ! empty( $this->field['multiple'] ) ? array() : 0;
 	}

@@ -40,6 +40,26 @@ class FieldForge_Field_Gallery extends FieldForge_Field_Base {
 		return array_values( array_filter( array_map( 'absint', $value ) ) );
 	}
 
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		// Ensure all saved IDs are positive integers (valid attachment IDs).
+		if ( ! empty( $value ) && is_array( $value ) ) {
+			foreach ( $value as $id ) {
+				if ( ! is_numeric( $id ) || (int) $id <= 0 ) {
+					return sprintf(
+						/* translators: %s: field label */
+						__( '"%s" contains one or more invalid image IDs.', 'fieldforge' ),
+						$this->field['label'] ?? $this->field['name']
+					);
+				}
+			}
+		}
+		return true;
+	}
+
 	public function load( int $post_id ) {
 		$val = get_post_meta( $post_id, $this->field['name'], true );
 		return is_array( $val ) ? $val : array();
