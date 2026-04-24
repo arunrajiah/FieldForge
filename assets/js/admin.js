@@ -1000,6 +1000,69 @@
 	} );
 
 	// -----------------------------------------------------------------------
+	// Conditional Logic — post edit screen field show/hide
+	// -----------------------------------------------------------------------
+
+	var clData = ( data && data.conditionalLogic ) ? data.conditionalLogic : {};
+
+	function ffGetFieldValue( fieldName ) {
+		var $field = $( '.fieldforge-meta-box [name="' + fieldName + '"],' +
+			'.fieldforge-meta-box [name="' + fieldName + '[]"]' ).first();
+		if ( ! $field.length ) { return ''; }
+		var tag = $field.prop( 'tagName' ) ? $field.prop( 'tagName' ).toLowerCase() : '';
+		if ( 'input' === tag ) {
+			var inputType = ( $field.attr( 'type' ) || '' ).toLowerCase();
+			if ( 'checkbox' === inputType || 'radio' === inputType ) {
+				return $field.is( ':checked' ) ? $field.val() : '';
+			}
+		}
+		return $field.val() || '';
+	}
+
+	function ffEvaluateField( fieldName, fieldInfo ) {
+		if ( ! fieldInfo.conditional_logic || ! fieldInfo.conditional_logic_rules || ! fieldInfo.conditional_logic_rules.length ) {
+			return true; // No rules — always show.
+		}
+		var rules   = fieldInfo.conditional_logic_rules;
+		var visible = false;
+		for ( var i = 0; i < rules.length; i++ ) {
+			var rule     = rules[ i ];
+			var actual   = ffGetFieldValue( rule.field );
+			var expected = rule.value || '';
+			var op       = rule.operator || '==';
+			var match    = ( '==' === op ) ? ( actual === expected ) : ( actual !== expected );
+			if ( match ) { visible = true; break; }
+		}
+		return visible;
+	}
+
+	function ffRunConditionalLogic() {
+		$.each( clData, function ( fieldName, fieldInfo ) {
+			var visible = ffEvaluateField( fieldName, fieldInfo );
+			// Find all wrapper divs for this field.
+			$( '.fieldforge-meta-box .fieldforge-field' ).each( function () {
+				var $wrap = $( this );
+				// Match by the input name attribute inside.
+				if ( $wrap.find( '[name="' + fieldName + '"], [name="' + fieldName + '[]"]' ).length ) {
+					if ( visible ) {
+						$wrap.removeAttr( 'data-ff-hidden' ).show();
+					} else {
+						$wrap.attr( 'data-ff-hidden', '1' ).hide();
+					}
+				}
+			} );
+		} );
+	}
+
+	// Run on page load.
+	ffRunConditionalLogic();
+
+	// Re-run whenever any field value changes inside a meta box.
+	$( document ).on( 'change input', '.fieldforge-meta-box input, .fieldforge-meta-box select, .fieldforge-meta-box textarea', function () {
+		ffRunConditionalLogic();
+	} );
+
+	// -----------------------------------------------------------------------
 	// Accordion field — toggle on post edit screen
 	// -----------------------------------------------------------------------
 
@@ -1206,6 +1269,7 @@
 		$row.hide().slideDown( 180 );
 		initMediaButtons( $row );
 		initAllPickers( $row );
+		initWysiwygEditors( $row );
 	} );
 
 	$( document ).on( 'click', '.fieldforge-repeater-row-toggle', function () {
@@ -1433,6 +1497,7 @@
 		$row.hide().slideDown( 180 );
 		initMediaButtons( $row );
 		initAllPickers( $row );
+		initWysiwygEditors( $row );
 		reindexFcRows( $fc );
 	} );
 
@@ -1742,6 +1807,37 @@
 				$dropdown.show();
 			} );
 		}
+	}
+
+	function initWysiwygEditors( $context ) {
+		if ( typeof wp === 'undefined' || ! wp.editor ) {
+			return;
+		}
+		$context.find( '.fieldforge-wysiwyg-sub' ).each( function () {
+			var $ta  = $( this );
+			var id   = $ta.attr( 'id' );
+			if ( ! id ) {
+				id = 'ff_wysiwyg_' + Date.now() + '_' + Math.floor( Math.random() * 10000 );
+				$ta.attr( 'id', id );
+			}
+			// Only init if not already initialized.
+			if ( typeof window.tinyMCE !== 'undefined' && window.tinyMCE.get( id ) ) {
+				return;
+			}
+			wp.editor.initialize( id, {
+				tinymce: {
+					wpautop: true,
+					toolbar1: 'bold italic underline strikethrough | bullist numlist | link unlink | undo redo',
+					setup: function ( editor ) {
+						editor.on( 'change', function () {
+							editor.save();
+						} );
+					}
+				},
+				quicktags: true,
+				mediaButtons: false
+			} );
+		} );
 	}
 
 	function initAllPickers( $context ) {
