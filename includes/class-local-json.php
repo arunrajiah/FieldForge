@@ -37,11 +37,33 @@ class FieldForge_Local_JSON {
 		add_action( 'trashed_post', array( $this, 'on_group_delete' ) );
 		add_action( 'before_delete_post', array( $this, 'on_group_delete' ) );
 
+		// Auto-import JSON files that have no matching DB post yet (e.g. fresh install or wiped DB).
+		add_action( 'init', array( $this, 'auto_load_pending' ), 5 );
+
 		// Admin notice when files are out of sync.
 		add_action( 'admin_notices', array( $this, 'sync_notice' ) );
 
 		// AJAX: sync all JSON files into the database.
 		add_action( 'wp_ajax_fieldforge_sync_json', array( $this, 'ajax_sync' ) );
+	}
+
+	/**
+	 * On every WordPress init, automatically import any JSON files that have no
+	 * corresponding field-group post in the database yet.
+	 *
+	 * This restores field groups from version-controlled JSON after a fresh install
+	 * or a database wipe without requiring a manual "Sync" click.
+	 * Files that are already in sync (hash matches) are skipped.
+	 */
+	public function auto_load_pending(): void {
+		$pending = $this->get_pending_sync();
+		foreach ( $pending as $entry ) {
+			// Only auto-import files whose post ID does not exist — never silently
+			// overwrite an existing group that is merely stale (that requires intent).
+			if ( empty( $entry['post_id'] ) || ! get_post( $entry['post_id'] ) ) {
+				$this->sync_file( $entry );
+			}
+		}
 	}
 
 	// ------------------------------------------------------------------

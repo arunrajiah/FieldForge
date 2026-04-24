@@ -185,6 +185,9 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 	 * Load all rows as [ ['acf_fc_layout' => 'layout_name', 'field' => value, ...], ... ]
 	 */
 	public function load( int $post_id ): array {
+		if ( null !== $this->prefilled_value ) {
+			return is_array( $this->prefilled_value ) ? $this->prefilled_value : array();
+		}
 		$name      = $this->field['name'];
 		$row_count = (int) get_post_meta( $post_id, $name, true );
 		$layouts   = $this->field['layouts'] ?? array();

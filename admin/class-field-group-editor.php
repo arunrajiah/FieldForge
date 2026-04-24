@@ -103,6 +103,7 @@ class FieldForge_Field_Group_Editor {
 
 		$this->render_common_field_settings( $p, $field, $type_labels );
 		$this->render_type_specific_settings( $p, $field );
+		$this->render_conditional_logic_section( $p, $field );
 
 		echo '</div>'; // .fieldforge-field-row-body
 		echo '</div>'; // .fieldforge-field-row
@@ -538,6 +539,72 @@ class FieldForge_Field_Group_Editor {
 				<?php
 				break;
 		}
+	}
+
+	/**
+	 * Render the conditional logic builder panel for a PHP-rendered field row.
+	 * Mirrors the HTML produced by buildFieldRow() in admin.js so the same JS
+	 * event handlers work for both saved (PHP) and newly-added (JS) rows.
+	 *
+	 * @param string $prefix  Form prefix, e.g. fieldforge_fields[0]
+	 * @param array  $field   Field config array.
+	 */
+	private function render_conditional_logic_section( string $prefix, array $field ): void {
+		$enabled = ! empty( $field['conditional_logic'] ) ? 1 : 0;
+		$rules   = $field['conditional_logic_rules'] ?? array();
+		$operators = array(
+			'=='         => __( 'is equal to', 'fieldforge' ),
+			'!='         => __( 'is not equal to', 'fieldforge' ),
+			'>'          => __( 'is greater than', 'fieldforge' ),
+			'<'          => __( 'is less than', 'fieldforge' ),
+			'>='         => __( 'is greater than or equal to', 'fieldforge' ),
+			'<='         => __( 'is less than or equal to', 'fieldforge' ),
+			'==empty'    => __( 'has no value', 'fieldforge' ),
+			'!=empty'    => __( 'has any value', 'fieldforge' ),
+			'==contains' => __( 'contains', 'fieldforge' ),
+			'!=contains' => __( 'does not contain', 'fieldforge' ),
+		);
+		?>
+		<div class="ff-conditional-logic-builder" data-prefix="<?php echo esc_attr( $prefix ); ?>">
+			<div class="ff-cl-toggle">
+				<label class="ff-toggle-label">
+					<input type="checkbox" class="ff-cl-enable"
+						name="<?php echo esc_attr( $prefix ); ?>[conditional_logic]"
+						value="1"<?php checked( $enabled, 1 ); ?> />
+					<span class="ff-toggle-track"></span>
+					<span class="ff-toggle-text"><?php esc_html_e( 'Conditional Logic', 'fieldforge' ); ?></span>
+				</label>
+			</div>
+			<div class="ff-cl-rules"<?php echo $enabled ? '' : ' style="display:none"'; ?>>
+				<p class="ff-cl-intro"><?php esc_html_e( 'Show this field if', 'fieldforge' ); ?></p>
+				<div class="ff-cl-rules-list">
+					<?php foreach ( $rules as $ri => $rule ) : ?>
+						<div class="ff-cl-rule">
+							<input type="text" class="ff-cl-field-input"
+								name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][field]"
+								value="<?php echo esc_attr( $rule['field'] ?? '' ); ?>"
+								placeholder="<?php esc_attr_e( 'Field name', 'fieldforge' ); ?>" />
+							<select name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][operator]"
+								class="ff-cl-operator-select">
+								<?php foreach ( $operators as $op_val => $op_label ) : ?>
+									<option value="<?php echo esc_attr( $op_val ); ?>"<?php selected( $rule['operator'] ?? '==', $op_val ); ?>><?php echo esc_html( $op_label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+							<input type="text" class="ff-cl-value-input"
+								name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][value]"
+								value="<?php echo esc_attr( $rule['value'] ?? '' ); ?>"
+								placeholder="<?php esc_attr_e( 'Value', 'fieldforge' ); ?>" />
+							<button type="button" class="button button-link-delete ff-cl-remove-rule"
+								title="<?php esc_attr_e( 'Remove rule', 'fieldforge' ); ?>">✕</button>
+						</div>
+					<?php endforeach; ?>
+				</div>
+				<button type="button" class="button ff-btn ff-btn--sm ff-cl-add-rule">
+					<?php esc_html_e( '+ Add Rule', 'fieldforge' ); ?>
+				</button>
+			</div>
+		</div>
+		<?php
 	}
 
 	private function render_choices_setting( string $prefix, array $field ): void {

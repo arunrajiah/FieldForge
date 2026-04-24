@@ -42,7 +42,9 @@ class FieldForge_REST_API {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_options_page_fields' ),
-					'permission_callback' => '__return_true',
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
 					'args'                => array(
 						'page_slug' => array(
 							'sanitize_callback' => 'sanitize_key',

@@ -73,7 +73,8 @@ class FieldForge_Meta_Handler {
 		}
 
 		if ( ! empty( $errors ) ) {
-			set_transient( 'fieldforge_validation_errors_' . $post_id, $errors, 60 );
+			$uid = get_current_user_id();
+			set_transient( 'fieldforge_validation_errors_' . $post_id . '_' . $uid, $errors, 60 );
 		}
 	}
 
@@ -92,12 +93,13 @@ class FieldForge_Meta_Handler {
 			return;
 		}
 
-		$errors = get_transient( 'fieldforge_validation_errors_' . $post_id );
+		$uid    = get_current_user_id();
+		$errors = get_transient( 'fieldforge_validation_errors_' . $post_id . '_' . $uid );
 		if ( empty( $errors ) ) {
 			return;
 		}
 
-		delete_transient( 'fieldforge_validation_errors_' . $post_id );
+		delete_transient( 'fieldforge_validation_errors_' . $post_id . '_' . $uid );
 
 		echo '<div class="notice notice-error">';
 		echo '<p><strong>' . esc_html__( 'FieldForge could not save some field values:', 'fieldforge' ) . '</strong></p>';

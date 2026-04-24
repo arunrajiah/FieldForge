@@ -951,10 +951,23 @@
 		var visible = false;
 		for ( var i = 0; i < rules.length; i++ ) {
 			var rule     = rules[ i ];
-			var actual   = ffGetFieldValue( rule.field );
-			var expected = rule.value || '';
+			var actual   = String( ffGetFieldValue( rule.field ) || '' );
+			var expected = String( rule.value || '' );
 			var op       = rule.operator || '==';
-			var match    = ( '==' === op ) ? ( actual === expected ) : ( actual !== expected );
+			var match    = false;
+			switch ( op ) {
+				case '==':         match = actual === expected; break;
+				case '!=':         match = actual !== expected; break;
+				case '>':          match = parseFloat( actual ) > parseFloat( expected ); break;
+				case '<':          match = parseFloat( actual ) < parseFloat( expected ); break;
+				case '>=':         match = parseFloat( actual ) >= parseFloat( expected ); break;
+				case '<=':         match = parseFloat( actual ) <= parseFloat( expected ); break;
+				case '==empty':    match = '' === actual.trim(); break;
+				case '!=empty':    match = '' !== actual.trim(); break;
+				case '==contains': match = actual.indexOf( expected ) !== -1; break;
+				case '!=contains': match = actual.indexOf( expected ) === -1; break;
+				default:           match = false;
+			}
 			if ( match ) { visible = true; break; }
 		}
 		return visible;
@@ -1422,6 +1435,10 @@
 		initMediaButtons( $row );
 		initAllPickers( $row );
 		initWysiwygEditors( $row );
+		// Initialise any nested repeaters inside the new FC row.
+		$row.find( '.fieldforge-repeater' ).each( function () {
+			$( this ).trigger( 'fieldforge:repeaterInit', [ $( this ) ] );
+		} );
 		reindexFcRows( $fc );
 	} );
 

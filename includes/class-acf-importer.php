@@ -138,7 +138,33 @@ class FieldForge_ACF_Importer {
 	 */
 	private function convert_field( array $acf ): ?array {
 		$acf_type = $acf['type'] ?? '';
-		$ff_type  = self::TYPE_MAP[ $acf_type ] ?? 'text';
+		$ff_type  = self::TYPE_MAP[ $acf_type ] ?? null;
+
+		if ( null === $ff_type ) {
+			// Completely unknown type — skip rather than silently downgrade.
+			FieldForge_Settings_Page::debug_log(
+				sprintf( 'ACF Importer: skipping unsupported field type "%s" (name: %s).', $acf_type, $acf['name'] ?? '' )
+			);
+			return null;
+		}
+
+		// Warn when a lossy type conversion is happening.
+		$lossy_types = array(
+			'range',
+			'oembed',
+			'page_link',
+			'relationship',
+			'button_group',
+			'date_time_picker',
+			'google_map',
+			'group',
+			'clone',
+		);
+		if ( in_array( $acf_type, $lossy_types, true ) ) {
+			FieldForge_Settings_Page::debug_log(
+				sprintf( 'ACF Importer: field type "%s" (name: %s) converted to "%s".', $acf_type, $acf['name'] ?? '', $ff_type )
+			);
+		}
 
 		$field = array(
 			'key'           => sanitize_key( $acf['key'] ?? 'field_' . uniqid() ),
