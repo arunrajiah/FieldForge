@@ -371,6 +371,7 @@
 			'        <input type="text" name="' + p + '[placeholder]" value="' + escAttr( defaults.placeholder || '' ) + '" class="widefat" />',
 			'      </div>',
 			'    </div>',
+			'    <div class="ff-type-specific-wrap"></div>',
 			'    <div class="ff-conditional-logic-builder" data-prefix="' + escAttr( p ) + '">',
 			'      <div class="ff-cl-toggle">',
 			'        <label class="ff-toggle-label">',
@@ -396,6 +397,11 @@
 				$ruleList.append( buildConditionalRuleRow( p, ri, rule ) );
 			} );
 		}
+
+		// Inject type-specific settings.
+		var $typeWrap = $row.find( '.ff-type-specific-wrap' ).first();
+		var $tsPanel  = buildTypeSpecificSettings( type, p, defaults );
+		$typeWrap.replaceWith( $tsPanel );
 
 		return $row;
 	}
@@ -428,6 +434,17 @@
 			$row.find( '.fieldforge-field-type-icon' )
 				.attr( 'class', 'fieldforge-field-type-icon ff-type-icon--' + cat )
 				.find( '.dashicons' ).attr( 'class', 'dashicons ' + icon );
+
+			// Update type-specific settings panel.
+			var rowIndex = $row.data( 'index' );
+			var rowP     = 'fieldforge_fields[' + rowIndex + ']';
+			var $existing = $row.find( '.ff-type-specific-wrap' );
+			var $newPanel = buildTypeSpecificSettings( slug, rowP, {} );
+			if ( $existing.length ) {
+				$existing.replaceWith( $newPanel );
+			} else {
+				$row.find( '.ff-field-settings-grid' ).after( $newPanel );
+			}
 		} );
 	} );
 
@@ -649,6 +666,224 @@
 		);
 	}
 
+	// -----------------------------------------------------------------------
+	// Type-specific settings panel in field group editor
+	// -----------------------------------------------------------------------
+
+	function buildTypeSpecificSettings( type, p, defaults ) {
+		defaults = defaults || {};
+		var html = '';
+
+		switch ( type ) {
+			case 'text':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting">' +
+					'<label>Max Length</label>' +
+					'<input type="number" min="0" name="' + p + '[maxlength]" value="' + escAttr( defaults.maxlength || '' ) + '" class="small-text" />' +
+					'</div>' +
+					'<div class="ff-field-setting">' +
+					'<label>Prepend</label>' +
+					'<input type="text" name="' + p + '[prepend]" value="' + escAttr( defaults.prepend || '' ) + '" class="regular-text" />' +
+					'</div>' +
+					'<div class="ff-field-setting">' +
+					'<label>Append</label>' +
+					'<input type="text" name="' + p + '[append]" value="' + escAttr( defaults.append || '' ) + '" class="regular-text" />' +
+					'</div>' +
+					'</div>';
+				break;
+
+			case 'textarea':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting">' +
+					'<label>Rows</label>' +
+					'<input type="number" min="1" name="' + p + '[rows]" value="' + escAttr( defaults.rows || '4' ) + '" class="small-text" />' +
+					'</div>' +
+					'</div>';
+				break;
+
+			case 'number':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Min</label><input type="number" step="any" name="' + p + '[min]" value="' + escAttr( defaults.min !== undefined ? defaults.min : '' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Max</label><input type="number" step="any" name="' + p + '[max]" value="' + escAttr( defaults.max !== undefined ? defaults.max : '' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Step</label><input type="number" step="any" name="' + p + '[step]" value="' + escAttr( defaults.step !== undefined ? defaults.step : '' ) + '" class="small-text" /></div>' +
+					'</div>';
+				break;
+
+			case 'select': {
+				var choicesVal = '';
+				if ( defaults.choices && typeof defaults.choices === 'object' ) {
+					$.each( defaults.choices, function ( k, v ) { choicesVal += k + ' : ' + v + '\n'; } );
+				}
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting">' +
+					'<label>Choices <span class="ff-muted">(value : Label)</span></label>' +
+					'<textarea name="' + p + '[choices_raw]" rows="5" class="widefat" placeholder="red : Red\nblue : Blue">' + escAttr( choicesVal.trim() ) + '</textarea>' +
+					'</div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[multiple]" value="1"' + ( defaults.multiple ? ' checked' : '' ) + ' /> Allow Multiple</label></div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[allow_null]" value="1"' + ( defaults.allow_null ? ' checked' : '' ) + ' /> Allow Null</label></div>' +
+					'</div>';
+				break;
+			}
+
+			case 'checkbox':
+			case 'radio': {
+				var cbChoicesVal = '';
+				if ( defaults.choices && typeof defaults.choices === 'object' ) {
+					$.each( defaults.choices, function ( k, v ) { cbChoicesVal += k + ' : ' + v + '\n'; } );
+				}
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting">' +
+					'<label>Choices <span class="ff-muted">(value : Label)</span></label>' +
+					'<textarea name="' + p + '[choices_raw]" rows="5" class="widefat" placeholder="red : Red\nblue : Blue">' + escAttr( cbChoicesVal.trim() ) + '</textarea>' +
+					'</div>' +
+					'</div>';
+				break;
+			}
+
+			case 'true_false':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Message</label><input type="text" name="' + p + '[message]" value="' + escAttr( defaults.message || '' ) + '" class="widefat" /></div>' +
+					'</div>';
+				break;
+
+			case 'image':
+			case 'file':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Return Format</label>' +
+					'<select name="' + p + '[return_format]">' +
+					'<option value="id"' + ( ( defaults.return_format || 'id' ) === 'id' ? ' selected' : '' ) + '>ID</option>' +
+					'<option value="url"' + ( defaults.return_format === 'url' ? ' selected' : '' ) + '>URL</option>' +
+					'<option value="array"' + ( defaults.return_format === 'array' ? ' selected' : '' ) + '>Array</option>' +
+					'</select></div>' +
+					'</div>';
+				break;
+
+			case 'gallery':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Return Format</label>' +
+					'<select name="' + p + '[return_format]">' +
+					'<option value="id"' + ( ( defaults.return_format || 'id' ) === 'id' ? ' selected' : '' ) + '>IDs</option>' +
+					'<option value="url"' + ( defaults.return_format === 'url' ? ' selected' : '' ) + '>URLs</option>' +
+					'<option value="array"' + ( defaults.return_format === 'array' ? ' selected' : '' ) + '>Array</option>' +
+					'</select></div>' +
+					'</div>';
+				break;
+
+			case 'wysiwyg':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Tabs</label>' +
+					'<select name="' + p + '[tabs]">' +
+					'<option value="all"' + ( ( defaults.tabs || 'all' ) === 'all' ? ' selected' : '' ) + '>Visual &amp; Text</option>' +
+					'<option value="visual"' + ( defaults.tabs === 'visual' ? ' selected' : '' ) + '>Visual Only</option>' +
+					'<option value="text"' + ( defaults.tabs === 'text' ? ' selected' : '' ) + '>Text Only</option>' +
+					'</select></div>' +
+					'<div class="ff-field-setting"><label>Toolbar</label>' +
+					'<select name="' + p + '[toolbar]">' +
+					'<option value="full"' + ( ( defaults.toolbar || 'full' ) === 'full' ? ' selected' : '' ) + '>Full</option>' +
+					'<option value="basic"' + ( defaults.toolbar === 'basic' ? ' selected' : '' ) + '>Basic</option>' +
+					'</select></div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[media_upload]" value="1"' + ( defaults.media_upload !== false ? ' checked' : '' ) + ' /> Media Upload</label></div>' +
+					'</div>';
+				break;
+
+			case 'post_object':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Return Format</label>' +
+					'<select name="' + p + '[return_format]">' +
+					'<option value="object"' + ( ( defaults.return_format || 'object' ) === 'object' ? ' selected' : '' ) + '>Post Object</option>' +
+					'<option value="id"' + ( defaults.return_format === 'id' ? ' selected' : '' ) + '>ID</option>' +
+					'</select></div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[multiple]" value="1"' + ( defaults.multiple ? ' checked' : '' ) + ' /> Allow Multiple</label></div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[allow_null]" value="1"' + ( defaults.allow_null ? ' checked' : '' ) + ' /> Allow Null</label></div>' +
+					'</div>';
+				break;
+
+			case 'user':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Return Format</label>' +
+					'<select name="' + p + '[return_format]">' +
+					'<option value="id"' + ( ( defaults.return_format || 'id' ) === 'id' ? ' selected' : '' ) + '>ID</option>' +
+					'<option value="object"' + ( defaults.return_format === 'object' ? ' selected' : '' ) + '>User Object</option>' +
+					'<option value="array"' + ( defaults.return_format === 'array' ? ' selected' : '' ) + '>Array</option>' +
+					'</select></div>' +
+					'<div class="ff-field-setting ff-field-setting--inline"><label><input type="checkbox" name="' + p + '[multiple]" value="1"' + ( defaults.multiple ? ' checked' : '' ) + ' /> Allow Multiple</label></div>' +
+					'</div>';
+				break;
+
+			case 'date_picker':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Display Format</label><input type="text" name="' + p + '[display_format]" value="' + escAttr( defaults.display_format || 'd/m/Y' ) + '" class="regular-text" /></div>' +
+					'<div class="ff-field-setting"><label>Return Format</label><input type="text" name="' + p + '[return_format]" value="' + escAttr( defaults.return_format || 'Ymd' ) + '" class="regular-text" /></div>' +
+					'</div>';
+				break;
+
+			case 'time_picker':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Display Format</label><input type="text" name="' + p + '[display_format]" value="' + escAttr( defaults.display_format || 'g:i a' ) + '" class="regular-text" /></div>' +
+					'<div class="ff-field-setting"><label>Return Format</label><input type="text" name="' + p + '[return_format]" value="' + escAttr( defaults.return_format || 'H:i:s' ) + '" class="regular-text" /></div>' +
+					'</div>';
+				break;
+
+			case 'link':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Return Format</label>' +
+					'<select name="' + p + '[return_format]">' +
+					'<option value="array"' + ( ( defaults.return_format || 'array' ) === 'array' ? ' selected' : '' ) + '>Array (url, title, target)</option>' +
+					'<option value="url"' + ( defaults.return_format === 'url' ? ' selected' : '' ) + '>URL only</option>' +
+					'</select></div>' +
+					'</div>';
+				break;
+
+			case 'message':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Message Content</label><textarea name="' + p + '[message_content]" rows="4" class="widefat">' + escAttr( defaults.message_content || '' ) + '</textarea></div>' +
+					'</div>';
+				break;
+
+			case 'repeater':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Min Rows</label><input type="number" min="0" name="' + p + '[min]" value="' + escAttr( defaults.min || '0' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Max Rows</label><input type="number" min="0" name="' + p + '[max]" value="' + escAttr( defaults.max || '0' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Add Row Label</label><input type="text" name="' + p + '[button_label]" value="' + escAttr( defaults.button_label || 'Add Row' ) + '" class="regular-text" /></div>' +
+					'<div class="ff-sub-fields-inline">' +
+					'<p class="description">Sub-fields can be configured after saving this group.</p>' +
+					'</div>' +
+					'</div>';
+				break;
+
+			case 'flexible_content':
+				html =
+					'<div class="ff-type-settings">' +
+					'<div class="ff-field-setting"><label>Min Layouts</label><input type="number" min="0" name="' + p + '[min]" value="' + escAttr( defaults.min || '0' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Max Layouts</label><input type="number" min="0" name="' + p + '[max]" value="' + escAttr( defaults.max || '0' ) + '" class="small-text" /></div>' +
+					'<div class="ff-field-setting"><label>Add Button Label</label><input type="text" name="' + p + '[button_label]" value="' + escAttr( defaults.button_label || 'Add Layout' ) + '" class="regular-text" /></div>' +
+					'<p class="description">Layouts can be configured after saving this group.</p>' +
+					'</div>';
+				break;
+
+			default:
+				html = '';
+		}
+
+		return html ? $( '<div class="ff-type-specific-wrap">' + html + '</div>' ) : $( '<div class="ff-type-specific-wrap"></div>' );
+	}
+
 	// Toggle conditional logic rules pane.
 	$( document ).on( 'change', '.ff-cl-enable', function () {
 		var $rules = $( this ).closest( '.ff-conditional-logic-builder' ).find( '.ff-cl-rules' );
@@ -763,6 +998,183 @@
 	$( function () {
 		evaluateConditionalLogic();
 	} );
+
+	// -----------------------------------------------------------------------
+	// Accordion field — toggle on post edit screen
+	// -----------------------------------------------------------------------
+
+	$( document ).on( 'click', '.fieldforge-accordion-toggle', function () {
+		var $btn     = $( this );
+		var $section = $btn.closest( '.fieldforge-meta-field' ).nextUntil( '.fieldforge-meta-field--accordion' );
+		var $icon    = $btn.find( '.dashicons' );
+		var isOpen   = $btn.data( 'open' ) !== false;
+
+		if ( isOpen ) {
+			$section.slideUp( 180 );
+			$icon.removeClass( 'dashicons-arrow-up-alt2' ).addClass( 'dashicons-arrow-down-alt2' );
+			$btn.data( 'open', false );
+		} else {
+			$section.slideDown( 180 );
+			$icon.removeClass( 'dashicons-arrow-down-alt2' ).addClass( 'dashicons-arrow-up-alt2' );
+			$btn.data( 'open', true );
+		}
+	} );
+
+	// -----------------------------------------------------------------------
+	// Sub-field editor (Repeater + FC layouts in field group editor)
+	// -----------------------------------------------------------------------
+
+	// Toggle sub-field body.
+	$( document ).on( 'click', '.fieldforge-toggle-sub-field', function () {
+		var $body = $( this ).closest( '.fieldforge-sub-field-row' ).find( '.fieldforge-sub-field-body' );
+		$body.slideToggle( 150 );
+	} );
+
+	// Remove sub-field row.
+	$( document ).on( 'click', '.fieldforge-remove-sub-field', function () {
+		var $row = $( this ).closest( '.fieldforge-sub-field-row' );
+		$row.slideUp( 150, function () {
+			$row.remove();
+			reindexSubFields( $row.closest( '.fieldforge-sub-fields-list' ) );
+		} );
+	} );
+
+	// Auto-generate sub-field name from label.
+	$( document ).on( 'input', '.fieldforge-sub-label-input', function () {
+		var $row   = $( this ).closest( '.fieldforge-sub-field-row' );
+		var label  = $( this ).val();
+		$row.find( '.ff-sub-label-preview' ).text( label || '(sub field)' );
+		var $nameInput = $row.find( '.fieldforge-sub-name-input' );
+		if ( ! $nameInput.data( 'manual' ) ) {
+			$nameInput.val( slugify( label ) );
+		}
+	} );
+
+	$( document ).on( 'input', '.fieldforge-sub-name-input', function () {
+		$( this ).data( 'manual', true );
+	} );
+
+	// Add sub-field row (Repeater and FC layout sub-fields).
+	$( document ).on( 'click', '.fieldforge-add-sub-field', function () {
+		var $btn      = $( this );
+		var namePrefix = $btn.data( 'name-prefix' );
+		var $list     = $btn.closest( '.fieldforge-sub-fields-editor, .fieldforge-layout-subfields' ).find( '.fieldforge-sub-fields-list' ).first();
+		var index     = $list.find( '.fieldforge-sub-field-row' ).length;
+		var newPrefix = namePrefix + '[' + index + ']';
+		var $row      = buildSimpleSubFieldRow( newPrefix, index );
+		$list.append( $row );
+		$row.find( '.fieldforge-sub-field-body' ).slideDown( 150 );
+		$row.find( '.fieldforge-sub-label-input' ).trigger( 'focus' );
+	} );
+
+	function buildSimpleSubFieldRow( prefix, index ) {
+		var typeMap  = data.types || {};
+		var typeOpts = Object.keys( typeMap ).map( function ( slug ) {
+			return '<option value="' + slug + '">' + escAttr( typeMap[ slug ] ) + '</option>';
+		} ).join( '' );
+
+		return $(
+			'<div class="fieldforge-sub-field-row" data-index="' + index + '">' +
+			'<div class="fieldforge-sub-field-header">' +
+			'<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>' +
+			'<strong class="ff-sub-label-preview">(new sub field)</strong>' +
+			'<span class="ff-badge">Text</span>' +
+			'<button type="button" class="button button-link fieldforge-toggle-sub-field">Edit</button>' +
+			'<button type="button" class="button button-link-delete fieldforge-remove-sub-field">Delete</button>' +
+			'</div>' +
+			'<div class="fieldforge-sub-field-body">' +
+			'<input type="hidden" name="' + prefix + '[key]" value="field_' + Date.now() + '" />' +
+			'<table class="form-table">' +
+			'<tr><th>Label</th><td><input type="text" name="' + prefix + '[label]" value="" class="widefat fieldforge-sub-label-input" /></td></tr>' +
+			'<tr><th>Name</th><td><input type="text" name="' + prefix + '[name]" value="" class="widefat fieldforge-sub-name-input" /></td></tr>' +
+			'<tr><th>Type</th><td><select name="' + prefix + '[type]" class="fieldforge-sub-type-select"><option value="text">Text</option>' + typeOpts + '</select></td></tr>' +
+			'<tr><th>Required</th><td><input type="checkbox" name="' + prefix + '[required]" value="1" /></td></tr>' +
+			'</table>' +
+			'</div>' +
+			'</div>'
+		);
+	}
+
+	function reindexSubFields( $list ) {
+		var namePrefix = $list.closest( '.fieldforge-sub-fields-editor, .fieldforge-layout-subfields' ).find( '.fieldforge-add-sub-field' ).data( 'name-prefix' );
+		if ( ! namePrefix ) { return; }
+		$list.find( '.fieldforge-sub-field-row' ).each( function ( i ) {
+			$( this ).attr( 'data-index', i ).find( '[name]' ).each( function () {
+				var n = $( this ).attr( 'name' );
+				if ( n ) {
+					$( this ).attr( 'name', n.replace( /\[\d+\]([^[]*$)/, '[' + i + ']$1' ) );
+				}
+			} );
+		} );
+	}
+
+	// -----------------------------------------------------------------------
+	// Layout editor (Flexible Content in field group editor)
+	// -----------------------------------------------------------------------
+
+	// Toggle layout body.
+	$( document ).on( 'click', '.fieldforge-toggle-layout', function () {
+		$( this ).closest( '.fieldforge-layout-row' ).find( '.fieldforge-layout-body' ).slideToggle( 150 );
+	} );
+
+	// Remove layout row.
+	$( document ).on( 'click', '.fieldforge-remove-layout', function () {
+		var $row = $( this ).closest( '.fieldforge-layout-row' );
+		$row.slideUp( 150, function () { $row.remove(); } );
+	} );
+
+	// Auto-generate layout name from label.
+	$( document ).on( 'input', '.fieldforge-layout-label-input', function () {
+		var $row   = $( this ).closest( '.fieldforge-layout-row' );
+		$row.find( '.ff-layout-label-preview' ).text( $( this ).val() || '(layout)' );
+		var $nameInput = $row.find( '.fieldforge-layout-name-input' );
+		if ( ! $nameInput.data( 'manual' ) ) {
+			$nameInput.val( slugify( $( this ).val() ) );
+		}
+	} );
+
+	$( document ).on( 'input', '.fieldforge-layout-name-input', function () {
+		$( this ).data( 'manual', true );
+	} );
+
+	// Add layout row.
+	$( document ).on( 'click', '.fieldforge-add-layout', function () {
+		var $btn       = $( this );
+		var namePrefix = $btn.data( 'name-prefix' );
+		var $list      = $btn.closest( '.fieldforge-layouts-editor' ).find( '.fieldforge-layouts-list' ).first();
+		var index      = $list.find( '.fieldforge-layout-row' ).length;
+		var newPrefix  = namePrefix + '[' + index + ']';
+		var $row       = buildSimpleLayoutRow( newPrefix, index );
+		$list.append( $row );
+		$row.find( '.fieldforge-layout-body' ).slideDown( 150 );
+		$row.find( '.fieldforge-layout-label-input' ).trigger( 'focus' );
+	} );
+
+	function buildSimpleLayoutRow( prefix, index ) {
+		var sfBase = prefix + '[sub_fields]';
+		return $(
+			'<div class="fieldforge-layout-row" data-index="' + index + '">' +
+			'<div class="fieldforge-layout-header">' +
+			'<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>' +
+			'<strong class="ff-layout-label-preview">(new layout)</strong>' +
+			'<code></code>' +
+			'<button type="button" class="button button-link fieldforge-toggle-layout">Edit</button>' +
+			'<button type="button" class="button button-link-delete fieldforge-remove-layout">Delete</button>' +
+			'</div>' +
+			'<div class="fieldforge-layout-body">' +
+			'<table class="form-table">' +
+			'<tr><th>Label</th><td><input type="text" name="' + prefix + '[label]" value="" class="widefat fieldforge-layout-label-input" /></td></tr>' +
+			'<tr><th>Name</th><td><input type="text" name="' + prefix + '[name]" value="" class="widefat fieldforge-layout-name-input" /></td></tr>' +
+			'</table>' +
+			'<div class="fieldforge-sub-fields-editor fieldforge-layout-subfields" data-name-prefix="' + escAttr( sfBase ) + '">' +
+			'<h5>Sub Fields</h5>' +
+			'<div class="fieldforge-sub-fields-list"></div>' +
+			'<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="' + escAttr( sfBase ) + '">+ Add Sub Field</button>' +
+			'</div>' +
+			'</div>' +
+			'</div>'
+		);
+	}
 
 	// -----------------------------------------------------------------------
 	// Repeater — post edit screen
