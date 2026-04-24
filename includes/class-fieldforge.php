@@ -51,6 +51,7 @@ final class FieldForge {
 			new FieldForge_Field_Group_Editor( $this->registry );
 			new FieldForge_Meta_Box_Renderer( $this->registry );
 			new FieldForge_Settings_Page();
+			new FieldForge_ACF_Importer( $this->field_group );
 		}
 
 		$this->registry->register_core_fields();

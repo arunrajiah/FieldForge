@@ -20,7 +20,6 @@ class FieldForge_Field_Group_Editor {
 		add_action( 'add_meta_boxes_' . FieldForge_Field_Group::CPT, array( $this, 'add_meta_boxes' ) );
 		add_action( 'save_post_' . FieldForge_Field_Group::CPT, array( $this, 'save_group' ), 10, 2 );
 		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
-		add_action( 'wp_ajax_fieldforge_import_acf', array( $this, 'ajax_import_acf' ) );
 		add_action( 'admin_menu', array( $this, 'add_tools_menu' ) );
 		add_action( 'wp_ajax_fieldforge_export_group', array( $this, 'ajax_export_group' ) );
 	}
@@ -1109,30 +1108,6 @@ class FieldForge_Field_Group_Editor {
 			?>
 		</div>
 		<?php
-	}
-
-	public function ajax_import_acf(): void {
-		check_ajax_referer( 'fieldforge_admin', 'nonce' );
-		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'fieldforge' ) ), 403 );
-		}
-
-		$ff       = FieldForge::get_instance();
-		$importer = new FieldForge_ACF_Importer( $ff->field_group );
-		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
-		$json   = isset( $_POST['json'] ) ? wp_unslash( $_POST['json'] ) : '';
-		$result = $importer->import( $json );
-
-		if ( is_wp_error( $result ) ) {
-			wp_send_json_error( array( 'message' => $result->get_error_message() ) );
-		}
-		/* translators: %d: number of imported field groups */
-		$msg = _n( '%d field group imported.', '%d field groups imported.', count( $result ), 'fieldforge' );
-		wp_send_json_success(
-			array(
-				'message' => sprintf( $msg, count( $result ) ),
-			)
-		);
 	}
 
 	public function ajax_export_group(): void {
