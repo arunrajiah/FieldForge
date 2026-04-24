@@ -38,4 +38,34 @@ class FieldForge_Field_Number extends FieldForge_Field_Base {
 		}
 		return (string) floatval( $value );
 	}
+
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		if ( '' === $value || null === $value ) {
+			return true;
+		}
+		$num = floatval( $value );
+		$min = $this->field['min'] ?? '';
+		$max = $this->field['max'] ?? '';
+		if ( '' !== $min && $num < floatval( $min ) ) {
+			return sprintf(
+				/* translators: 1: field label, 2: min value */
+				__( '"%1$s" must be at least %2$s.', 'fieldforge' ),
+				$this->field['label'] ?? $this->field['name'],
+				$min
+			);
+		}
+		if ( '' !== $max && $num > floatval( $max ) ) {
+			return sprintf(
+				/* translators: 1: field label, 2: max value */
+				__( '"%1$s" must be no greater than %2$s.', 'fieldforge' ),
+				$this->field['label'] ?? $this->field['name'],
+				$max
+			);
+		}
+		return true;
+	}
 }

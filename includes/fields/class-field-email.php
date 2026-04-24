@@ -28,4 +28,22 @@ class FieldForge_Field_Email extends FieldForge_Field_Base {
 	public function sanitize( $value ): string {
 		return sanitize_email( (string) $value );
 	}
+
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		if ( '' === $value || null === $value ) {
+			return true;
+		}
+		if ( ! is_email( (string) $value ) ) {
+			return sprintf(
+				/* translators: %s: field label */
+				__( '"%s" must be a valid email address.', 'fieldforge' ),
+				$this->field['label'] ?? $this->field['name']
+			);
+		}
+		return true;
+	}
 }

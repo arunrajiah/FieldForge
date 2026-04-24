@@ -28,4 +28,22 @@ class FieldForge_Field_Url extends FieldForge_Field_Base {
 	public function sanitize( $value ): string {
 		return esc_url_raw( (string) $value );
 	}
+
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		if ( '' === $value || null === $value ) {
+			return true;
+		}
+		if ( ! filter_var( (string) $value, FILTER_VALIDATE_URL ) ) {
+			return sprintf(
+				/* translators: %s: field label */
+				__( '"%s" must be a valid URL.', 'fieldforge' ),
+				$this->field['label'] ?? $this->field['name']
+			);
+		}
+		return true;
+	}
 }

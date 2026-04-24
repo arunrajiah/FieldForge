@@ -30,4 +30,21 @@ class FieldForge_Field_Text extends FieldForge_Field_Base {
 	public function sanitize( $value ): string {
 		return sanitize_text_field( (string) $value );
 	}
+
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+		$maxlength = $this->field['maxlength'] ?? '';
+		if ( '' !== $maxlength && strlen( (string) $value ) > (int) $maxlength ) {
+			return sprintf(
+				/* translators: 1: field label, 2: max length */
+				__( '"%1$s" must be no longer than %2$d characters.', 'fieldforge' ),
+				$this->field['label'] ?? $this->field['name'],
+				(int) $maxlength
+			);
+		}
+		return true;
+	}
 }
