@@ -13,6 +13,7 @@ class FieldForge_Meta_Handler {
 
 	public function __construct() {
 		add_action( 'save_post', array( $this, 'save_post' ), 10, 2 );
+		add_action( 'admin_notices', array( $this, 'show_validation_errors' ) );
 	}
 
 	/**
@@ -74,5 +75,36 @@ class FieldForge_Meta_Handler {
 		if ( ! empty( $errors ) ) {
 			set_transient( 'fieldforge_validation_errors_' . $post_id, $errors, 60 );
 		}
+	}
+
+	/**
+	 * Display any queued validation errors as an admin notice.
+	 */
+	public function show_validation_errors(): void {
+		$screen = get_current_screen();
+		if ( ! $screen || ! in_array( $screen->base, array( 'post', 'post-new' ), true ) ) {
+			return;
+		}
+
+		$post_id = (int) ( $_GET['post'] ?? 0 );
+		if ( ! $post_id ) {
+			return;
+		}
+
+		$errors = get_transient( 'fieldforge_validation_errors_' . $post_id );
+		if ( empty( $errors ) ) {
+			return;
+		}
+
+		delete_transient( 'fieldforge_validation_errors_' . $post_id );
+
+		echo '<div class="notice notice-error">';
+		echo '<p><strong>' . esc_html__( 'FieldForge could not save some field values:', 'fieldforge' ) . '</strong></p>';
+		echo '<ul style="list-style:disc;margin-left:1.5em">';
+		foreach ( (array) $errors as $error ) {
+			echo '<li>' . esc_html( (string) $error ) . '</li>';
+		}
+		echo '</ul>';
+		echo '</div>';
 	}
 }
