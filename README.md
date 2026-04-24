@@ -4,7 +4,7 @@
 
 [![CI](https://github.com/arunrajiah/fieldforge/actions/workflows/ci.yml/badge.svg)](https://github.com/arunrajiah/fieldforge/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-0.1.1-blue)](https://github.com/arunrajiah/fieldforge/releases)
-[![License: GPL v2](https://img.shields.io/badge/License-GPL%20v2-blue.svg)](https://www.gnu.org/licenses/gpl-2.0.html)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PHP](https://img.shields.io/badge/PHP-7.4%2B-purple)](https://php.net)
 [![WordPress](https://img.shields.io/badge/WordPress-6.2%2B-blue)](https://wordpress.org)
 
@@ -516,9 +516,64 @@ Issues, feature requests, and roadmap discussion happen in [GitHub Issues](https
 
 ---
 
+## Releases
+
+FieldForge is distributed as a GitHub Release ZIP until the plugin is listed in the WordPress.org directory.
+
+| Version | Date | Download | Notes |
+|---|---|---|---|
+| [0.1.1](https://github.com/arunrajiah/fieldforge/releases/tag/v0.1.1) | 2025 | [fieldforge.zip](https://github.com/arunrajiah/fieldforge/releases/download/v0.1.1/fieldforge.zip) | Bug-fix release — 9 sub-system fixes |
+| [0.1.0](https://github.com/arunrajiah/fieldforge/releases/tag/v0.1.0) | 2025 | [fieldforge.zip](https://github.com/arunrajiah/fieldforge/releases/download/v0.1.0/fieldforge.zip) | Initial public release |
+
+### Installing a release ZIP
+
+1. Go to the [Releases](https://github.com/arunrajiah/fieldforge/releases) page and download `fieldforge.zip` for the version you want.
+2. In WordPress: **Plugins → Add New → Upload Plugin → Choose File**.
+3. Select the downloaded zip and click **Install Now**, then **Activate**.
+
+### Versioning
+
+FieldForge follows [Semantic Versioning](https://semver.org/):
+
+- **PATCH** (`0.1.x`) — backwards-compatible bug fixes.
+- **MINOR** (`0.x.0`) — new features, backwards-compatible.
+- **MAJOR** (`x.0.0`) — breaking changes (none yet planned).
+
+Release ZIPs are built automatically by [`.github/workflows/release.yml`](.github/workflows/release.yml) when a version tag (`v*.*.*`) is pushed to `main`. The ZIP includes all plugin files wrapped in a `fieldforge/` directory, ready for WordPress upload.
+
+---
+
 ## License
 
-GPL-2.0-or-later — see [LICENSE](LICENSE).
+FieldForge is released under the **MIT License**.
+
+
+
+```
+MIT License
+
+Copyright (c) 2025 FieldForge Contributors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+```
+
+Full license text: [LICENSE](LICENSE) · [opensource.org/licenses/MIT](https://opensource.org/licenses/MIT)
+
+This means you are free to use, modify, and redistribute FieldForge in any project — including commercial and closed-source projects — with no copyleft requirements. No CLA required to contribute.
+
+---
 
 Built and maintained by [FieldForge Contributors](https://github.com/arunrajiah/fieldforge/graphs/contributors).  
 Sponsor the project: [❤ GitHub Sponsors](https://github.com/sponsors/arunrajiah)
