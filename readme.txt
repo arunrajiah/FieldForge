@@ -5,7 +5,7 @@ Tags: custom fields, meta box, repeater, flexible content, field groups
 Requires at least: 6.2
 Tested up to: 6.8
 Requires PHP: 7.4
-Stable tag: 0.1.0
+Stable tag: 0.1.1
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -19,7 +19,7 @@ Every feature is built and maintained in the open. No freemium gates, no SaaS ba
 
 = Key Features =
 
-* **22 field types** — text, textarea, number, select, checkbox, radio, true/false, date picker, color picker, URL, email, password, file, image, gallery, post object, taxonomy, user, link, WYSIWYG, message, and **Repeater**.
+* **26 field types** — text, textarea, number, select, checkbox, radio, true/false, date picker, time picker, color picker, URL, email, password, file, image, gallery, post object, taxonomy, user, link, WYSIWYG, message, tab, accordion, **Repeater**, and **Flexible Content**.
 * **Native Repeater field** — supports drag-to-reorder rows, configurable sub-fields, and min/max row limits.
 * **Flexible Content field** — multiple layouts each with their own sub-fields, drag-to-reorder blocks.
 * **Options Pages** — register custom admin pages and store global settings outside of post meta.
@@ -68,9 +68,9 @@ See `docs/acf-compatibility.md` in the plugin folder for a full field type mappi
 
 = Roadmap =
 
-* v0.2 — Gutenberg block fields
+* v0.2 — Gutenberg / block editor field meta boxes
 * v0.3 — Clone field
-* v0.4 — Improved conditional logic UI
+* v0.4 — Improved conditional logic UI builder
 
 == Installation ==
 
@@ -95,7 +95,7 @@ See `docs/acf-compatibility.md` in the plugin folder for a full field type mappi
 
 = What field types and features are included? =
 
-FieldForge includes all 22 core field types, a native Repeater field, Flexible Content, Options Pages, conditional logic, a REST API, and an ACF JSON importer. The Clone field and Gutenberg block fields are on the roadmap.
+FieldForge includes 26 field types (text, textarea, number, email, URL, password, select, checkbox, radio, true/false, date picker, time picker, color picker, image, file, gallery, post object, taxonomy, user, link, WYSIWYG, message, tab, accordion, Repeater, and Flexible Content), plus Options Pages, conditional logic, a REST API, and an ACF JSON importer. The Clone field and Gutenberg block fields are on the roadmap.
 
 = Can I migrate my existing ACF data? =
 
@@ -114,6 +114,17 @@ Use `fieldforge_get( 'field_name' )` to return a value, or `fieldforge_the( 'fie
 The two plugins do not conflict — they register different function names, CPT slugs, and meta keys. You can run both simultaneously during a migration. Once you have imported your field groups and verified everything works in FieldForge, deactivate ACF.
 
 == Changelog ==
+
+= 0.1.1 =
+* Fixed: sub-fields inside Repeater and Flexible Content rows rendering blank.
+* Fixed: required True/False field unsaveable when set to "No".
+* Fixed: message field always rendering empty (key mismatch).
+* Fixed: Flexible Content missing from field type selector in the group editor.
+* Fixed: ACF Importer not instantiated from plugin bootstrap.
+* Fixed: Settings page options (local JSON path, debug log) not consumed by subsystems.
+* Fixed: error_log() firing unconditionally in production.
+* Fixed: REST API exposing field groups with no location rules.
+* Fixed: duplicate conditional-logic script emission.
 
 = 0.1.0 =
 * Initial public release.
