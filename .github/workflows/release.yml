@@ -40,7 +40,6 @@ jobs:
             assets/ \
             languages/ \
             readme.txt \
-            LICENSE \
             CHANGELOG.md \
             -x "*/.*" \
             -x "*/node_modules/*" \

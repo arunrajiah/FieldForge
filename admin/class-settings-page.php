@@ -45,7 +45,7 @@ class FieldForge_Settings_Page {
 		);
 
 		add_settings_section( 'fieldforge_local_json', __( 'Local JSON', 'fieldforge' ), '__return_false', 'fieldforge-settings' );
-		add_settings_section( 'fieldforge_debug',      __( 'Debug',      'fieldforge' ), '__return_false', 'fieldforge-settings' );
+		add_settings_section( 'fieldforge_debug', __( 'Debug', 'fieldforge' ), '__return_false', 'fieldforge-settings' );
 
 		add_settings_field(
 			'local_json_path',

@@ -86,7 +86,8 @@ class FieldForge_Meta_Handler {
 			return;
 		}
 
-		$post_id = (int) ( $_GET['post'] ?? 0 );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$post_id = isset( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : 0;
 		if ( ! $post_id ) {
 			return;
 		}

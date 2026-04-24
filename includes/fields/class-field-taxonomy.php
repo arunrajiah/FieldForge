@@ -70,9 +70,9 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 		if ( true !== $parent ) {
 			return $parent;
 		}
-		$ids = is_array( $value ) ? $value : ( $value !== '' ? array( $value ) : array() );
+		$ids = is_array( $value ) ? $value : ( '' !== $value ? array( $value ) : array() );
 		foreach ( $ids as $id ) {
-			if ( $id !== '' && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
+			if ( '' !== $id && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
 				return sprintf(
 					/* translators: %s: field label */
 					__( '"%s" contains one or more invalid term IDs.', 'fieldforge' ),
@@ -97,22 +97,18 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 				return array_values( array_filter( array_map( 'get_term', $ids ) ) );
 			}
 			if ( 'name' === $format ) {
-				return array_values( array_filter( array_map(
-					function ( $id ) {
-						$t = get_term( $id );
-						return $t && ! is_wp_error( $t ) ? $t->name : null;
-					},
-					$ids
-				) ) );
+				$get_name = function ( $id ) {
+					$t = get_term( $id );
+					return $t && ! is_wp_error( $t ) ? $t->name : null;
+				};
+				return array_values( array_filter( array_map( $get_name, $ids ) ) );
 			}
 			if ( 'slug' === $format ) {
-				return array_values( array_filter( array_map(
-					function ( $id ) {
-						$t = get_term( $id );
-						return $t && ! is_wp_error( $t ) ? $t->slug : null;
-					},
-					$ids
-				) ) );
+				$get_slug = function ( $id ) {
+					$t = get_term( $id );
+					return $t && ! is_wp_error( $t ) ? $t->slug : null;
+				};
+				return array_values( array_filter( array_map( $get_slug, $ids ) ) );
 			}
 			return array_values( $ids );
 		}

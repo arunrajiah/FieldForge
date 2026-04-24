@@ -22,7 +22,7 @@ class FieldForge_Field_Accordion extends FieldForge_Field_Base {
 
 		echo '<div class="fieldforge-field fieldforge-field--accordion">';
 		echo '<button type="button" class="fieldforge-accordion-toggle" aria-expanded="' . esc_attr( $expanded ) . '">';
-		echo '<span class="fieldforge-accordion-label">' . $label . '</span>';
+		echo '<span class="fieldforge-accordion-label">' . esc_html( $this->field['label'] ?? __( 'Section', 'fieldforge' ) ) . '</span>';
 		echo '<span class="dashicons ' . esc_attr( $icon ) . ' fieldforge-accordion-icon"></span>';
 		echo '</button>';
 		echo '</div>';

@@ -102,7 +102,8 @@ class FieldForge_Field_Renderer {
 		);
 		// Build conditional logic data for the current post's field groups.
 		$cl_fields = array();
-		$post_id   = (int) ( $_GET['post'] ?? 0 ); // phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized
+		$post_id = isset( $_GET['post'] ) ? (int) wp_unslash( $_GET['post'] ) : 0;
 		if ( $post_id ) {
 			$post   = get_post( $post_id );
 			$screen = get_current_screen();

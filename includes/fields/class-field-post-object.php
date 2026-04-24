@@ -85,9 +85,9 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 		if ( true !== $parent ) {
 			return $parent;
 		}
-		$ids = is_array( $value ) ? $value : ( $value !== '' ? array( $value ) : array() );
+		$ids = is_array( $value ) ? $value : ( '' !== $value ? array( $value ) : array() );
 		foreach ( $ids as $id ) {
-			if ( $id !== '' && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
+			if ( '' !== $id && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
 				return sprintf(
 					/* translators: %s: field label */
 					__( '"%s" contains one or more invalid post IDs.', 'fieldforge' ),

@@ -1242,7 +1242,13 @@ class FieldForge_Field_Group_Editor {
 				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
 
 			case 'page_parent':
-				$pages = get_posts( array( 'post_type' => 'page', 'post_status' => 'any', 'numberposts' => 200 ) );
+				$pages = get_posts(
+					array(
+						'post_type'   => 'page',
+						'post_status' => 'any',
+						'numberposts' => 200,
+					)
+				);
 				$opts  = '<option value="0"' . $sel( '0' ) . '>' . esc_html__( '— No Parent —', 'fieldforge' ) . '</option>';
 				foreach ( $pages as $page ) {
 					$opts .= '<option value="' . esc_attr( $page->ID ) . '"' . $sel( (string) $page->ID ) . '>' . esc_html( $page->post_title ) . '</option>';

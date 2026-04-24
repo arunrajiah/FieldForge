@@ -84,9 +84,9 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 		if ( true !== $parent ) {
 			return $parent;
 		}
-		$ids = is_array( $value ) ? $value : ( $value !== '' ? array( $value ) : array() );
+		$ids = is_array( $value ) ? $value : ( '' !== $value ? array( $value ) : array() );
 		foreach ( $ids as $id ) {
-			if ( $id !== '' && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
+			if ( '' !== $id && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
 				return sprintf(
 					/* translators: %s: field label */
 					__( '"%s" contains one or more invalid user IDs.', 'fieldforge' ),
@@ -121,7 +121,8 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 			return 'object' === $format ? null : ( 'array' === $format ? array() : 0 );
 		}
 		if ( 'object' === $format ) {
-			return get_userdata( $id ) ?: null;
+			$user = get_userdata( $id );
+			return $user ? $user : null;
 		}
 		if ( 'array' === $format ) {
 			return $this->user_to_array( $id );
