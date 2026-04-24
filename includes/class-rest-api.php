@@ -184,10 +184,45 @@ class FieldForge_REST_API {
 			return array();
 		}
 
-		$ff       = FieldForge::get_instance();
-		$groups   = $ff->field_group->get_all_groups();
-		$registry = $ff->registry;
-		$values   = array();
+		$ff         = FieldForge::get_instance();
+		$all_groups = $ff->field_group->get_all_groups();
+		$registry   = $ff->registry;
+		$values     = array();
+
+		// Filter groups to those matching this post's location rules.
+		$groups = array_filter(
+			$all_groups,
+			static function ( array $group ) use ( $post ) {
+				$location = $group['location'] ?? array();
+				if ( empty( $location ) ) {
+					return true; // No rules = show everywhere.
+				}
+				// OR groups: any group matching means visible.
+				foreach ( $location as $or_group ) {
+					$and_match = true;
+					foreach ( (array) $or_group as $rule ) {
+						$param    = $rule['param'] ?? '';
+						$operator = $rule['operator'] ?? '==';
+						$value    = $rule['value'] ?? '';
+						$actual   = '';
+						if ( 'post_type' === $param ) {
+							$actual = $post->post_type;
+						} elseif ( 'post_status' === $param ) {
+							$actual = $post->post_status;
+						}
+						$match = ( '==' === $operator ) ? ( $actual === $value ) : ( $actual !== $value );
+						if ( ! $match ) {
+							$and_match = false;
+							break;
+						}
+					}
+					if ( $and_match ) {
+						return true;
+					}
+				}
+				return false;
+			}
+		);
 
 		foreach ( $groups as $group ) {
 			foreach ( $group['fields'] as $field_config ) {
