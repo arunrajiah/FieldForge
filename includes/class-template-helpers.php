@@ -175,11 +175,21 @@ function fieldforge_find_field_config( string $field_name, int $post_id ): ?arra
 			if ( ( $field_config['name'] ?? '' ) === $field_name ) {
 				return $field_config;
 			}
-			// Check sub-fields for nested look-ups.
+			// Check repeater sub-fields.
 			if ( 'repeater' === ( $field_config['type'] ?? '' ) && ! empty( $field_config['sub_fields'] ) ) {
 				foreach ( $field_config['sub_fields'] as $sub ) {
 					if ( ( $sub['name'] ?? '' ) === $field_name ) {
 						return $sub;
+					}
+				}
+			}
+			// Check flexible_content layout sub-fields.
+			if ( 'flexible_content' === ( $field_config['type'] ?? '' ) && ! empty( $field_config['layouts'] ) ) {
+				foreach ( $field_config['layouts'] as $layout ) {
+					foreach ( $layout['sub_fields'] ?? array() as $sub ) {
+						if ( ( $sub['name'] ?? '' ) === $field_name ) {
+							return $sub;
+						}
 					}
 				}
 			}

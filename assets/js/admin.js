@@ -37,7 +37,7 @@
 			id: 'content',
 			label: 'Content',
 			icon: 'dashicons-format-aside',
-			types: [ 'date_picker', 'time_picker', 'color_picker', 'message' ]
+			types: [ 'date_picker', 'time_picker', 'color_picker', 'message', 'tab', 'accordion' ]
 		},
 		{
 			id: 'layout',
@@ -70,6 +70,8 @@
 		time_picker:      'dashicons-clock',
 		color_picker:     'dashicons-art',
 		message:          'dashicons-info',
+		tab:              'dashicons-category',
+		accordion:        'dashicons-arrow-down-alt2',
 		repeater:         'dashicons-editor-table',
 		flexible_content: 'dashicons-layout'
 	};
@@ -791,6 +793,7 @@
 		$rows.append( $row );
 		$row.hide().slideDown( 180 );
 		initMediaButtons( $row );
+		initAllPickers( $row );
 	} );
 
 	$( document ).on( 'click', '.fieldforge-repeater-row-toggle', function () {
@@ -879,8 +882,28 @@
 		switch ( type ) {
 			case 'textarea':
 				return $( '<textarea ' + attrs + ' class="widefat" rows="3"></textarea>' );
+			case 'wysiwyg':
+				return $( '<textarea ' + attrs + ' class="widefat fieldforge-wysiwyg-sub" rows="6"></textarea>' );
 			case 'true_false':
 				return $( '<label class="ff-toggle-label"><input type="hidden" name="' + escAttr( fieldName ) + '" value="0" /><input type="checkbox" ' + attrs + ' value="1" /><span class="ff-toggle-track"></span> ' + escAttr( sub.label || '' ) + '</label>' );
+			case 'checkbox': {
+				var $cbWrap = $( '<div class="fieldforge-checkbox-sub"></div>' );
+				$.each( sub.choices || {}, function ( val, lbl ) {
+					$cbWrap.append( $( '<label></label>' ).append(
+						$( '<input type="checkbox" class="widefat" />' ).attr( 'name', fieldName + '[]' ).val( val )
+					).append( ' ' + escAttr( lbl ) ) );
+				} );
+				return $cbWrap;
+			}
+			case 'radio': {
+				var $rdWrap = $( '<div class="fieldforge-radio-sub"></div>' );
+				$.each( sub.choices || {}, function ( val, lbl ) {
+					$rdWrap.append( $( '<label></label>' ).append(
+						$( '<input type="radio" />' ).attr( 'name', fieldName ).val( val )
+					).append( ' ' + escAttr( lbl ) ) );
+				} );
+				return $rdWrap;
+			}
 			case 'select': {
 				var $sel = $( '<select ' + attrs + ' class="widefat"></select>' );
 				$.each( sub.choices || {}, function ( val, lbl ) {
@@ -894,6 +917,43 @@
 				return $( '<input type="email" ' + attrs + ' class="widefat" value="" />' );
 			case 'url':
 				return $( '<input type="url" ' + attrs + ' class="widefat" value="" />' );
+			case 'password':
+				return $( '<input type="password" ' + attrs + ' class="widefat" value="" />' );
+			case 'color_picker':
+				return $( '<input type="color" ' + attrs + ' class="fieldforge-color-input" value="#000000" />' );
+			case 'date_picker':
+				return $( '<input type="date" ' + attrs + ' class="widefat" value="" />' );
+			case 'time_picker':
+				return $( '<input type="time" ' + attrs + ' class="widefat" value="" />' );
+			case 'image': {
+				var $imgWrap = $( '<div class="fieldforge-image-field fieldforge-image-field--sub"></div>' );
+				$imgWrap.append( $( '<input type="hidden" class="fieldforge-image-id" />' ).attr( 'name', fieldName ) );
+				$imgWrap.append( '<img class="fieldforge-image-preview" style="display:none;max-width:80px;height:auto" alt="" />' );
+				$imgWrap.append( ' <button type="button" class="button fieldforge-image-select">' + ( i18n.selectImage || 'Select Image' ) + '</button>' );
+				$imgWrap.append( ' <button type="button" class="button-link-delete fieldforge-image-remove" style="display:none">Remove</button>' );
+				return $imgWrap;
+			}
+			case 'file': {
+				var $fileWrap = $( '<div class="fieldforge-file-field fieldforge-file-field--sub"></div>' );
+				$fileWrap.append( $( '<input type="hidden" class="fieldforge-file-id" />' ).attr( 'name', fieldName ) );
+				$fileWrap.append( '<span class="fieldforge-file-info" style="display:none"></span>' );
+				$fileWrap.append( ' <button type="button" class="button fieldforge-file-select">' + ( i18n.selectFile || 'Select File' ) + '</button>' );
+				$fileWrap.append( ' <button type="button" class="button-link-delete fieldforge-file-remove" style="display:none">Remove</button>' );
+				return $fileWrap;
+			}
+			case 'post_object':
+			case 'user':
+			case 'taxonomy': {
+				var pickerType = type === 'user' ? 'user' : ( type === 'taxonomy' ? 'taxonomy' : 'post' );
+				var $picker = $(
+					'<div class="fieldforge-picker" data-type="' + pickerType + '" data-multiple="0" data-field-name="' + escAttr( fieldName ) + '">' +
+					'<input type="text" class="fieldforge-picker-search widefat" placeholder="Search…" autocomplete="off" />' +
+					'<div class="fieldforge-picker-dropdown" style="display:none"></div>' +
+					'<div class="fieldforge-picker-tags"><input type="hidden" name="' + escAttr( fieldName ) + '" value="" /></div>' +
+					'</div>'
+				);
+				return $picker;
+			}
 			default:
 				return $( '<input type="text" ' + attrs + ' class="widefat" value="" />' );
 		}
@@ -916,7 +976,7 @@
 	// Flexible Content — layout picker on post edit screen
 	// -----------------------------------------------------------------------
 
-	$( document ).on( 'click', '.fieldforge-fc-add-layout', function () {
+	$( document ).on( 'click', '.fieldforge-fc-add-btn', function () {
 		var $fc      = $( this ).closest( '.fieldforge-flexible-content' );
 		var $picker  = $fc.find( '.fieldforge-fc-layout-picker' );
 
@@ -924,14 +984,14 @@
 		$picker.toggleClass( 'is-open' );
 	} );
 
-	$( document ).on( 'click', '.fieldforge-fc-layout-option', function () {
+	$( document ).on( 'click', '.fieldforge-fc-pick-layout', function () {
 		var $fc        = $( this ).closest( '.fieldforge-flexible-content' );
 		var $rows      = $fc.find( '.fieldforge-fc-rows' );
 		var name       = $fc.data( 'name' );
 		var max        = parseInt( $fc.data( 'max' ), 10 ) || 0;
 		var rowCount   = $rows.find( '.fieldforge-fc-row' ).length;
 		var layoutName = $( this ).data( 'layout' );
-		var $tmplEl    = $fc.find( '.fieldforge-fc-template[data-layout="' + layoutName + '"]' );
+		var $tmplEl    = $fc.find( '.fieldforge-fc-layouts-template' );
 		var subFields  = [];
 
 		$fc.find( '.fieldforge-fc-layout-picker' ).removeClass( 'is-open' );
@@ -942,7 +1002,14 @@
 		}
 
 		try {
-			subFields = JSON.parse( $tmplEl.text() );
+			var allLayouts = JSON.parse( $tmplEl.text() );
+			var matched    = null;
+			allLayouts.forEach( function ( l ) {
+				if ( l.name === layoutName ) {
+					matched = l;
+				}
+			} );
+			subFields = matched ? ( matched.sub_fields || [] ) : [];
 		} catch ( e ) {
 			return;
 		}
@@ -953,6 +1020,7 @@
 		$rows.append( $row );
 		$row.hide().slideDown( 180 );
 		initMediaButtons( $row );
+		initAllPickers( $row );
 		reindexFcRows( $fc );
 	} );
 
@@ -1038,7 +1106,7 @@
 
 	// Close layout picker when clicking outside.
 	$( document ).on( 'click', function ( e ) {
-		if ( ! $( e.target ).closest( '.fieldforge-fc-add-layout, .fieldforge-fc-layout-picker' ).length ) {
+		if ( ! $( e.target ).closest( '.fieldforge-fc-add-btn, .fieldforge-fc-layout-picker' ).length ) {
 			$( '.fieldforge-fc-layout-picker' ).removeClass( 'is-open' );
 		}
 	} );

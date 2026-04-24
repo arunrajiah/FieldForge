@@ -38,6 +38,7 @@ class FieldForge_Meta_Handler {
 		$ff       = FieldForge::get_instance();
 		$groups   = $ff->field_group->get_all_groups();
 		$registry = $ff->registry;
+		$errors   = array();
 
 		foreach ( $groups as $group ) {
 			$nonce_key = 'fieldforge_nonce_' . $group['ID'];
@@ -47,6 +48,10 @@ class FieldForge_Meta_Handler {
 			}
 
 			foreach ( $group['fields'] as $field_config ) {
+				if ( ! FieldForge_Conditional_Logic::field_is_visible( $field_config, $post_id ) ) {
+					continue;
+				}
+
 				$field = $registry->make_field( $field_config );
 				if ( ! $field ) {
 					continue;
@@ -56,8 +61,18 @@ class FieldForge_Meta_Handler {
 				// phpcs:ignore WordPress.Security.NonceVerification.Missing,WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- nonce verified above; value passed through field sanitize().
 				$value = isset( $_POST[ $name ] ) ? $field->sanitize( wp_unslash( $_POST[ $name ] ) ) : $field->get_empty_value();
 
+				$result = $field->validate( $value );
+				if ( true !== $result ) {
+					$errors[] = $result;
+					continue;
+				}
+
 				$field->save( $post_id, $value );
 			}
+		}
+
+		if ( ! empty( $errors ) ) {
+			set_transient( 'fieldforge_validation_errors_' . $post_id, $errors, 60 );
 		}
 	}
 }

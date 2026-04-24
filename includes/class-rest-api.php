@@ -25,6 +25,121 @@ class FieldForge_REST_API {
 
 	public function __construct() {
 		add_action( 'rest_api_init', array( $this, 'register_fields' ) );
+		add_action( 'rest_api_init', array( $this, 'register_options_routes' ) );
+	}
+
+	/**
+	 * Register REST routes for options pages under the fieldforge/v1 namespace.
+	 *
+	 * GET  /fieldforge/v1/options/{page_slug}       — read all field values
+	 * POST /fieldforge/v1/options/{page_slug}       — write field values (JSON body)
+	 */
+	public function register_options_routes(): void {
+		register_rest_route(
+			'fieldforge/v1',
+			'/options/(?P<page_slug>[a-z0-9_-]+)',
+			array(
+				array(
+					'methods'             => WP_REST_Server::READABLE,
+					'callback'            => array( $this, 'get_options_page_fields' ),
+					'permission_callback' => '__return_true',
+					'args'                => array(
+						'page_slug' => array(
+							'sanitize_callback' => 'sanitize_key',
+						),
+					),
+				),
+				array(
+					'methods'             => WP_REST_Server::CREATABLE,
+					'callback'            => array( $this, 'update_options_page_fields' ),
+					'permission_callback' => function () {
+						return current_user_can( 'manage_options' );
+					},
+					'args'                => array(
+						'page_slug' => array(
+							'sanitize_callback' => 'sanitize_key',
+						),
+					),
+				),
+			)
+		);
+	}
+
+	/**
+	 * REST callback: return all field values for a registered options page.
+	 *
+	 * @param WP_REST_Request $request
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function get_options_page_fields( WP_REST_Request $request ) {
+		$page_slug = $request->get_param( 'page_slug' );
+		$page      = FieldForge_Options_Page::get_page( $page_slug );
+		if ( ! $page ) {
+			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'fieldforge' ), array( 'status' => 404 ) );
+		}
+
+		$ff       = FieldForge::get_instance();
+		$registry = $ff->registry;
+		$groups   = FieldForge_Options_Page::get_groups_for_page( $page_slug );
+		$values   = array();
+
+		foreach ( $groups as $group ) {
+			foreach ( $group['fields'] as $field_config ) {
+				$name = $field_config['name'] ?? '';
+				if ( ! $name ) {
+					continue;
+				}
+				if ( ! apply_filters( 'fieldforge/rest/expose_field', true, $field_config, null ) ) {
+					continue;
+				}
+				$field = $registry->make_field( $field_config );
+				$raw   = FieldForge_Options_Page::get_option( $page_slug, $name );
+				$values[ $name ] = $field ? $field->format_value( $raw, 0 ) : $raw;
+			}
+		}
+
+		return rest_ensure_response( $values );
+	}
+
+	/**
+	 * REST callback: write field values to a registered options page.
+	 *
+	 * @param WP_REST_Request $request
+	 * @return WP_REST_Response|WP_Error
+	 */
+	public function update_options_page_fields( WP_REST_Request $request ) {
+		$page_slug = $request->get_param( 'page_slug' );
+		$page      = FieldForge_Options_Page::get_page( $page_slug );
+		if ( ! $page ) {
+			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'fieldforge' ), array( 'status' => 404 ) );
+		}
+
+		$body = $request->get_json_params();
+		if ( ! is_array( $body ) ) {
+			return new WP_Error( 'fieldforge_options_invalid', __( 'Request body must be a JSON object.', 'fieldforge' ), array( 'status' => 400 ) );
+		}
+
+		$ff       = FieldForge::get_instance();
+		$registry = $ff->registry;
+		$groups   = FieldForge_Options_Page::get_groups_for_page( $page_slug );
+
+		foreach ( $groups as $group ) {
+			foreach ( $group['fields'] as $field_config ) {
+				$name = $field_config['name'] ?? '';
+				if ( ! $name || ! array_key_exists( $name, $body ) ) {
+					continue;
+				}
+				$field = $registry->make_field( $field_config );
+				if ( ! $field ) {
+					continue;
+				}
+				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized by field->sanitize()
+				$clean = $field->sanitize( $body[ $name ] );
+				FieldForge_Options_Page::update_option( $page_slug, $name, $clean, $page['autoload'] ?? false );
+			}
+		}
+
+		return rest_ensure_response( array( 'updated' => true ) );
 	}
 
 	/**
@@ -135,12 +250,19 @@ class FieldForge_REST_API {
 				if ( ! $name || ! array_key_exists( $name, $value ) ) {
 					continue;
 				}
+				if ( ! FieldForge_Conditional_Logic::field_is_visible( $field_config, $post->ID ) ) {
+					continue;
+				}
 				$field = $registry->make_field( $field_config );
 				if ( ! $field ) {
 					continue;
 				}
 				// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized -- sanitized by field->sanitize()
-				$clean = $field->sanitize( $value[ $name ] );
+				$clean  = $field->sanitize( $value[ $name ] );
+				$valid  = $field->validate( $clean );
+				if ( true !== $valid ) {
+					return new WP_Error( 'fieldforge_rest_validation', $valid, array( 'status' => 422 ) );
+				}
 				$field->save( $post->ID, $clean );
 			}
 		}

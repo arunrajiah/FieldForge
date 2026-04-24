@@ -308,7 +308,7 @@ class FieldForge_Options_Page {
 	 * @param string $page_slug
 	 * @return array[]
 	 */
-	private static function get_groups_for_page( string $page_slug ): array {
+	public static function get_groups_for_page( string $page_slug ): array {
 		$ff     = FieldForge::get_instance();
 		$all    = $ff->field_group->get_all_groups();
 		$result = array();

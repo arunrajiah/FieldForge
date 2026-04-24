@@ -91,6 +91,27 @@ abstract class FieldForge_Field_Base {
 		return $value;
 	}
 
+	/**
+	 * Validate a sanitized value before saving.
+	 *
+	 * Return true if valid, or a non-empty error string if invalid.
+	 * The default implementation enforces the 'required' constraint only.
+	 * Subclasses may override to add type-specific validation.
+	 *
+	 * @param mixed $value  Already-sanitized value.
+	 * @return true|string  True on success; error message string on failure.
+	 */
+	public function validate( $value ) {
+		if ( ! empty( $this->field['required'] ) ) {
+			$empty = ( '' === $value || array() === $value || null === $value || 0 === $value || '0' === (string) $value );
+			if ( $empty ) {
+				/* translators: %s: field label */
+				return sprintf( __( '"%s" is required.', 'fieldforge' ), $this->field['label'] ?? $this->field['name'] );
+			}
+		}
+		return true;
+	}
+
 	// ------------------------------------------------------------------
 	// Shared render helpers
 	// ------------------------------------------------------------------

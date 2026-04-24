@@ -50,6 +50,7 @@ final class FieldForge {
 		if ( is_admin() ) {
 			new FieldForge_Field_Group_Editor( $this->registry );
 			new FieldForge_Meta_Box_Renderer( $this->registry );
+			new FieldForge_Settings_Page();
 		}
 
 		$this->registry->register_core_fields();

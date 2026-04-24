@@ -215,6 +215,36 @@ class FieldForge_Field_Group_Editor {
 				<?php
 				break;
 
+			case 'wysiwyg':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Tabs', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[tabs]">
+								<option value="all"<?php selected( $field['tabs'] ?? 'all', 'all' ); ?>><?php esc_html_e( 'Visual & Text', 'fieldforge' ); ?></option>
+								<option value="visual"<?php selected( $field['tabs'] ?? 'all', 'visual' ); ?>><?php esc_html_e( 'Visual Only', 'fieldforge' ); ?></option>
+								<option value="text"<?php selected( $field['tabs'] ?? 'all', 'text' ); ?>><?php esc_html_e( 'Text Only', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Toolbar', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[toolbar]">
+								<option value="full"<?php selected( $field['toolbar'] ?? 'full', 'full' ); ?>><?php esc_html_e( 'Full', 'fieldforge' ); ?></option>
+								<option value="basic"<?php selected( $field['toolbar'] ?? 'full', 'basic' ); ?>><?php esc_html_e( 'Basic', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Media Upload', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[media_upload]" value="1"<?php checked( $field['media_upload'] ?? true ); ?> /></td>
+					</tr>
+				</table>
+				<?php
+				break;
+
 			case 'post_object':
 				?>
 				<table class="form-table">
@@ -521,6 +551,12 @@ class FieldForge_Field_Group_Editor {
 				$field['min']  = '' !== ( $f['min'] ?? '' ) ? (float) $f['min'] : '';
 				$field['max']  = '' !== ( $f['max'] ?? '' ) ? (float) $f['max'] : '';
 				$field['step'] = '' !== ( $f['step'] ?? '' ) ? (float) $f['step'] : '';
+			}
+
+			if ( 'wysiwyg' === $type ) {
+				$field['tabs']         = sanitize_text_field( $f['tabs'] ?? 'all' );
+				$field['toolbar']      = sanitize_text_field( $f['toolbar'] ?? 'full' );
+				$field['media_upload'] = ! empty( $f['media_upload'] ) ? 1 : 0;
 			}
 
 			if ( in_array( $type, array( 'image', 'file', 'gallery', 'post_object', 'taxonomy', 'user' ), true ) ) {
@@ -853,6 +889,8 @@ class FieldForge_Field_Group_Editor {
 			'link'         => __( 'Link', 'fieldforge' ),
 			'wysiwyg'      => __( 'WYSIWYG', 'fieldforge' ),
 			'message'      => __( 'Message', 'fieldforge' ),
+			'tab'          => __( 'Tab', 'fieldforge' ),
+			'accordion'    => __( 'Accordion', 'fieldforge' ),
 			'repeater'     => __( 'Repeater', 'fieldforge' ),
 		);
 	}

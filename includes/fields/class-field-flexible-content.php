@@ -209,4 +209,36 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 	public function get_empty_value(): array {
 		return array();
 	}
+
+	/**
+	 * Format all sub-field values in each row, resolving the layout's sub-fields.
+	 *
+	 * @param mixed $value   Raw rows array from load().
+	 * @param int   $post_id
+	 * @return array
+	 */
+	public function format_value( $value, int $post_id ): array {
+		if ( ! is_array( $value ) ) {
+			return array();
+		}
+		$registry = FieldForge::get_instance()->registry;
+		$rows     = array();
+
+		foreach ( $value as $row ) {
+			$layout_name = $row['acf_fc_layout'] ?? '';
+			$layout      = $this->get_layout( $layout_name );
+			$formatted   = array( 'acf_fc_layout' => $layout_name );
+
+			if ( $layout ) {
+				foreach ( $layout['sub_fields'] ?? array() as $sub_config ) {
+					$sub_name  = $sub_config['name'] ?? '';
+					$raw       = $row[ $sub_name ] ?? null;
+					$sub_field = $registry->make_field( $sub_config );
+					$formatted[ $sub_name ] = $sub_field ? $sub_field->format_value( $raw, $post_id ) : $raw;
+				}
+			}
+			$rows[] = $formatted;
+		}
+		return $rows;
+	}
 }

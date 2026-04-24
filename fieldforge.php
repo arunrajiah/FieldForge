@@ -43,6 +43,8 @@ require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-date.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-time.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-color.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-message.php';
+require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-tab.php';
+require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-accordion.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-image.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-file.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/fields/class-field-gallery.php';
@@ -69,6 +71,7 @@ require_once FIELDFORGE_PLUGIN_DIR . 'includes/class-conditional-logic.php';
 // --- Admin UI ---
 require_once FIELDFORGE_PLUGIN_DIR . 'admin/class-meta-box-renderer.php';
 require_once FIELDFORGE_PLUGIN_DIR . 'admin/class-field-group-editor.php';
+require_once FIELDFORGE_PLUGIN_DIR . 'admin/class-settings-page.php';
 
 // --- Main singleton (must be last — depends on everything above) ---
 require_once FIELDFORGE_PLUGIN_DIR . 'includes/class-fieldforge.php';

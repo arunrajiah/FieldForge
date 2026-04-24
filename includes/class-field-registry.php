@@ -63,6 +63,8 @@ class FieldForge_Field_Registry {
 			'link'             => 'FieldForge_Field_Link',
 			'wysiwyg'          => 'FieldForge_Field_Wysiwyg',
 			'message'          => 'FieldForge_Field_Message',
+			'tab'              => 'FieldForge_Field_Tab',
+			'accordion'        => 'FieldForge_Field_Accordion',
 			'repeater'         => 'FieldForge_Field_Repeater',
 			'flexible_content' => 'FieldForge_Field_Flexible_Content',
 		);

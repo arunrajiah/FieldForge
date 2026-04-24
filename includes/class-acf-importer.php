@@ -45,10 +45,11 @@ class FieldForge_ACF_Importer {
 		'time_picker'      => 'time_picker',
 		'color_picker'     => 'color_picker',
 		'message'          => 'message',
-		'accordion'        => 'message',
-		'tab'              => 'message',
+		'accordion'        => 'accordion',
+		'tab'              => 'tab',
 		'group'            => 'repeater',
 		'repeater'         => 'repeater',
+		'flexible_content' => 'flexible_content',
 		'clone'            => 'text',
 	);
 
@@ -213,9 +214,38 @@ class FieldForge_ACF_Importer {
 				$field['max']  = '' !== ( $acf['max'] ?? '' ) ? (float) $acf['max'] : '';
 				$field['step'] = '' !== ( $acf['step'] ?? '' ) ? (float) $acf['step'] : '';
 				break;
+
+			case 'flexible_content':
+				$field['layouts']      = $this->convert_layouts( $acf['layouts'] ?? array() );
+				$field['min']          = (int) ( $acf['min'] ?? 0 );
+				$field['max']          = (int) ( $acf['max'] ?? 0 );
+				$field['button_label'] = sanitize_text_field( $acf['button_label'] ?? __( 'Add Layout', 'fieldforge' ) );
+				break;
 		}
 
 		return $field;
+	}
+
+	/**
+	 * Convert an array of ACF flexible content layout definitions.
+	 *
+	 * @param array $acf_layouts
+	 * @return array
+	 */
+	private function convert_layouts( array $acf_layouts ): array {
+		$layouts = array();
+		foreach ( $acf_layouts as $layout ) {
+			$name = sanitize_key( $layout['name'] ?? '' );
+			if ( ! $name ) {
+				continue;
+			}
+			$layouts[] = array(
+				'name'       => $name,
+				'label'      => sanitize_text_field( $layout['label'] ?? $name ),
+				'sub_fields' => $this->convert_fields( $layout['sub_fields'] ?? array() ),
+			);
+		}
+		return $layouts;
 	}
 
 	/**
