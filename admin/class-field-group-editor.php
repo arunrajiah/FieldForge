@@ -1286,7 +1286,8 @@ class FieldForge_Field_Group_Editor {
 			'message'      => __( 'Message', 'fieldforge' ),
 			'tab'          => __( 'Tab', 'fieldforge' ),
 			'accordion'    => __( 'Accordion', 'fieldforge' ),
-			'repeater'     => __( 'Repeater', 'fieldforge' ),
+			'repeater'         => __( 'Repeater', 'fieldforge' ),
+			'flexible_content' => __( 'Flexible Content', 'fieldforge' ),
 		);
 	}
 
