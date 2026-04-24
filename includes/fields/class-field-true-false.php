@@ -35,6 +35,9 @@ class FieldForge_Field_True_False extends FieldForge_Field_Base {
 	}
 
 	public function load( int $post_id ) {
+		if ( null !== $this->prefilled_value ) {
+			return (bool) $this->prefilled_value;
+		}
 		return (bool) get_post_meta( $post_id, $this->field['name'], true );
 	}
 }

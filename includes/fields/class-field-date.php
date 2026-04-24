@@ -38,7 +38,9 @@ class FieldForge_Field_Date extends FieldForge_Field_Base {
 	}
 
 	public function load( int $post_id ) {
-		$val = get_post_meta( $post_id, $this->field['name'], true );
+		$val = null !== $this->prefilled_value
+			? (string) $this->prefilled_value
+			: get_post_meta( $post_id, $this->field['name'], true );
 		// Convert Ymd stored value to Y-m-d for HTML date input.
 		if ( preg_match( '/^\d{8}$/', (string) $val ) ) {
 			return substr( $val, 0, 4 ) . '-' . substr( $val, 4, 2 ) . '-' . substr( $val, 6, 2 );

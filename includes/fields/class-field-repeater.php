@@ -193,6 +193,12 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 	 * @return array[]
 	 */
 	public function load( int $post_id ) {
+		// When used as a nested repeater inside another repeater/FC, the parent
+		// passes row data directly via render_with_value() rather than a post ID.
+		if ( null !== $this->prefilled_value ) {
+			return is_array( $this->prefilled_value ) ? $this->prefilled_value : array();
+		}
+
 		$name       = $this->field['name'];
 		$row_count  = (int) get_post_meta( $post_id, $name, true );
 		$sub_fields = $this->field['sub_fields'] ?? array();

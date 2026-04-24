@@ -43,6 +43,9 @@ class FieldForge_Field_Image extends FieldForge_Field_Base {
 	}
 
 	public function load( int $post_id ) {
+		if ( null !== $this->prefilled_value ) {
+			return (int) $this->prefilled_value;
+		}
 		return (int) get_post_meta( $post_id, $this->field['name'], true );
 	}
 

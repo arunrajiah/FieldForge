@@ -61,6 +61,9 @@ class FieldForge_Field_Gallery extends FieldForge_Field_Base {
 	}
 
 	public function load( int $post_id ) {
+		if ( null !== $this->prefilled_value ) {
+			return is_array( $this->prefilled_value ) ? $this->prefilled_value : array();
+		}
 		$val = get_post_meta( $post_id, $this->field['name'], true );
 		return is_array( $val ) ? $val : array();
 	}
