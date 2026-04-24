@@ -1,0 +1,19 @@
+# Files and directories excluded from the WordPress.org SVN deploy
+.git
+.github
+.gitignore
+.distignore
+.editorconfig
+.phpcs.xml
+.phpunit.xml
+composer.json
+composer.lock
+phpunit.xml
+phpunit.xml.dist
+node_modules
+vendor
+tests
+bin
+docs
+*.md
+!readme.txt
