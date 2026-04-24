@@ -1,14 +1,14 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# FieldForge Translation Template
+# Copyright (C) 2026 FieldForge Contributors
 # This file is distributed under the same license as the FieldForge package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# FieldForge Contributors <https://github.com/arunrajiah/fieldforge>, 2026.
 #
 #, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: FieldForge 0.1.0\n"
 "Report-Msgid-Bugs-To: https://github.com/arunrajiah/fieldforge/issues\n"
-"POT-Creation-Date: 2026-04-24 08:32+0530\n"
+"POT-Creation-Date: 2026-04-24 15:20+0530\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -42,11 +42,13 @@ msgstr ""
 msgid "(empty)"
 msgstr ""
 
-#: admin/class-field-group-editor.php:98
+#: admin/class-field-group-editor.php:98 admin/class-field-group-editor.php:905
+#: admin/class-field-group-editor.php:959
 msgid "Edit"
 msgstr ""
 
-#: admin/class-field-group-editor.php:99
+#: admin/class-field-group-editor.php:99 admin/class-field-group-editor.php:906
+#: admin/class-field-group-editor.php:960
 msgid "Delete"
 msgstr ""
 
@@ -59,15 +61,17 @@ msgid "Field Name"
 msgstr ""
 
 #: admin/class-field-group-editor.php:125
-#: admin/class-field-group-editor.php:282
+#: admin/class-field-group-editor.php:297
 msgid "Field Type"
 msgstr ""
 
 #: admin/class-field-group-editor.php:135
+#: admin/class-field-group-editor.php:934
 msgid "Instructions"
 msgstr ""
 
 #: admin/class-field-group-editor.php:139
+#: admin/class-field-group-editor.php:930
 msgid "Required"
 msgstr ""
 
@@ -80,187 +84,299 @@ msgid "Placeholder"
 msgstr ""
 
 #: admin/class-field-group-editor.php:168
-msgid "Min"
+#: admin/class-field-group-editor.php:276
+#: admin/class-field-group-editor.php:336
+msgid "Allow Multiple"
 msgstr ""
 
 #: admin/class-field-group-editor.php:172
+msgid "Allow Null"
+msgstr ""
+
+#: admin/class-field-group-editor.php:183
+msgid "Min"
+msgstr ""
+
+#: admin/class-field-group-editor.php:187
 msgid "Max"
 msgstr ""
 
-#: admin/class-field-group-editor.php:176
+#: admin/class-field-group-editor.php:191
 msgid "Step"
 msgstr ""
 
-#: admin/class-field-group-editor.php:188
-#: admin/class-field-group-editor.php:205
-#: admin/class-field-group-editor.php:252
-#: admin/class-field-group-editor.php:293
-#: admin/class-field-group-editor.php:311
+#: admin/class-field-group-editor.php:203
+#: admin/class-field-group-editor.php:220
+#: admin/class-field-group-editor.php:267
+#: admin/class-field-group-editor.php:308
+#: admin/class-field-group-editor.php:326
+#: admin/class-field-group-editor.php:459
+#: admin/class-field-group-editor.php:479
+#: admin/class-field-group-editor.php:506
 msgid "Return Format"
 msgstr ""
 
-#: admin/class-field-group-editor.php:191
-#: admin/class-field-group-editor.php:256
-#: admin/class-field-group-editor.php:296
-#: admin/class-field-group-editor.php:314
+#: admin/class-field-group-editor.php:206
+#: admin/class-field-group-editor.php:271
+#: admin/class-field-group-editor.php:311
+#: admin/class-field-group-editor.php:329
 msgid "ID"
 msgstr ""
 
-#: admin/class-field-group-editor.php:192
-#: admin/class-field-group-editor.php:880
+#: admin/class-field-group-editor.php:207
+#: admin/class-field-group-editor.php:1269
 #: includes/fields/class-field-link.php:24
 msgid "URL"
 msgstr ""
 
-#: admin/class-field-group-editor.php:193
-#: admin/class-field-group-editor.php:210
-#: admin/class-field-group-editor.php:316
+#: admin/class-field-group-editor.php:208
+#: admin/class-field-group-editor.php:225
+#: admin/class-field-group-editor.php:331
 msgid "Array"
 msgstr ""
 
-#: admin/class-field-group-editor.php:208
+#: admin/class-field-group-editor.php:223
 msgid "IDs"
 msgstr ""
 
-#: admin/class-field-group-editor.php:209
+#: admin/class-field-group-editor.php:224
 msgid "URLs"
 msgstr ""
 
-#: admin/class-field-group-editor.php:222
+#: admin/class-field-group-editor.php:237
 msgid "Tabs"
 msgstr ""
 
-#: admin/class-field-group-editor.php:225
+#: admin/class-field-group-editor.php:240
 msgid "Visual & Text"
 msgstr ""
 
-#: admin/class-field-group-editor.php:226
+#: admin/class-field-group-editor.php:241
 msgid "Visual Only"
 msgstr ""
 
-#: admin/class-field-group-editor.php:227
+#: admin/class-field-group-editor.php:242
 msgid "Text Only"
 msgstr ""
 
-#: admin/class-field-group-editor.php:232
+#: admin/class-field-group-editor.php:247
 msgid "Toolbar"
 msgstr ""
 
-#: admin/class-field-group-editor.php:235
+#: admin/class-field-group-editor.php:250
 msgid "Full"
 msgstr ""
 
-#: admin/class-field-group-editor.php:236
+#: admin/class-field-group-editor.php:251
 msgid "Basic"
 msgstr ""
 
-#: admin/class-field-group-editor.php:241
+#: admin/class-field-group-editor.php:256
 msgid "Media Upload"
 msgstr ""
 
-#: admin/class-field-group-editor.php:255
-#: admin/class-field-group-editor.php:886
+#: admin/class-field-group-editor.php:270
+#: admin/class-field-group-editor.php:1275
 msgid "Post Object"
 msgstr ""
 
-#: admin/class-field-group-editor.php:261
-#: admin/class-field-group-editor.php:321
-msgid "Allow Multiple"
-msgstr ""
-
-#: admin/class-field-group-editor.php:272
-#: admin/class-field-group-editor.php:887
+#: admin/class-field-group-editor.php:287
+#: admin/class-field-group-editor.php:1276
 msgid "Taxonomy"
 msgstr ""
 
-#: admin/class-field-group-editor.php:285
-#: admin/class-field-group-editor.php:874
+#: admin/class-field-group-editor.php:300
+#: admin/class-field-group-editor.php:1263
 msgid "Checkbox"
 msgstr ""
 
-#: admin/class-field-group-editor.php:286
+#: admin/class-field-group-editor.php:301
 msgid "Multi Select"
 msgstr ""
 
-#: admin/class-field-group-editor.php:287
-#: admin/class-field-group-editor.php:875
+#: admin/class-field-group-editor.php:302
+#: admin/class-field-group-editor.php:1264
 msgid "Radio"
 msgstr ""
 
-#: admin/class-field-group-editor.php:288
-#: admin/class-field-group-editor.php:873
+#: admin/class-field-group-editor.php:303
+#: admin/class-field-group-editor.php:1262
 msgid "Select"
 msgstr ""
 
-#: admin/class-field-group-editor.php:297
+#: admin/class-field-group-editor.php:312
+#: admin/class-field-group-editor.php:916
+#: admin/class-field-group-editor.php:969
 msgid "Name"
 msgstr ""
 
-#: admin/class-field-group-editor.php:298
+#: admin/class-field-group-editor.php:313
 msgid "Slug"
 msgstr ""
 
-#: admin/class-field-group-editor.php:299
+#: admin/class-field-group-editor.php:314
 msgid "Term Object"
 msgstr ""
 
-#: admin/class-field-group-editor.php:315
+#: admin/class-field-group-editor.php:330
 msgid "User Object"
 msgstr ""
 
-#: admin/class-field-group-editor.php:325
+#: admin/class-field-group-editor.php:340
 msgid "Filter by Role"
 msgstr ""
 
-#: admin/class-field-group-editor.php:328
+#: admin/class-field-group-editor.php:343
 msgid "— Any Role —"
 msgstr ""
 
-#: admin/class-field-group-editor.php:341
+#: admin/class-field-group-editor.php:359
+#: admin/class-field-group-editor.php:974
 msgid "Sub Fields"
 msgstr ""
 
-#: admin/class-field-group-editor.php:346
+#: admin/class-field-group-editor.php:366
+#: admin/class-field-group-editor.php:981
 msgid "+ Add Sub Field"
 msgstr ""
 
-#: admin/class-field-group-editor.php:352
+#: admin/class-field-group-editor.php:370
+msgid "Min Rows"
+msgstr ""
+
+#: admin/class-field-group-editor.php:374
+msgid "Max Rows"
+msgstr ""
+
+#: admin/class-field-group-editor.php:378
+msgid "Add Row Label"
+msgstr ""
+
+#: admin/class-field-group-editor.php:379
+#: admin/class-field-group-editor.php:754
+#: admin/class-field-group-editor.php:1187 includes/class-acf-importer.php:209
+#: includes/class-field-renderer.php:110
+#: includes/fields/class-field-repeater.php:22
+msgid "Add Row"
+msgstr ""
+
+#: admin/class-field-group-editor.php:391
 msgid "Layouts"
 msgstr ""
 
-#: admin/class-field-group-editor.php:357
-msgid "(layout)"
+#: admin/class-field-group-editor.php:398
+msgid "+ Add Layout"
 msgstr ""
 
-#: admin/class-field-group-editor.php:366
-msgid "Layouts are managed via Local JSON or programmatic registration."
+#: admin/class-field-group-editor.php:402
+msgid "Min Layouts"
 msgstr ""
 
-#: admin/class-field-group-editor.php:381
+#: admin/class-field-group-editor.php:406
+msgid "Max Layouts"
+msgstr ""
+
+#: admin/class-field-group-editor.php:410
+msgid "Add Button Label"
+msgstr ""
+
+#: admin/class-field-group-editor.php:411 includes/class-acf-importer.php:222
+#: includes/fields/class-field-flexible-content.php:22
+msgid "Add Layout"
+msgstr ""
+
+#: admin/class-field-group-editor.php:422
+msgid "Max Length"
+msgstr ""
+
+#: admin/class-field-group-editor.php:426
+msgid "Prepend"
+msgstr ""
+
+#: admin/class-field-group-editor.php:430
+msgid "Append"
+msgstr ""
+
+#: admin/class-field-group-editor.php:441
+msgid "Rows"
+msgstr ""
+
+#: admin/class-field-group-editor.php:452
+#: admin/class-field-group-editor.php:473
+msgid "Display Format"
+msgstr ""
+
+#: admin/class-field-group-editor.php:455
+msgid "PHP date() format for admin display."
+msgstr ""
+
+#: admin/class-field-group-editor.php:462
+msgid "PHP date() format returned by fieldforge_get()."
+msgstr ""
+
+#: admin/class-field-group-editor.php:492
+#: admin/class-field-group-editor.php:522
+#: admin/class-field-group-editor.php:1280
+msgid "Message"
+msgstr ""
+
+#: admin/class-field-group-editor.php:495
+msgid "Text shown beside the checkbox."
+msgstr ""
+
+#: admin/class-field-group-editor.php:509
+msgid "Array (url, title, target)"
+msgstr ""
+
+#: admin/class-field-group-editor.php:510
+msgid "URL string only"
+msgstr ""
+
+#: admin/class-field-group-editor.php:525
+msgid "HTML allowed. This text is shown to editors but not stored."
+msgstr ""
+
+#: admin/class-field-group-editor.php:529
+msgid "New Lines"
+msgstr ""
+
+#: admin/class-field-group-editor.php:532
+msgid "Automatically add paragraphs"
+msgstr ""
+
+#: admin/class-field-group-editor.php:533
+msgid "Automatically add &lt;br&gt;"
+msgstr ""
+
+#: admin/class-field-group-editor.php:534
+msgid "No formatting"
+msgstr ""
+
+#: admin/class-field-group-editor.php:553
 msgid "Choices"
 msgstr ""
 
-#: admin/class-field-group-editor.php:384
+#: admin/class-field-group-editor.php:556
 msgid "red : Red\\nblue : Blue"
 msgstr ""
 
-#: admin/class-field-group-editor.php:386
+#: admin/class-field-group-editor.php:558
 msgid "One per line. Format: value : Label"
 msgstr ""
 
-#: admin/class-field-group-editor.php:400
+#: admin/class-field-group-editor.php:570
 msgid "Show this field group when:"
 msgstr ""
 
-#: admin/class-field-group-editor.php:428
+#: admin/class-field-group-editor.php:598
 msgid "is equal to"
 msgstr ""
 
-#: admin/class-field-group-editor.php:429
+#: admin/class-field-group-editor.php:599
 msgid "is not equal to"
 msgstr ""
 
-#: admin/class-field-group-editor.php:437
+#: admin/class-field-group-editor.php:603
 #: includes/fields/class-field-file.php:29
 #: includes/fields/class-field-flexible-content.php:81
 #: includes/fields/class-field-gallery.php:26
@@ -271,249 +387,285 @@ msgstr ""
 msgid "Remove"
 msgstr ""
 
-#: admin/class-field-group-editor.php:441
+#: admin/class-field-group-editor.php:607
 msgid "and"
 msgstr ""
 
-#: admin/class-field-group-editor.php:442
+#: admin/class-field-group-editor.php:608
 msgid "Remove Group"
 msgstr ""
 
-#: admin/class-field-group-editor.php:445
+#: admin/class-field-group-editor.php:611
 msgid "or"
 msgstr ""
 
-#: admin/class-field-group-editor.php:449
+#: admin/class-field-group-editor.php:615
 msgid "+ Add OR Group"
 msgstr ""
 
-#: admin/class-field-group-editor.php:461
+#: admin/class-field-group-editor.php:627
 msgid "Description"
 msgstr ""
 
-#: admin/class-field-group-editor.php:464
+#: admin/class-field-group-editor.php:630
 msgid "Optional. Visible in the field group list."
 msgstr ""
 
-#: admin/class-field-group-editor.php:468
+#: admin/class-field-group-editor.php:634
 msgid "Position"
 msgstr ""
 
-#: admin/class-field-group-editor.php:471
+#: admin/class-field-group-editor.php:637
 msgid "Normal"
 msgstr ""
 
-#: admin/class-field-group-editor.php:472
+#: admin/class-field-group-editor.php:638
 msgid "Side"
 msgstr ""
 
-#: admin/class-field-group-editor.php:473
+#: admin/class-field-group-editor.php:639
 msgid "After Title"
 msgstr ""
 
-#: admin/class-field-group-editor.php:482
+#: admin/class-field-group-editor.php:648
 msgid "Export JSON"
 msgstr ""
 
-#: admin/class-field-group-editor.php:588
-#: admin/class-field-group-editor.php:854 includes/class-acf-importer.php:209
-#: includes/class-field-renderer.php:110
-#: includes/fields/class-field-repeater.php:22
-msgid "Add Row"
+#: admin/class-field-group-editor.php:903
+msgid "(sub field)"
 msgstr ""
 
-#: admin/class-field-group-editor.php:663
-#: admin/class-field-group-editor.php:664
+#: admin/class-field-group-editor.php:912
+#: admin/class-field-group-editor.php:965
+msgid "Label"
+msgstr ""
+
+#: admin/class-field-group-editor.php:920
+msgid "Type"
+msgstr ""
+
+#: admin/class-field-group-editor.php:957
+msgid "(layout)"
+msgstr ""
+
+#: admin/class-field-group-editor.php:996
+#: admin/class-field-group-editor.php:997
 msgid "Import / Export"
 msgstr ""
 
-#: admin/class-field-group-editor.php:681
-#: admin/class-field-group-editor.php:710
-#: admin/class-field-group-editor.php:784 admin/class-settings-page.php:92
-#: includes/class-acf-importer.php:299 includes/class-options-page.php:221
+#: admin/class-field-group-editor.php:1014
+#: admin/class-field-group-editor.php:1043
+#: admin/class-field-group-editor.php:1117 admin/class-settings-page.php:92
+#: includes/class-acf-importer.php:321 includes/class-options-page.php:221
 msgid "Insufficient permissions."
 msgstr ""
 
-#: admin/class-field-group-editor.php:684
+#: admin/class-field-group-editor.php:1017
 msgid "Security check failed."
 msgstr ""
 
-#: admin/class-field-group-editor.php:714
+#: admin/class-field-group-editor.php:1047
 msgid "FieldForge — Import / Export"
 msgstr ""
 
-#: admin/class-field-group-editor.php:716
+#: admin/class-field-group-editor.php:1049
 msgid "Import ACF JSON"
 msgstr ""
 
-#: admin/class-field-group-editor.php:717
+#: admin/class-field-group-editor.php:1050
 msgid ""
 "Paste an ACF field group JSON export below to import it into FieldForge."
 msgstr ""
 
-#: admin/class-field-group-editor.php:720
+#: admin/class-field-group-editor.php:1053
 msgid "Import"
 msgstr ""
 
-#: admin/class-field-group-editor.php:725
+#: admin/class-field-group-editor.php:1058
 msgid "Export Field Group"
 msgstr ""
 
-#: admin/class-field-group-editor.php:740
+#: admin/class-field-group-editor.php:1073
 msgid "Preview JSON"
 msgstr ""
 
-#: admin/class-field-group-editor.php:754
+#: admin/class-field-group-editor.php:1087
 msgid "Download JSON"
 msgstr ""
 
-#: admin/class-field-group-editor.php:759
+#: admin/class-field-group-editor.php:1092
 msgid "Export All Field Groups"
 msgstr ""
 
-#: admin/class-field-group-editor.php:760
+#: admin/class-field-group-editor.php:1093
 msgid "Download all field groups as a single JSON file."
 msgstr ""
 
-#: admin/class-field-group-editor.php:772
+#: admin/class-field-group-editor.php:1105
 msgid "Download All Groups JSON"
 msgstr ""
 
-#: admin/class-field-group-editor.php:774
+#: admin/class-field-group-editor.php:1107
 msgid "No field groups found."
 msgstr ""
 
 #. translators: %d: number of imported field groups
 #. translators: %d number of groups imported
-#: admin/class-field-group-editor.php:797 includes/class-acf-importer.php:314
+#: admin/class-field-group-editor.php:1130 includes/class-acf-importer.php:336
 #, php-format
 msgid "%d field group imported."
 msgid_plural "%d field groups imported."
 msgstr[0] ""
 msgstr[1] ""
 
-#: admin/class-field-group-editor.php:855 includes/class-field-renderer.php:111
+#: admin/class-field-group-editor.php:1188
+#: includes/class-field-renderer.php:111
 msgid "Remove Row"
 msgstr ""
 
-#: admin/class-field-group-editor.php:856 includes/class-field-renderer.php:112
+#: admin/class-field-group-editor.php:1189
+#: includes/class-field-renderer.php:112
 #: includes/fields/class-field-repeater.php:53
 msgid "No rows yet."
 msgstr ""
 
-#: admin/class-field-group-editor.php:857
+#: admin/class-field-group-editor.php:1190
 msgid "Are you sure?"
 msgstr ""
 
 #. translators: %s: field label
-#: admin/class-field-group-editor.php:859
+#: admin/class-field-group-editor.php:1192
 #, php-format
 msgid "Required: %s"
 msgstr ""
 
-#: admin/class-field-group-editor.php:860
+#: admin/class-field-group-editor.php:1193
 msgid "Please fill in all required fields before saving."
 msgstr ""
 
-#: admin/class-field-group-editor.php:861
+#: admin/class-field-group-editor.php:1194
 msgid "Maximum number of rows reached."
 msgstr ""
 
-#: admin/class-field-group-editor.php:862
+#: admin/class-field-group-editor.php:1195
 msgid "Minimum number of rows reached."
 msgstr ""
 
-#: admin/class-field-group-editor.php:870
+#: admin/class-field-group-editor.php:1238
+msgid "Default Template"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1246
+msgid "— No Parent —"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1259
 msgid "Text"
 msgstr ""
 
-#: admin/class-field-group-editor.php:871
+#: admin/class-field-group-editor.php:1260
 msgid "Textarea"
 msgstr ""
 
-#: admin/class-field-group-editor.php:872
+#: admin/class-field-group-editor.php:1261
 msgid "Number"
 msgstr ""
 
-#: admin/class-field-group-editor.php:876
+#: admin/class-field-group-editor.php:1265
 msgid "True / False"
 msgstr ""
 
-#: admin/class-field-group-editor.php:877
+#: admin/class-field-group-editor.php:1266
 msgid "Date Picker"
 msgstr ""
 
-#: admin/class-field-group-editor.php:878
+#: admin/class-field-group-editor.php:1267
 msgid "Time Picker"
 msgstr ""
 
-#: admin/class-field-group-editor.php:879
+#: admin/class-field-group-editor.php:1268
 msgid "Color Picker"
 msgstr ""
 
-#: admin/class-field-group-editor.php:881
+#: admin/class-field-group-editor.php:1270
 msgid "Email"
 msgstr ""
 
-#: admin/class-field-group-editor.php:882
+#: admin/class-field-group-editor.php:1271
 msgid "Password"
 msgstr ""
 
-#: admin/class-field-group-editor.php:883
+#: admin/class-field-group-editor.php:1272
 msgid "File"
 msgstr ""
 
-#: admin/class-field-group-editor.php:884
+#: admin/class-field-group-editor.php:1273
 msgid "Image"
 msgstr ""
 
-#: admin/class-field-group-editor.php:885
+#: admin/class-field-group-editor.php:1274
 msgid "Gallery"
 msgstr ""
 
-#: admin/class-field-group-editor.php:888
+#: admin/class-field-group-editor.php:1277
 msgid "User"
 msgstr ""
 
-#: admin/class-field-group-editor.php:889
+#: admin/class-field-group-editor.php:1278
 msgid "Link"
 msgstr ""
 
-#: admin/class-field-group-editor.php:890
+#: admin/class-field-group-editor.php:1279
 msgid "WYSIWYG"
 msgstr ""
 
-#: admin/class-field-group-editor.php:891
-msgid "Message"
-msgstr ""
-
-#: admin/class-field-group-editor.php:892
+#: admin/class-field-group-editor.php:1281
 #: includes/fields/class-field-tab.php:18
 msgid "Tab"
 msgstr ""
 
-#: admin/class-field-group-editor.php:893
+#: admin/class-field-group-editor.php:1282
 msgid "Accordion"
 msgstr ""
 
-#: admin/class-field-group-editor.php:894
+#: admin/class-field-group-editor.php:1283
 msgid "Repeater"
 msgstr ""
 
-#: admin/class-field-group-editor.php:900
+#: admin/class-field-group-editor.php:1289
 msgid "Post Type"
 msgstr ""
 
-#: admin/class-field-group-editor.php:901
+#: admin/class-field-group-editor.php:1290
 msgid "Post Status"
 msgstr ""
 
-#: admin/class-field-group-editor.php:902
+#: admin/class-field-group-editor.php:1291
+msgid "Page Template"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1292
+msgid "Page Parent"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1293
 msgid "User Role"
 msgstr ""
 
-#: admin/class-field-group-editor.php:903
-msgid "Page Parent"
+#: admin/class-field-group-editor.php:1294
+msgid "Post Taxonomy"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1295
+msgid "Post Format"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1296
+msgid "Attachment"
+msgstr ""
+
+#: admin/class-field-group-editor.php:1297
+msgid "Options Page"
 msgstr ""
 
 #: admin/class-meta-box-renderer.php:56
@@ -583,11 +735,6 @@ msgstr ""
 
 #: includes/class-acf-importer.php:101
 msgid "ACF group missing key or title."
-msgstr ""
-
-#: includes/class-acf-importer.php:222
-#: includes/fields/class-field-flexible-content.php:22
-msgid "Add Layout"
 msgstr ""
 
 #: includes/class-field-group.php:26 includes/class-options-page.php:171
@@ -685,11 +832,11 @@ msgstr ""
 msgid "FieldForge custom field values for this post."
 msgstr ""
 
-#: includes/class-rest-api.php:230
+#: includes/class-rest-api.php:265
 msgid "You do not have permission to edit this post."
 msgstr ""
 
-#: includes/class-rest-api.php:238
+#: includes/class-rest-api.php:273
 msgid "fieldforge_fields must be an object."
 msgstr ""
 
@@ -707,6 +854,12 @@ msgstr ""
 #: includes/fields/class-field-checkbox.php:38
 #, php-format
 msgid "Saved value(s) \"%s\" are no longer valid choices."
+msgstr ""
+
+#. translators: %s: field label
+#: includes/fields/class-field-email.php:43
+#, php-format
+msgid "\"%s\" must be a valid email address."
 msgstr ""
 
 #: includes/fields/class-field-file.php:28
@@ -735,6 +888,18 @@ msgstr ""
 
 #: includes/fields/class-field-link.php:30
 msgid "Open in new tab"
+msgstr ""
+
+#. translators: 1: field label, 2: min value
+#: includes/fields/class-field-number.php:56
+#, php-format
+msgid "\"%1$s\" must be at least %2$s."
+msgstr ""
+
+#. translators: 1: field label, 2: max value
+#: includes/fields/class-field-number.php:64
+#, php-format
+msgid "\"%1$s\" must be no greater than %2$s."
 msgstr ""
 
 #: includes/fields/class-field-post-object.php:47
@@ -769,6 +934,18 @@ msgstr ""
 #: includes/fields/class-field-select.php:27
 #: includes/fields/class-field-taxonomy.php:36
 msgid "— Select —"
+msgstr ""
+
+#. translators: 1: field label, 2: max length
+#: includes/fields/class-field-text.php:43
+#, php-format
+msgid "\"%1$s\" must be no longer than %2$d characters."
+msgstr ""
+
+#. translators: %s: field label
+#: includes/fields/class-field-url.php:43
+#, php-format
+msgid "\"%s\" must be a valid URL."
 msgstr ""
 
 #: includes/fields/class-field-user.php:46
