@@ -3,7 +3,7 @@
  * Plugin Name: FieldForge
  * Plugin URI:  https://github.com/arunrajiah/fieldforge
  * Description: Open-source, GPL alternative to Advanced Custom Fields (ACF) Pro with native Repeater and Flexible Content fields.
- * Version:     0.1.0-dev
+ * Version:     0.1.0
  * Author:      FieldForge Contributors
  * Author URI:  https://github.com/arunrajiah/fieldforge
  * License:     GPL-2.0-or-later
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'FIELDFORGE_VERSION', '0.1.0-dev' );
+define( 'FIELDFORGE_VERSION', '0.1.0' );
 define( 'FIELDFORGE_PLUGIN_FILE', __FILE__ );
 define( 'FIELDFORGE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FIELDFORGE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
