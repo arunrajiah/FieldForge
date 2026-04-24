@@ -70,6 +70,8 @@ final class FieldForge {
 	}
 
 	public static function deactivate(): void {
+		wp_clear_scheduled_hook( 'fieldforge_local_json_sync' );
+		delete_transient( 'fieldforge_field_groups' );
 		flush_rewrite_rules();
 	}
 

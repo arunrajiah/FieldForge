@@ -180,6 +180,132 @@ class FieldForge_Field_Group_Editor {
 				<?php
 				break;
 
+			case 'image':
+			case 'file':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldforge' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URL', 'fieldforge' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'gallery':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'IDs', 'fieldforge' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URLs', 'fieldforge' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'post_object':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="object"<?php selected( $field['return_format'] ?? 'object', 'object' ); ?>><?php esc_html_e( 'Post Object', 'fieldforge' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'object', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'taxonomy':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Taxonomy', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[taxonomy]">
+								<?php foreach ( get_taxonomies( array( 'public' => true ), 'objects' ) as $tax ) : ?>
+									<option value="<?php echo esc_attr( $tax->name ); ?>"<?php selected( $field['taxonomy'] ?? 'category', $tax->name ); ?>><?php echo esc_html( $tax->label ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Field Type', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[field_type]">
+								<option value="checkbox"<?php selected( $field['field_type'] ?? 'checkbox', 'checkbox' ); ?>><?php esc_html_e( 'Checkbox', 'fieldforge' ); ?></option>
+								<option value="multi_select"<?php selected( $field['field_type'] ?? 'checkbox', 'multi_select' ); ?>><?php esc_html_e( 'Multi Select', 'fieldforge' ); ?></option>
+								<option value="radio"<?php selected( $field['field_type'] ?? 'checkbox', 'radio' ); ?>><?php esc_html_e( 'Radio', 'fieldforge' ); ?></option>
+								<option value="select"<?php selected( $field['field_type'] ?? 'checkbox', 'select' ); ?>><?php esc_html_e( 'Select', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldforge' ); ?></option>
+								<option value="name"<?php selected( $field['return_format'] ?? 'id', 'name' ); ?>><?php esc_html_e( 'Name', 'fieldforge' ); ?></option>
+								<option value="slug"<?php selected( $field['return_format'] ?? 'id', 'slug' ); ?>><?php esc_html_e( 'Slug', 'fieldforge' ); ?></option>
+								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'Term Object', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
+			case 'user':
+				?>
+				<table class="form-table">
+					<tr>
+						<th><?php esc_html_e( 'Return Format', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldforge' ); ?></option>
+								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'User Object', 'fieldforge' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldforge' ); ?></option>
+							</select>
+						</td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldforge' ); ?></th>
+						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
+					</tr>
+					<tr>
+						<th><?php esc_html_e( 'Filter by Role', 'fieldforge' ); ?></th>
+						<td>
+							<select name="<?php echo esc_attr( $prefix ); ?>[role]">
+								<option value=""><?php esc_html_e( '— Any Role —', 'fieldforge' ); ?></option>
+								<?php foreach ( wp_roles()->role_names as $role_slug => $role_name ) : ?>
+									<option value="<?php echo esc_attr( $role_slug ); ?>"<?php selected( $field['role'] ?? '', $role_slug ); ?>><?php echo esc_html( $role_name ); ?></option>
+								<?php endforeach; ?>
+							</select>
+						</td>
+					</tr>
+				</table>
+				<?php
+				break;
+
 			case 'repeater':
 				echo '<div class="fieldforge-sub-fields-editor">';
 				echo '<h4>' . esc_html__( 'Sub Fields', 'fieldforge' ) . '</h4>';
@@ -188,6 +314,26 @@ class FieldForge_Field_Group_Editor {
 					$this->render_field_row( $sub, 0, $this->get_type_labels() ); // Simplified placeholder.
 				}
 				echo '<button type="button" class="button fieldforge-add-sub-field">' . esc_html__( '+ Add Sub Field', 'fieldforge' ) . '</button>';
+				echo '</div>';
+				break;
+
+			case 'flexible_content':
+				echo '<div class="fieldforge-layouts-editor">';
+				echo '<h4>' . esc_html__( 'Layouts', 'fieldforge' ) . '</h4>';
+				$layouts = $field['layouts'] ?? array();
+				foreach ( $layouts as $li => $layout ) :
+					$lp = $prefix . '[layouts][' . $li . ']';
+					echo '<div class="fieldforge-layout-row">';
+					echo '<strong>' . esc_html( $layout['label'] ?? __( '(layout)', 'fieldforge' ) ) . '</strong> ';
+					echo '<code>' . esc_html( $layout['name'] ?? '' ) . '</code>';
+					echo '<input type="hidden" name="' . esc_attr( $lp ) . '[name]" value="' . esc_attr( $layout['name'] ?? '' ) . '" />';
+					echo '<input type="hidden" name="' . esc_attr( $lp ) . '[label]" value="' . esc_attr( $layout['label'] ?? '' ) . '" />';
+					foreach ( $layout['sub_fields'] ?? array() as $sfi => $sf ) {
+						$this->render_field_row( $sf, $sfi, $this->get_type_labels() );
+					}
+					echo '</div>';
+				endforeach;
+				echo '<p class="description">' . esc_html__( 'Layouts are managed via Local JSON or programmatic registration.', 'fieldforge' ) . '</p>';
 				echo '</div>';
 				break;
 		}
@@ -371,18 +517,43 @@ class FieldForge_Field_Group_Editor {
 				$field['choices'] = array_map( 'sanitize_text_field', $f['choices'] );
 			}
 
-			if ( in_array( $type, array( 'number' ), true ) ) {
+			if ( 'number' === $type ) {
 				$field['min']  = '' !== ( $f['min'] ?? '' ) ? (float) $f['min'] : '';
 				$field['max']  = '' !== ( $f['max'] ?? '' ) ? (float) $f['max'] : '';
 				$field['step'] = '' !== ( $f['step'] ?? '' ) ? (float) $f['step'] : '';
 			}
 
-			if ( 'repeater' === $type && ! empty( $f['sub_fields'] ) ) {
-				$field['sub_fields']   = $this->sanitize_fields( (array) $f['sub_fields'] );
+			if ( in_array( $type, array( 'image', 'file', 'gallery', 'post_object', 'taxonomy', 'user' ), true ) ) {
+				$field['return_format'] = sanitize_text_field( $f['return_format'] ?? '' );
+			}
+
+			if ( in_array( $type, array( 'post_object', 'user' ), true ) ) {
+				$field['multiple'] = ! empty( $f['multiple'] ) ? 1 : 0;
+			}
+
+			if ( 'post_object' === $type ) {
+				$field['post_type'] = array_map( 'sanitize_key', (array) ( $f['post_type'] ?? array() ) );
+			}
+
+			if ( 'taxonomy' === $type ) {
+				$field['taxonomy']   = sanitize_key( $f['taxonomy'] ?? 'category' );
+				$field['field_type'] = sanitize_text_field( $f['field_type'] ?? 'checkbox' );
+			}
+
+			if ( 'user' === $type ) {
+				$field['role'] = sanitize_text_field( $f['role'] ?? '' );
+			}
+
+			if ( 'repeater' === $type ) {
+				$field['sub_fields']   = ! empty( $f['sub_fields'] ) ? $this->sanitize_fields( (array) $f['sub_fields'] ) : array();
 				$field['min']          = absint( $f['min'] ?? 0 );
 				$field['max']          = absint( $f['max'] ?? 0 );
 				$field['layout']       = sanitize_text_field( $f['layout'] ?? 'table' );
 				$field['button_label'] = sanitize_text_field( $f['button_label'] ?? __( 'Add Row', 'fieldforge' ) );
+			}
+
+			if ( 'flexible_content' === $type && ! empty( $f['layouts'] ) ) {
+				$field['layouts'] = $this->sanitize_layouts( (array) $f['layouts'] );
 			}
 
 			if ( $field['name'] ) {
@@ -425,6 +596,25 @@ class FieldForge_Field_Group_Editor {
 			}
 		}
 		return $location;
+	}
+
+	private function sanitize_layouts( array $raw ): array {
+		$layouts = array();
+		foreach ( $raw as $l ) {
+			if ( ! is_array( $l ) ) {
+				continue;
+			}
+			$name = sanitize_key( $l['name'] ?? '' );
+			if ( ! $name ) {
+				continue;
+			}
+			$layouts[] = array(
+				'name'       => $name,
+				'label'      => sanitize_text_field( $l['label'] ?? '' ),
+				'sub_fields' => ! empty( $l['sub_fields'] ) ? $this->sanitize_fields( (array) $l['sub_fields'] ) : array(),
+			);
+		}
+		return $layouts;
 	}
 
 	// ------------------------------------------------------------------

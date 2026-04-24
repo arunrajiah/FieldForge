@@ -69,6 +69,56 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 		return in_array( $this->field['field_type'] ?? '', array( 'checkbox', 'multi_select' ), true ) ? array() : 0;
 	}
 
+	public function format_value( $value, int $post_id ) {
+		$multiple = in_array( $this->field['field_type'] ?? '', array( 'checkbox', 'multi_select' ), true );
+		$format   = $this->field['return_format'] ?? 'id';
+
+		if ( $multiple ) {
+			$ids = array_filter( array_map( 'absint', (array) $value ) );
+			if ( 'object' === $format ) {
+				return array_values( array_filter( array_map( 'get_term', $ids ) ) );
+			}
+			if ( 'name' === $format ) {
+				return array_values( array_filter( array_map(
+					function ( $id ) {
+						$t = get_term( $id );
+						return $t && ! is_wp_error( $t ) ? $t->name : null;
+					},
+					$ids
+				) ) );
+			}
+			if ( 'slug' === $format ) {
+				return array_values( array_filter( array_map(
+					function ( $id ) {
+						$t = get_term( $id );
+						return $t && ! is_wp_error( $t ) ? $t->slug : null;
+					},
+					$ids
+				) ) );
+			}
+			return array_values( $ids );
+		}
+
+		$id = (int) $value;
+		if ( ! $id ) {
+			return 'object' === $format ? null : ( in_array( $format, array( 'name', 'slug' ), true ) ? '' : 0 );
+		}
+		$term = get_term( $id );
+		if ( ! $term || is_wp_error( $term ) ) {
+			return 'object' === $format ? null : ( in_array( $format, array( 'name', 'slug' ), true ) ? '' : 0 );
+		}
+		if ( 'object' === $format ) {
+			return $term;
+		}
+		if ( 'name' === $format ) {
+			return $term->name;
+		}
+		if ( 'slug' === $format ) {
+			return $term->slug;
+		}
+		return $id;
+	}
+
 	/**
 	 * AJAX: search taxonomy terms for pickers.
 	 */

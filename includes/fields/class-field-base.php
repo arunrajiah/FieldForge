@@ -79,6 +79,18 @@ abstract class FieldForge_Field_Base {
 		return '';
 	}
 
+	/**
+	 * Format a raw stored value for output (e.g. return_format for image/post fields).
+	 * Base implementation returns the value as-is; relational/media subclasses override.
+	 *
+	 * @param mixed $value   Raw value from load().
+	 * @param int   $post_id Source post ID (0 for options context).
+	 * @return mixed
+	 */
+	public function format_value( $value, int $post_id ) {
+		return $value;
+	}
+
 	// ------------------------------------------------------------------
 	// Shared render helpers
 	// ------------------------------------------------------------------

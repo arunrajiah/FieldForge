@@ -45,4 +45,32 @@ class FieldForge_Field_Image extends FieldForge_Field_Base {
 	public function load( int $post_id ) {
 		return (int) get_post_meta( $post_id, $this->field['name'], true );
 	}
+
+	public function format_value( $value, int $post_id ) {
+		$id     = (int) $value;
+		$format = $this->field['return_format'] ?? 'id';
+
+		if ( ! $id ) {
+			return 'array' === $format ? array() : ( 'url' === $format ? '' : 0 );
+		}
+		if ( 'url' === $format ) {
+			return (string) wp_get_attachment_url( $id );
+		}
+		if ( 'array' === $format ) {
+			$meta = wp_get_attachment_metadata( $id );
+			return array(
+				'id'        => $id,
+				'url'       => (string) wp_get_attachment_url( $id ),
+				'width'     => (int) ( $meta['width'] ?? 0 ),
+				'height'    => (int) ( $meta['height'] ?? 0 ),
+				'alt'       => get_post_meta( $id, '_wp_attachment_image_alt', true ),
+				'title'     => get_the_title( $id ),
+				'caption'   => wp_get_attachment_caption( $id ),
+				'mime_type' => get_post_mime_type( $id ),
+				'filesize'  => (int) ( $meta['filesize'] ?? 0 ),
+				'sizes'     => $meta['sizes'] ?? array(),
+			);
+		}
+		return $id; // 'id' (default)
+	}
 }

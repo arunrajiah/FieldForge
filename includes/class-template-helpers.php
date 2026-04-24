@@ -12,14 +12,26 @@ if ( ! defined( 'ABSPATH' ) ) {
 /**
  * Get a field value for the given post (defaults to the current post in the loop).
  *
- * @param string   $field_name
- * @param int|null $post_id    Defaults to get_the_ID().
+ * Pass 'option' or 'options' as $post_id to read from an options page instead of postmeta.
+ *
+ * @param string         $field_name
+ * @param int|string|null $post_id   Post ID, 'option'/'options' for global options, or null for current post.
  * @return mixed
  */
-function fieldforge_get( string $field_name, ?int $post_id = null ) {
+function fieldforge_get( string $field_name, $post_id = null ) {
+	// Options page context.
+	if ( in_array( $post_id, array( 'option', 'options' ), true ) ) {
+		$field_config = fieldforge_find_field_config( $field_name, 0 );
+		$ff           = FieldForge::get_instance();
+		$field        = $field_config ? $ff->registry->make_field( $field_config ) : null;
+		$raw          = FieldForge_Options_Page::get_option( 'option', $field_name );
+		return $field ? $field->format_value( $raw, 0 ) : $raw;
+	}
+
 	if ( null === $post_id ) {
 		$post_id = (int) get_the_ID();
 	}
+	$post_id = (int) $post_id;
 
 	$field_config = fieldforge_find_field_config( $field_name, $post_id );
 	if ( ! $field_config ) {
@@ -32,7 +44,8 @@ function fieldforge_get( string $field_name, ?int $post_id = null ) {
 		return get_post_meta( $post_id, $field_name, true );
 	}
 
-	return $field->load( $post_id );
+	$raw = $field->load( $post_id );
+	return $field->format_value( $raw, $post_id );
 }
 
 /**

@@ -42,7 +42,7 @@ class FieldForge_ACF_Importer {
 		'google_map'       => 'text',
 		'date_picker'      => 'date_picker',
 		'date_time_picker' => 'date_picker',
-		'time_picker'      => 'text',
+		'time_picker'      => 'time_picker',
 		'color_picker'     => 'color_picker',
 		'message'          => 'message',
 		'accordion'        => 'message',

@@ -83,6 +83,52 @@ class FieldForge_Field_User extends FieldForge_Field_Base {
 		return ! empty( $this->field['multiple'] ) ? array() : 0;
 	}
 
+	public function format_value( $value, int $post_id ) {
+		$multiple = ! empty( $this->field['multiple'] );
+		$format   = $this->field['return_format'] ?? 'id';
+
+		if ( $multiple ) {
+			$ids = array_filter( array_map( 'absint', (array) $value ) );
+			if ( 'object' === $format ) {
+				return array_values( array_filter( array_map( 'get_userdata', $ids ) ) );
+			}
+			if ( 'array' === $format ) {
+				return array_values( array_filter( array_map( array( $this, 'user_to_array' ), $ids ) ) );
+			}
+			return array_values( $ids );
+		}
+
+		$id = (int) $value;
+		if ( ! $id ) {
+			return 'object' === $format ? null : ( 'array' === $format ? array() : 0 );
+		}
+		if ( 'object' === $format ) {
+			return get_userdata( $id ) ?: null;
+		}
+		if ( 'array' === $format ) {
+			return $this->user_to_array( $id );
+		}
+		return $id;
+	}
+
+	/**
+	 * @param int $user_id
+	 * @return array|null
+	 */
+	private function user_to_array( int $user_id ): ?array {
+		$u = get_userdata( $user_id );
+		if ( ! $u ) {
+			return null;
+		}
+		return array(
+			'id'           => $u->ID,
+			'display_name' => $u->display_name,
+			'email'        => $u->user_email,
+			'login'        => $u->user_login,
+			'roles'        => $u->roles,
+		);
+	}
+
 	/**
 	 * AJAX: search users for the picker.
 	 */
