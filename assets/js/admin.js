@@ -919,85 +919,9 @@
 
 	// -----------------------------------------------------------------------
 	// Conditional logic evaluation — meta box (front-facing post edit screen)
+	// Single authoritative evaluator; data comes from fieldforgeData.conditionalLogic
+	// set by wp_localize_script in class-field-renderer.php.
 	// -----------------------------------------------------------------------
-
-	function evaluateConditionalLogic() {
-		var logic = window.fieldforgeConditionalLogic;
-		if ( ! logic ) {
-			return;
-		}
-
-		$.each( logic, function ( fieldName, rules ) {
-			var $field = $( '[data-field-name="' + fieldName + '"]' ).closest( '.fieldforge-meta-field' );
-			if ( ! $field.length ) {
-				return;
-			}
-
-			var visible = evaluateRules( rules );
-			if ( visible ) {
-				$field.slideDown( 150 );
-			} else {
-				$field.slideUp( 150 );
-			}
-		} );
-	}
-
-	function evaluateRules( orGroups ) {
-		for ( var i = 0; i < orGroups.length; i++ ) {
-			var andGroup = orGroups[ i ];
-			var andMatch = true;
-			for ( var j = 0; j < andGroup.length; j++ ) {
-				if ( ! evaluateSingleRule( andGroup[ j ] ) ) {
-					andMatch = false;
-					break;
-				}
-			}
-			if ( andMatch ) {
-				return true;
-			}
-		}
-		return false;
-	}
-
-	function evaluateSingleRule( rule ) {
-		var $targetField = $( '[name="' + rule.field + '"], [name="' + rule.field + '[]"]' ).first();
-		var actual       = '';
-
-		if ( $targetField.is( ':checkbox' ) ) {
-			actual = $targetField.is( ':checked' ) ? '1' : '0';
-		} else if ( $targetField.is( 'select[multiple]' ) ) {
-			actual = $targetField.val() ? $targetField.val().join( ',' ) : '';
-		} else {
-			actual = $targetField.val() || '';
-		}
-
-		var op    = rule.operator;
-		var value = rule.value || '';
-
-		switch ( op ) {
-			case '==':        return String( actual ) === String( value );
-			case '!=':        return String( actual ) !== String( value );
-			case '>':         return parseFloat( actual ) > parseFloat( value );
-			case '<':         return parseFloat( actual ) < parseFloat( value );
-			case '>=':        return parseFloat( actual ) >= parseFloat( value );
-			case '<=':        return parseFloat( actual ) <= parseFloat( value );
-			case '==empty':   return '' === String( actual ).trim();
-			case '!=empty':   return '' !== String( actual ).trim();
-			case '==contains': return String( actual ).indexOf( value ) !== -1;
-			case '!=contains': return String( actual ).indexOf( value ) === -1;
-			default:          return true;
-		}
-	}
-
-	// Re-evaluate when any meta field value changes.
-	$( document ).on( 'change input', '.fieldforge-meta-field input, .fieldforge-meta-field select, .fieldforge-meta-field textarea', function () {
-		evaluateConditionalLogic();
-	} );
-
-	// Initial evaluation on page load.
-	$( function () {
-		evaluateConditionalLogic();
-	} );
 
 	// -----------------------------------------------------------------------
 	// Conditional Logic — post edit screen field show/hide
