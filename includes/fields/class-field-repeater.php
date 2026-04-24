@@ -214,6 +214,62 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 	}
 
 	/**
+	 * Validate min/max row count constraints.
+	 *
+	 * @param mixed $value  The sanitized value (array of rows or row count).
+	 * @return true|string
+	 */
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+
+		// Count submitted rows from $_POST (same logic as save()).
+		$name      = $this->field['name'];
+		$row_count = 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		foreach ( array_keys( $_POST ) as $key ) {
+			if ( preg_match( '/^' . preg_quote( $name, '/' ) . '_(\d+)_/', $key, $m ) ) {
+				$row_count = max( $row_count, (int) $m[1] + 1 );
+			}
+		}
+
+		$min = (int) ( $this->field['min'] ?? 0 );
+		$max = (int) ( $this->field['max'] ?? 0 );
+
+		if ( $min > 0 && $row_count < $min ) {
+			return sprintf(
+				/* translators: 1: field label, 2: minimum row count */
+				_n(
+					'"%1$s" requires at least %2$d row.',
+					'"%1$s" requires at least %2$d rows.',
+					$min,
+					'fieldforge'
+				),
+				$this->field['label'] ?? $this->field['name'],
+				$min
+			);
+		}
+
+		if ( $max > 0 && $row_count > $max ) {
+			return sprintf(
+				/* translators: 1: field label, 2: maximum row count */
+				_n(
+					'"%1$s" may have at most %2$d row.',
+					'"%1$s" may have at most %2$d rows.',
+					$max,
+					'fieldforge'
+				),
+				$this->field['label'] ?? $this->field['name'],
+				$max
+			);
+		}
+
+		return true;
+	}
+
+	/**
 	 * Format all sub-field values in each row using the sub-field's own format_value().
 	 *
 	 * @param mixed $value   Raw rows array from load().

@@ -211,6 +211,61 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 	}
 
 	/**
+	 * Validate min/max layout row count constraints.
+	 *
+	 * @param mixed $value
+	 * @return true|string
+	 */
+	public function validate( $value ) {
+		$parent = parent::validate( $value );
+		if ( true !== $parent ) {
+			return $parent;
+		}
+
+		$name      = $this->field['name'];
+		$row_count = 0;
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing
+		foreach ( array_keys( $_POST ) as $key ) {
+			if ( preg_match( '/^' . preg_quote( $name, '/' ) . '_(\d+)_acf_fc_layout$/', $key, $m ) ) {
+				$row_count = max( $row_count, (int) $m[1] + 1 );
+			}
+		}
+
+		$min = (int) ( $this->field['min'] ?? 0 );
+		$max = (int) ( $this->field['max'] ?? 0 );
+
+		if ( $min > 0 && $row_count < $min ) {
+			return sprintf(
+				/* translators: 1: field label, 2: minimum layout count */
+				_n(
+					'"%1$s" requires at least %2$d layout.',
+					'"%1$s" requires at least %2$d layouts.',
+					$min,
+					'fieldforge'
+				),
+				$this->field['label'] ?? $this->field['name'],
+				$min
+			);
+		}
+
+		if ( $max > 0 && $row_count > $max ) {
+			return sprintf(
+				/* translators: 1: field label, 2: maximum layout count */
+				_n(
+					'"%1$s" may have at most %2$d layout.',
+					'"%1$s" may have at most %2$d layouts.',
+					$max,
+					'fieldforge'
+				),
+				$this->field['label'] ?? $this->field['name'],
+				$max
+			);
+		}
+
+		return true;
+	}
+
+	/**
 	 * Format all sub-field values in each row, resolving the layout's sub-fields.
 	 *
 	 * @param mixed $value   Raw rows array from load().
