@@ -54,8 +54,28 @@ function fieldforge_get( string $field_name, $post_id = null ) {
  * @param string   $field_name
  * @param int|null $post_id
  */
-function fieldforge_the( string $field_name, ?int $post_id = null ): void {
-	echo esc_html( (string) fieldforge_get( $field_name, $post_id ) );
+function fieldforge_the( string $field_name, $post_id = null ): void {
+	$value        = fieldforge_get( $field_name, $post_id );
+	$field_config = fieldforge_find_field_config( $field_name, (int) ( $post_id ?? get_the_ID() ) );
+	$type         = $field_config['type'] ?? 'text';
+
+	if ( in_array( $type, array( 'wysiwyg', 'message' ), true ) ) {
+		// phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- already processed through wp_kses_post on save/format
+		echo wp_kses_post( (string) $value );
+	} elseif ( 'link' === $type ) {
+		if ( is_array( $value ) ) {
+			printf(
+				'<a href="%s"%s>%s</a>',
+				esc_url( $value['url'] ?? '' ),
+				! empty( $value['target'] ) ? ' target="' . esc_attr( $value['target'] ) . '"' : '',
+				esc_html( $value['title'] ?? $value['url'] ?? '' )
+			);
+		} else {
+			echo esc_url( (string) $value );
+		}
+	} else {
+		echo esc_html( (string) $value );
+	}
 }
 
 // ---------------------------------------------------------------------------
@@ -196,4 +216,66 @@ function fieldforge_find_field_config( string $field_name, int $post_id ): ?arra
 		}
 	}
 	return null;
+}
+
+/**
+ * Programmatically update a field value for a post.
+ *
+ * @param string $field_name  Field name (slug).
+ * @param mixed  $value       The new value.
+ * @param int    $post_id     Post ID. Defaults to current post.
+ * @return bool True on success, false on failure.
+ */
+function fieldforge_update_field( string $field_name, $value, int $post_id = 0 ): bool {
+	if ( ! $post_id ) {
+		$post_id = (int) get_the_ID();
+	}
+	if ( ! $post_id ) {
+		return false;
+	}
+
+	$field_config = fieldforge_find_field_config( $field_name, $post_id );
+	$ff           = FieldForge::get_instance();
+	$field        = $field_config ? $ff->registry->make_field( $field_config ) : null;
+
+	if ( $field ) {
+		$clean = $field->sanitize( $value );
+		$field->save( $post_id, $clean );
+	} else {
+		update_post_meta( $post_id, $field_name, $value );
+	}
+	return true;
+}
+
+/**
+ * Programmatically update a field value on an options page.
+ *
+ * @param string $field_name  Field name (slug).
+ * @param mixed  $value       The new value.
+ * @param string $page_slug   Options page slug (defaults to 'option').
+ * @return bool
+ */
+function fieldforge_update_option( string $field_name, $value, string $page_slug = 'option' ): bool {
+	$field_config = fieldforge_find_field_config( $field_name, 0 );
+	$ff           = FieldForge::get_instance();
+	$field        = $field_config ? $ff->registry->make_field( $field_config ) : null;
+	$clean        = $field ? $field->sanitize( $value ) : $value;
+
+	FieldForge_Options_Page::update_option( $page_slug, $field_name, $clean );
+	return true;
+}
+
+/**
+ * Get a field value from an options page.
+ *
+ * @param string $field_name  Field name (slug).
+ * @param string $page_slug   Options page slug (defaults to 'option').
+ * @return mixed
+ */
+function fieldforge_get_option( string $field_name, string $page_slug = 'option' ) {
+	$field_config = fieldforge_find_field_config( $field_name, 0 );
+	$ff           = FieldForge::get_instance();
+	$field        = $field_config ? $ff->registry->make_field( $field_config ) : null;
+	$raw          = FieldForge_Options_Page::get_option( $page_slug, $field_name );
+	return $field ? $field->format_value( $raw, 0 ) : $raw;
 }
