@@ -109,13 +109,17 @@ class FieldForge_Meta_Handler {
 				if ( ! $name ) {
 					continue;
 				}
+				// Read row count BEFORE deleting the parent key.
+				$type      = $field_config['type'] ?? '';
+				$row_count = in_array( $type, array( 'repeater', 'flexible_content' ), true )
+					? (int) get_post_meta( $post_id, $name, true )
+					: 0;
+
 				delete_post_meta( $post_id, $name );
 				delete_post_meta( $post_id, '_' . $name );
 
 				// Delete sub-field rows for repeater / flexible content.
-				$type = $field_config['type'] ?? '';
 				if ( in_array( $type, array( 'repeater', 'flexible_content' ), true ) ) {
-					$row_count = (int) get_post_meta( $post_id, $name, true );
 					for ( $i = 0; $i < $row_count; $i++ ) {
 						$sub_fields = $field_config['sub_fields'] ?? array();
 						if ( 'flexible_content' === $type ) {

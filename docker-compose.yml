@@ -1,0 +1,54 @@
+version: '3.8'
+
+services:
+  mysql:
+    container_name: fp-mysql
+    image: mysql:8.0
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wp
+      MYSQL_PASSWORD: wp
+      MYSQL_ROOT_PASSWORD: root
+    volumes:
+      - fp_mysql_data:/var/lib/mysql
+    networks:
+      - fp-net
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+
+  wordpress:
+    container_name: fp-wordpress
+    image: wordpress:latest
+    restart: unless-stopped
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+      - "8080:80"
+    environment:
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_USER: wp
+      WORDPRESS_DB_PASSWORD: wp
+      WORDPRESS_DB_NAME: wordpress
+      WORDPRESS_DEBUG: "1"
+    volumes:
+      # FieldForge plugin (this repo)
+      - /Users/arunrajiah/claude workspace/FieldForge:/var/www/html/wp-content/plugins/fieldforge
+      # FlowPress plugin (existing project)
+      - /Users/arunrajiah/claude workspace/FlowPress:/var/www/html/wp-content/plugins/flowpress
+      # Persist WordPress uploads and core between restarts
+      - fp_wp_data:/var/www/html
+    networks:
+      - fp-net
+
+volumes:
+  fp_mysql_data:
+  fp_wp_data:
+
+networks:
+  fp-net:
+    driver: bridge

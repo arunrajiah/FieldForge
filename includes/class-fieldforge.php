@@ -32,6 +32,9 @@ final class FieldForge {
 	/** @var FieldForge_Local_JSON */
 	public $local_json;
 
+	/** @var FieldForge_ACF_Importer|null */
+	public $acf_importer = null;
+
 	private function __construct() {
 		$this->registry     = new FieldForge_Field_Registry();
 		$this->field_group  = new FieldForge_Field_Group();
@@ -51,7 +54,7 @@ final class FieldForge {
 			new FieldForge_Field_Group_Editor( $this->registry );
 			new FieldForge_Meta_Box_Renderer( $this->registry );
 			new FieldForge_Settings_Page();
-			new FieldForge_ACF_Importer( $this->field_group );
+			$this->acf_importer = new FieldForge_ACF_Importer( $this->field_group );
 		}
 
 		$this->registry->register_core_fields();
