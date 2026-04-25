@@ -18,13 +18,36 @@ class FieldForge_Settings_Page {
 	/** Option key that stores all plugin settings. */
 	const OPTION_KEY = 'fieldforge_settings';
 
+	/** @var string Hook suffix returned by add_submenu_page(). */
+	private string $hook_suffix = '';
+
 	public function __construct() {
 		add_action( 'admin_menu', array( $this, 'add_menu' ) );
 		add_action( 'admin_init', array( $this, 'register_settings' ) );
+		add_action( 'admin_enqueue_scripts', array( $this, 'enqueue_assets' ) );
+	}
+
+	/**
+	 * Enqueue plugin stylesheet on the FieldForge settings page.
+	 *
+	 * @param string $hook Current admin page hook.
+	 */
+	public function enqueue_assets( string $hook ): void {
+		// Match by page slug — more reliable than hook suffix across WP versions.
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended
+		if ( empty( $_GET['page'] ) || 'fieldforge-settings' !== $_GET['page'] ) {
+			return;
+		}
+		wp_enqueue_style(
+			'fieldforge-admin',
+			FIELDFORGE_PLUGIN_URL . 'assets/css/admin.css',
+			array(),
+			FIELDFORGE_VERSION
+		);
 	}
 
 	public function add_menu(): void {
-		add_submenu_page(
+		$this->hook_suffix = (string) add_submenu_page(
 			'edit.php?post_type=' . FieldForge_Field_Group::CPT,
 			__( 'FieldForge Settings', 'fieldforge' ),
 			__( 'Settings', 'fieldforge' ),
