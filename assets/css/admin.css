@@ -1733,3 +1733,94 @@
     border-top: 1px solid var(--ff-border);
   }
 }
+
+/* =========================================================
+   Attribution strip — Settings page
+   ========================================================= */
+
+.fieldforge-attribution-strip {
+  margin: 0 0 24px;
+  border: 1px solid #dbe1f0;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #f0f5ff 0%, #fafbff 100%);
+  overflow: hidden;
+}
+
+.fieldforge-attribution-strip__inner {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 18px 22px;
+}
+
+.fieldforge-attribution-strip__logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.fieldforge-attribution-strip__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: #1e3a8a;
+  letter-spacing: -0.2px;
+}
+
+.fieldforge-attribution-strip__text {
+  flex: 1;
+}
+
+.fieldforge-attribution-strip__tagline,
+.fieldforge-attribution-strip__sponsor {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.6;
+  color: #374151;
+}
+
+.fieldforge-attribution-strip__tagline {
+  margin-bottom: 4px;
+}
+
+.fieldforge-attribution-strip__tagline a {
+  color: #2563eb;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.fieldforge-attribution-strip__tagline a:hover {
+  text-decoration: underline;
+}
+
+.fieldforge-attribution-strip__sponsor-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: #fff !important;
+  background: #db61a2;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 20px;
+  text-decoration: none !important;
+  transition: background 0.15s ease, transform 0.1s ease;
+  white-space: nowrap;
+}
+
+.fieldforge-attribution-strip__sponsor-link:hover {
+  background: #c0507f;
+  transform: translateY(-1px);
+}
+
+.fieldforge-attribution-strip__sponsor-link:active {
+  transform: translateY(0);
+}
+
+@media screen and (max-width: 600px) {
+  .fieldforge-attribution-strip__inner {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
