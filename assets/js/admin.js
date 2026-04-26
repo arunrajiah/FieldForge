@@ -1074,13 +1074,16 @@
 		} ).join( '' );
 
 		return $(
-			'<div class="fieldforge-sub-field-row" data-index="' + index + '">' +
+			'<div class="fieldforge-sub-field-row" data-index="' + index + '" data-category="text">' +
 			'<div class="fieldforge-sub-field-header">' +
-			'<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>' +
+			'<span class="fieldforge-drag-handle" title="Drag to reorder"><span class="dashicons dashicons-menu"></span></span>' +
+			'<span class="fieldforge-field-type-icon ff-type-icon--text"><span class="dashicons dashicons-editor-paragraph"></span></span>' +
 			'<strong class="ff-sub-label-preview">(new sub field)</strong>' +
-			'<span class="ff-badge">Text</span>' +
-			'<button type="button" class="button button-link fieldforge-toggle-sub-field">Edit</button>' +
-			'<button type="button" class="button button-link-delete fieldforge-remove-sub-field">Delete</button>' +
+			'<span class="fieldforge-field-type-badge ff-badge--text">Text</span>' +
+			'<div class="fieldforge-field-row-actions">' +
+			'<button type="button" class="ff-btn-icon fieldforge-toggle-sub-field" title="Edit / Collapse"><span class="dashicons dashicons-arrow-down-alt2"></span></button>' +
+			'<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-sub-field" title="Delete"><span class="dashicons dashicons-trash"></span></button>' +
+			'</div>' +
 			'</div>' +
 			'<div class="fieldforge-sub-field-body">' +
 			'<input type="hidden" name="' + prefix + '[key]" value="field_' + Date.now() + '" />' +
@@ -1155,11 +1158,13 @@
 		return $(
 			'<div class="fieldforge-layout-row" data-index="' + index + '">' +
 			'<div class="fieldforge-layout-header">' +
-			'<span class="dashicons dashicons-menu fieldforge-drag-handle"></span>' +
+			'<span class="fieldforge-drag-handle" title="Drag to reorder"><span class="dashicons dashicons-menu"></span></span>' +
+			'<span class="fieldforge-field-type-icon ff-type-icon--layout"><span class="dashicons dashicons-layout"></span></span>' +
 			'<strong class="ff-layout-label-preview">(new layout)</strong>' +
-			'<code></code>' +
-			'<button type="button" class="button button-link fieldforge-toggle-layout">Edit</button>' +
-			'<button type="button" class="button button-link-delete fieldforge-remove-layout">Delete</button>' +
+			'<div class="fieldforge-field-row-actions">' +
+			'<button type="button" class="ff-btn-icon fieldforge-toggle-layout" title="Edit / Collapse"><span class="dashicons dashicons-arrow-down-alt2"></span></button>' +
+			'<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-layout" title="Delete"><span class="dashicons dashicons-trash"></span></button>' +
+			'</div>' +
 			'</div>' +
 			'<div class="fieldforge-layout-body">' +
 			'<table class="form-table">' +
@@ -1169,7 +1174,7 @@
 			'<div class="fieldforge-sub-fields-editor fieldforge-layout-subfields" data-name-prefix="' + escAttr( sfBase ) + '">' +
 			'<h5>Sub Fields</h5>' +
 			'<div class="fieldforge-sub-fields-list"></div>' +
-			'<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="' + escAttr( sfBase ) + '">+ Add Sub Field</button>' +
+			'<div class="fieldforge-add-field-wrap" style="margin-top:8px"><button type="button" class="button fieldforge-add-sub-field" data-name-prefix="' + escAttr( sfBase ) + '"><span class="dashicons dashicons-plus-alt2"></span> Add Sub Field</button></div>' +
 			'</div>' +
 			'</div>' +
 			'</div>'

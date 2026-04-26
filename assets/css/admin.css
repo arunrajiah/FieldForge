@@ -1824,3 +1824,365 @@
     gap: 10px;
   }
 }
+
+/* ==========================================================================
+   Field type category — icon circles  (ff-type-icon--{cat})
+   Mirrors JS buildFieldRow() ff-type-icon--* classes
+   ========================================================================== */
+
+.fieldforge-field-type-icon {
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-size: 13px;
+}
+
+.ff-type-icon--text     { background: #dbeafe; color: var(--ff-type-text); }
+.ff-type-icon--choice   { background: #ede9fe; color: var(--ff-type-choice); }
+.ff-type-icon--media    { background: #d1fae5; color: var(--ff-type-media); }
+.ff-type-icon--relation { background: #fef3c7; color: var(--ff-type-relation); }
+.ff-type-icon--content  { background: #cffafe; color: var(--ff-type-content); }
+.ff-type-icon--layout   { background: #fce7f3; color: var(--ff-type-layout); }
+
+/* ==========================================================================
+   Field type category — type badges  (ff-badge--{cat})
+   Mirrors JS buildFieldRow() ff-badge--* classes
+   ========================================================================== */
+
+.ff-badge--text     { background: #dbeafe; color: var(--ff-type-text); }
+.ff-badge--choice   { background: #ede9fe; color: var(--ff-type-choice); }
+.ff-badge--media    { background: #d1fae5; color: var(--ff-type-media); }
+.ff-badge--relation { background: #fef3c7; color: var(--ff-type-relation); }
+.ff-badge--content  { background: #cffafe; color: var(--ff-type-content); }
+.ff-badge--layout   { background: #fce7f3; color: var(--ff-type-layout); }
+
+/* ==========================================================================
+   Field row header — category left-border accent
+   ========================================================================== */
+
+.fieldforge-field-row[data-category="text"]     .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-text); }
+.fieldforge-field-row[data-category="choice"]   .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-choice); }
+.fieldforge-field-row[data-category="media"]    .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-media); }
+.fieldforge-field-row[data-category="relation"] .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-relation); }
+.fieldforge-field-row[data-category="content"]  .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-content); }
+.fieldforge-field-row[data-category="layout"]   .fieldforge-field-row-header { border-left: 3px solid var(--ff-type-layout); }
+
+/* ==========================================================================
+   Icon action buttons (ff-btn-icon)
+   ========================================================================== */
+
+.ff-btn-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: none;
+  border-radius: var(--ff-radius);
+  background: transparent;
+  cursor: pointer;
+  color: var(--ff-text-light);
+  padding: 0;
+  transition: color var(--ff-transition), background var(--ff-transition);
+  flex-shrink: 0;
+}
+
+.ff-btn-icon:hover {
+  color: var(--ff-primary);
+  background: var(--ff-primary-light);
+}
+
+.ff-btn-icon .dashicons {
+  font-size: 15px;
+  width: 15px;
+  height: 15px;
+  line-height: 1;
+}
+
+.ff-btn-icon--danger:hover {
+  color: var(--ff-danger);
+  background: var(--ff-danger-light);
+}
+
+/* ==========================================================================
+   + Add Field button and wrapper
+   ========================================================================== */
+
+.fieldforge-add-field-wrap {
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--ff-border);
+  display: flex;
+  align-items: center;
+}
+
+.fieldforge-add-field {
+  display: inline-flex !important;
+  align-items: center;
+  gap: 5px;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  padding: 6px 14px !important;
+  height: auto !important;
+  line-height: 1.4 !important;
+  border-radius: var(--ff-radius-lg) !important;
+  border-color: var(--ff-primary) !important;
+  color: var(--ff-primary) !important;
+  background: var(--ff-primary-light) !important;
+  transition: background var(--ff-transition), color var(--ff-transition), transform 0.1s ease !important;
+  box-shadow: none !important;
+}
+
+.fieldforge-add-field:hover {
+  background: var(--ff-primary) !important;
+  color: #fff !important;
+  border-color: var(--ff-primary) !important;
+  transform: translateY(-1px);
+}
+
+.fieldforge-add-field:active {
+  transform: translateY(0);
+}
+
+.fieldforge-add-field .dashicons {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 1;
+  margin-top: -1px;
+}
+
+/* ==========================================================================
+   Small utility buttons (ff-btn, ff-btn--sm, ff-btn--danger)
+   ========================================================================== */
+
+.ff-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 5px 12px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius);
+  background: var(--ff-surface);
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+  line-height: 1.4;
+  transition: border-color var(--ff-transition), color var(--ff-transition), background var(--ff-transition);
+}
+
+.ff-btn:hover {
+  border-color: var(--ff-primary);
+  color: var(--ff-primary);
+  background: var(--ff-primary-light);
+}
+
+.ff-btn--sm {
+  padding: 3px 10px;
+  font-size: 11px;
+}
+
+.ff-btn--danger {
+  color: var(--ff-danger);
+  border-color: var(--ff-danger);
+}
+
+.ff-btn--danger:hover {
+  background: var(--ff-danger-light);
+  color: var(--ff-danger);
+  border-color: var(--ff-danger);
+}
+
+.ff-btn .dashicons {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  line-height: 1;
+}
+
+/* ==========================================================================
+   Location meta box improvements
+   ========================================================================== */
+
+.fieldforge-location-group {
+  background: var(--ff-surface);
+}
+
+.fieldforge-location-group-header {
+  padding: 8px 14px;
+  background: var(--ff-surface-alt);
+  border-bottom: 1px solid var(--ff-border);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+  text-transform: uppercase;
+  letter-spacing: .4px;
+}
+
+/* Inject a subtle "IF" label before first rule group */
+#fieldforge-location-editor > .fieldforge-location-group:first-child .fieldforge-location-rules::before {
+  content: 'Show when';
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .6px;
+  color: var(--ff-text-light);
+  margin-bottom: 6px;
+}
+
+/* Location group wrapper & footer */
+.ff-location-group-wrap {
+  margin-bottom: 0;
+}
+
+.ff-location-group-footer {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: var(--ff-surface-alt);
+  border-top: 1px solid var(--ff-border);
+}
+
+/* Location OR divider — overrides above with span tag */
+.fieldforge-location-or {
+  text-align: center;
+  padding: 8px 0;
+  position: relative;
+  margin: 0;
+}
+
+.fieldforge-location-or::before,
+.fieldforge-location-or::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  width: calc(50% - 22px);
+  height: 1px;
+  background: var(--ff-border);
+}
+
+.fieldforge-location-or span {
+  position: relative;
+  display: inline-block;
+  background: var(--ff-bg);
+  padding: 2px 10px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--ff-text-light);
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  border: 1px solid var(--ff-border);
+  border-radius: 20px;
+}
+
+/* + Add Location Group button */
+.fieldforge-add-location-group {
+  margin-top: 8px !important;
+}
+
+/* Remove rule button (icon style) — already ff-btn-icon, but inline in rule */
+.fieldforge-location-rule .ff-btn-icon {
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
+   Settings sidebar meta box — card polish
+   ========================================================================== */
+
+#fieldforge_settings .inside {
+  padding: 0;
+}
+
+#fieldforge_settings .form-table {
+  margin: 0;
+}
+
+#fieldforge_settings .form-table th,
+#fieldforge_settings .form-table td {
+  padding: 10px 14px;
+}
+
+#fieldforge_settings .form-table th {
+  width: 100px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--ff-text-muted);
+}
+
+#fieldforge_settings hr {
+  margin: 0;
+  border-color: var(--ff-border);
+}
+
+#fieldforge_settings .fieldforge-export-group {
+  display: block;
+  width: calc(100% - 28px);
+  margin: 12px 14px;
+  text-align: center;
+}
+
+/* ==========================================================================
+   Field row body — type-specific settings polish
+   ========================================================================== */
+
+/* Type-specific tables inherit ff-field-setting look */
+.fieldforge-field-row-body .form-table th {
+  width: 160px;
+  font-weight: 600;
+  font-size: 12px;
+  color: var(--ff-text-muted);
+  vertical-align: top;
+  padding-top: 8px;
+}
+
+.fieldforge-field-row-body .form-table td {
+  padding: 6px 0 6px 10px;
+}
+
+/* Type-specific section heading */
+.ff-type-specific-wrap > .form-table {
+  border-top: 1px solid var(--ff-border);
+  margin-top: 12px;
+  padding-top: 4px;
+}
+
+/* Sub-field rows — category left-border accent */
+.fieldforge-sub-field-row[data-category="text"]     .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-text); }
+.fieldforge-sub-field-row[data-category="choice"]   .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-choice); }
+.fieldforge-sub-field-row[data-category="media"]    .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-media); }
+.fieldforge-sub-field-row[data-category="relation"] .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-relation); }
+.fieldforge-sub-field-row[data-category="content"]  .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-content); }
+.fieldforge-sub-field-row[data-category="layout"]   .fieldforge-sub-field-header { border-left: 3px solid var(--ff-type-layout); }
+
+/* Layout row header — layout accent colour */
+.fieldforge-layout-header { border-left: 3px solid var(--ff-type-layout); }
+
+/* ==========================================================================
+   Fields list — drag placeholder
+   ========================================================================== */
+
+.fieldforge-field-row.ui-sortable-placeholder {
+  border: 2px dashed var(--ff-primary);
+  background: var(--ff-primary-light);
+  border-radius: var(--ff-radius-lg);
+  box-shadow: none;
+  visibility: visible !important;
+}
+
+/* ==========================================================================
+   Toggle arrow rotation on expanded rows
+   ========================================================================== */
+
+.fieldforge-field-row.is-open .fieldforge-toggle-field .dashicons {
+  transform: rotate(180deg);
+}
