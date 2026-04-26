@@ -164,13 +164,25 @@ class FieldForge_Settings_Page {
 					</p>
 					<p class="fieldforge-attribution-strip__sponsor">
 						<?php
+						$heart_svg = '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"'
+							. ' xmlns="http://www.w3.org/2000/svg" aria-hidden="true"'
+							. ' style="vertical-align:-2px;margin-right:3px">'
+							. '<path d="M8 13.7C7.6 13.4.5 9 .5 5.2.5 3 2.2 1.3 4.3 1.3c1.1 0'
+							. ' 2.2.5 3 1.3.8-.8 1.9-1.3 3-1.3C12.4 1.3 14 3 14 5.2c0'
+							. ' 3.9-7.1 8.2-6 8.5z"/></svg>';
+						$sponsor_link = '<a href="https://github.com/sponsors/arunrajiah"'
+							. ' target="_blank" rel="noopener noreferrer"'
+							. ' class="fieldforge-attribution-strip__sponsor-link">'
+							. $heart_svg
+							. esc_html__( 'becoming a sponsor on GitHub', 'fieldforge' )
+							. '</a>';
 						printf(
 							/* translators: %s: linked sponsor CTA */
-							esc_html__( 'If you find it useful, please consider %s — it helps keep the project alive and growing.', 'fieldforge' ),
-							'<a href="https://github.com/sponsors/arunrajiah" target="_blank" rel="noopener noreferrer" class="fieldforge-attribution-strip__sponsor-link">'
-							. '<svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" style="vertical-align:-2px;margin-right:3px"><path d="M8 13.7C7.6 13.4.5 9 .5 5.2.5 3 2.2 1.3 4.3 1.3c1.1 0 2.2.5 3 1.3.8-.8 1.9-1.3 3-1.3C12.4 1.3 14 3 14 5.2c0 3.9-7.1 8.2-6 8.5z"/></svg>'
-							. esc_html__( 'becoming a sponsor on GitHub', 'fieldforge' )
-							. '</a>'
+							esc_html__(
+								'If you find it useful, please consider %s — it helps keep the project alive and growing.',
+								'fieldforge'
+							),
+							$sponsor_link // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pre-escaped above
 						);
 						?>
 					</p>
