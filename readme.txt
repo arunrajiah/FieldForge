@@ -114,6 +114,16 @@ Use `fieldforge_get( 'field_name' )` to return a value, or `fieldforge_the( 'fie
 
 FieldForge registers its own function names, CPT slugs, and meta keys and does not interfere with other custom field plugins. You can run multiple custom field plugins simultaneously.
 
+== Screenshots ==
+
+1. **Field Group Editor — fields overview.** Six fields in the "Article Details" group, each row showing a colour-coded type icon, field name slug, and category badge (Text, Textarea, Number, True/False, Image, Post Object). Drag handles let you reorder by dragging. Action icons on the right duplicate, expand, or delete a field.
+2. **Field Group Editor — field expanded.** The "Subtitle" Text field is open, showing the two-column settings grid: label, slug, type picker, instructions, required toggle, default value, and placeholder.
+3. **Field Group Editor — empty state.** A fresh group before any fields are added — dashed placeholder card prompts you to click + Add Field.
+4. **Field Groups list.** The standard WordPress list table showing all published field groups at a glance.
+5. **Post edit screen — custom meta box.** FieldForge renders its fields as a standard WordPress meta box on the post editor, respecting location rules.
+6. **Import / Export page.** Paste any JSON field-group export and click Import to bring fields across from any site.
+7. **Settings page.** Configure local JSON sync paths, enable debug logging, and sponsor the project — all in one place.
+
 == Changelog ==
 
 = 0.1.1 =
