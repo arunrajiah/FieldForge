@@ -1,6 +1,6 @@
 # FieldForge
 
-**Open-source, GPL alternative to Advanced Custom Fields (ACF) Pro** — native Repeater, Flexible Content, Options Pages, conditional logic, and full ACF JSON import. Runs entirely inside WordPress. No SaaS, no phone-home, no lock-in.
+**A 100% GPL WordPress custom fields plugin** — native Repeater, Flexible Content, Options Pages, conditional logic, JSON import/export, and local JSON sync. Runs entirely inside WordPress. No SaaS, no phone-home, no lock-in.
 
 [![CI](https://github.com/arunrajiah/fieldforge/actions/workflows/ci.yml/badge.svg)](https://github.com/arunrajiah/fieldforge/actions/workflows/ci.yml)
 [![Version](https://img.shields.io/badge/version-0.1.1-blue)](https://github.com/arunrajiah/fieldforge/releases)
@@ -12,11 +12,12 @@
 
 ## Why FieldForge?
 
-Most teams are stuck on ACF Pro because of two features: **Repeater** and **Flexible Content**. FieldForge ships both — plus Options Pages, conditional logic, REST API, and ACF import — as a community-governed, 100% GPL plugin.
+FieldForge ships **Repeater** and **Flexible Content** as first-class features alongside 24 other field types — all in a 100% GPL, community-governed plugin.
 
-- **Zero lock-in.** All values stored in standard `wp_postmeta`, byte-for-byte compatible with ACF.
+- **Complete feature set.** Every field type you need is built in: Repeater, Flexible Content, Options Pages, conditional logic, and a full REST API — no paid upgrades or tiers.
+- **Standard WordPress storage.** All values are stored in `wp_postmeta` using standard post meta. No proprietary schema, no vendor lock-in.
 - **No SaaS. No phone-home.** Pure PHP + MySQL. Works in air-gapped environments.
-- **Import your ACF field groups** in 30 seconds — paste the JSON export and it maps everything automatically.
+- **JSON Import.** Import field groups from JSON in 30 seconds — paste the export and it maps everything automatically.
 - **Open governance.** Feature requests, roadmap, and releases happen in public on GitHub.
 
 ---
@@ -36,10 +37,10 @@ Most teams are stuck on ACF Pro because of two features: **Repeater** and **Flex
 
 ### Developer Experience
 
-- **ACF JSON import** — Export from ACF, import into FieldForge. All field types, rules, sub-fields, and layouts map automatically.
-- **Local JSON sync** — Field groups saved as JSON files alongside your theme (equivalent to ACF's `acf-json` folder). Commit them to version control.
+- **JSON field group import** — Import field groups from JSON. All field types, rules, sub-fields, and layouts map automatically.
+- **Local JSON sync** — Field groups saved as JSON files alongside your theme (the `fieldforge-json` folder). Commit them to version control.
 - **REST API** — Field values exposed at `/fieldforge/v1/fields/{post_id}` with location-rule filtering.
-- **Template helpers** — ACF-compatible function API for themes and plugins.
+- **Template helpers** — A clean, consistent function API for themes and plugins.
 - **Field validation** — Required fields, number min/max, email/URL format checks, text maxlength.
 - **PHPUnit test suite** — CI matrix on PHP 7.4 → 8.3.
 - **Custom field types** — Register your own via a single action hook.
@@ -164,8 +165,8 @@ $site_logo = fieldforge_get_option( 'site_logo' );
 
 | Function | Returns | Description |
 |---|---|---|
-| `fieldforge_have_rows( $name, $post_id )` | `bool` | Advances the row pointer. Use as a `while` condition. |
-| `fieldforge_the_row()` | `void` | No-op; provided for ACF API compatibility. |
+| `fieldforge_have_rows( $name, $post_id )` | `bool` | Advances the row pointer. Use as a `while` condition. Supports Repeater and Flexible Content fields. |
+| `fieldforge_the_row()` | `void` | Advances the internal row context. Call at the top of each loop iteration. |
 | `fieldforge_sub_field( $name )` | `mixed` | Returns a sub-field value within the current row. |
 | `fieldforge_the_sub_field( $name )` | `void` | Echoes a sub-field value, escaped as plain text. |
 | `fieldforge_get_row_layout()` | `string` | Returns the layout name for the current Flexible Content row. |
@@ -305,22 +306,22 @@ $phone = fieldforge_get( 'contact_phone', 'option' );
 
 ---
 
-## ACF Migration
+## JSON Import
 
-### Importing from ACF
+### Importing Field Groups
 
-1. In ACF: go to **Custom Fields → Tools → Export Field Groups** and export as JSON.
+1. Export your field group as JSON from any compatible tool or from FieldForge's own export screen.
 2. In FieldForge: go to **FieldForge → Import / Export**, paste the JSON, click **Import**.
 
 All supported field types, location rules, sub-fields, Flexible Content layouts, and conditional logic rules are imported automatically.
 
-### Data compatibility
+### Data Compatibility
 
-FieldForge uses the same `wp_postmeta` storage format as ACF. After importing the field group JSON, existing post meta written by ACF is read correctly — no database migration required for most field types.
+FieldForge uses standard WordPress postmeta storage (`wp_postmeta`). After importing a field group via JSON, any existing post meta written using the same field keys is read correctly — no database migration required for most field types.
 
-### Unsupported ACF types
+### Unsupported field types at import
 
-| ACF type | FieldForge behaviour |
+| Field type | FieldForge behaviour |
 |---|---|
 | `clone` | Silently skipped — sub-fields are not inlined |
 | `group` | Silently skipped |
@@ -359,10 +360,10 @@ fieldforge/
 │   ├── class-field-renderer.php   # Enqueues assets, provides render helpers
 │   ├── class-template-helpers.php # Public API functions (fieldforge_get etc.)
 │   ├── class-options-page.php     # Options page registration & storage
-│   ├── class-local-json.php       # JSON export/import (acf-json equivalent)
+│   ├── class-local-json.php       # Local JSON sync (fieldforge-json folder)
 │   ├── class-rest-api.php         # /fieldforge/v1/fields/{id} endpoint
 │   ├── class-conditional-logic.php# Location & conditional rule evaluator
-│   ├── class-acf-importer.php     # ACF JSON → FieldForge group converter
+│   ├── class-json-importer.php    # JSON field group importer
 │   └── fields/
 │       ├── class-field-base.php   # Abstract base — load/save/render/sanitize
 │       ├── class-field-text.php
@@ -458,10 +459,10 @@ Tests run on every push and pull request across:
 
 This is usually a `prefilled_value` issue with nested fields. Ensure you are using FieldForge ≥ 0.1.1, which fixes sub-field rendering inside Repeater and Flexible Content rows.
 
-### ACF import produces empty fields
+### JSON import produces empty fields
 
-- Some ACF field types (`clone`, `group`, `google_map`, `oembed`) are not supported and are silently skipped. Check the **Import / Export** screen for any warnings.
-- If your ACF export uses field keys (`field_abc123`) for conditional logic references, these are mapped by position — verify the resulting rules after import.
+- Some field types (`clone`, `group`, `google_map`, `oembed`) are not supported and are silently skipped. Check the **Import / Export** screen for any warnings.
+- If your JSON export uses field keys (`field_abc123`) for conditional logic references, these are mapped by position — verify the resulting rules after import.
 
 ### Conditional logic not evaluating
 
@@ -502,7 +503,7 @@ Issues, feature requests, and roadmap discussion happen in [GitHub Issues](https
 - Fixed: required True/False field unsaveable when set to "No" (false positive required validation).
 - Fixed: message field always rendering empty (message\_content key mismatch).
 - Fixed: Flexible Content type missing from field type selector in the group editor.
-- Fixed: ACF Importer never instantiated from plugin bootstrap.
+- Fixed: JSON importer never instantiated from plugin bootstrap.
 - Fixed: Settings page options (local JSON path, debug log) not wired into subsystems.
 - Fixed: `error_log()` firing unconditionally in production; now gated behind Debug Log setting.
 - Fixed: REST API exposing fields for groups with no location rules (should be hidden like admin).
@@ -511,7 +512,7 @@ Issues, feature requests, and roadmap discussion happen in [GitHub Issues](https
 ### 0.1.0
 - Initial public release.
 - 26 field types including Repeater and Flexible Content.
-- Options Pages, conditional logic, REST API, ACF JSON import, local JSON sync.
+- Options Pages, conditional logic, REST API, JSON field group import, local JSON sync.
 - PHPUnit test suite with CI matrix on PHP 7.4–8.3.
 
 ---

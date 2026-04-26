@@ -8,7 +8,7 @@
  *
  * Filter the save path:
  *   add_filter( 'fieldforge/local_json/save_path', function( $path ) {
- *       return get_stylesheet_directory() . '/acf-json';  // share with ACF tooling
+ *       return get_stylesheet_directory() . '/acf-json';  // share with other tooling
  *   } );
  *
  * Filter the load paths (array so multiple directories can be scanned):

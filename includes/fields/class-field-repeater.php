@@ -2,7 +2,7 @@
 /**
  * Repeater field type.
  *
- * Data format (ACF-compatible):
+ * Data format:
  *   {name}            => (int) number of rows
  *   {name}_{i}_{sub}  => value for row i, sub-field sub
  *
@@ -136,7 +136,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 	}
 
 	/**
-	 * Override save to handle the multi-key ACF-compatible storage pattern.
+	 * Override save to handle the multi-key storage pattern.
 	 *
 	 * @param int   $post_id
 	 * @param mixed $value  Not used directly; raw data comes from $_POST.
@@ -155,7 +155,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 			}
 		}
 
-		// Store row count (ACF format).
+		// Store row count.
 		update_post_meta( $post_id, $name, $row_count );
 		update_post_meta( $post_id, '_' . $name, $this->field['key'] ?? '' );
 

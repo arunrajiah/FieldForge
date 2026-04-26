@@ -126,7 +126,7 @@ function fieldforge_have_rows( string $field_name, ?int $post_id = null ): bool 
 
 /**
  * Advance to the next repeater row (no-op — have_rows() already advances the pointer).
- * Required for ACF-compatible template syntax: while ( have_rows() ) : the_row(); ...
+ * Required for template loop syntax: while ( have_rows() ) : the_row(); ...
  */
 function fieldforge_the_row(): void {}
 

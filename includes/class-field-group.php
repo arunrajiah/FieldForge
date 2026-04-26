@@ -155,7 +155,7 @@ class FieldForge_Field_Group {
 	}
 
 	/**
-	 * Evaluate location rules (OR of AND groups, matching ACF semantics).
+	 * Evaluate location rules (OR of AND groups, matching FieldForge location rule semantics).
 	 *
 	 * @param array     $location  Multi-dimensional location rules.
 	 * @param WP_Screen $screen

@@ -58,7 +58,7 @@ abstract class FieldForge_Field_Base {
 
 	/**
 	 * Persist the sanitized value to postmeta.
-	 * Stores an ACF-compatible `_field_name` key reference alongside the value.
+	 * Stores an standard `_field_name` key reference alongside the value.
 	 *
 	 * @param int   $post_id
 	 * @param mixed $value   Already sanitized.

@@ -2,7 +2,7 @@
 /**
  * Flexible Content field type.
  *
- * Storage format (ACF-compatible):
+ * Storage format:
  *   {name}                        => (int) number of layout rows
  *   {name}_{i}_acf_fc_layout      => layout name for row i
  *   {name}_{i}_{sub_field_name}   => sub-field value for row i
@@ -120,7 +120,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 	}
 
 	/**
-	 * Override save: writes ACF-compatible multi-key storage.
+	 * Override save: writes multi-key repeater storage.
 	 */
 	public function save( int $post_id, $value ): void {
 		$name     = $this->field['name'];

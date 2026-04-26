@@ -27,7 +27,7 @@ class FieldForge_Field_Date extends FieldForge_Field_Base {
 
 	public function sanitize( $value ): string {
 		$value = sanitize_text_field( (string) $value );
-		// Accept Ymd or Y-m-d formats; normalize to Ymd for ACF compatibility.
+		// Accept Ymd or Y-m-d formats; normalize to Ymd format for storage consistency.
 		if ( preg_match( '/^\d{4}-\d{2}-\d{2}$/', $value ) ) {
 			return str_replace( '-', '', $value );
 		}

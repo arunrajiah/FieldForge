@@ -83,7 +83,7 @@ class FieldForge_Meta_Handler {
 	 * Hook: before_delete_post — remove all FieldForge field meta when a post is permanently deleted.
 	 *
 	 * Iterates every registered field group whose location rules match the post being deleted
-	 * and removes the postmeta key (and its ACF-compatible `_key` reference) for each field.
+	 * and removes the postmeta key (and its standard `_key` meta reference) for each field.
 	 *
 	 * @param int $post_id Post being permanently deleted.
 	 */
