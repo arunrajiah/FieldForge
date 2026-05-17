@@ -9,7 +9,7 @@ Stable tag: 0.1.1
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A powerful, open-source custom fields plugin for WordPress — with a native Repeater field, Flexible Content, Options Pages, conditional logic, and a polished field group editor.
+Open-source custom fields plugin with 26 field types, Repeater, Flexible Content, Options Pages, conditional logic, and JSON sync.
 
 == Description ==
 

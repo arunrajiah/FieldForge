@@ -19,10 +19,10 @@ if ( ! defined( 'WP_UNINSTALL_PLUGIN' ) ) {
 global $wpdb;
 
 // 1. Delete all fieldforge_group CPT posts (force-delete, bypasses trash).
-$group_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
+$fieldforge_group_ids = $wpdb->get_col( // phpcs:ignore WordPress.DB.DirectDatabaseQuery
 	"SELECT ID FROM {$wpdb->posts} WHERE post_type = 'fieldforge_group'"
 );
-foreach ( $group_ids as $post_id ) {
+foreach ( $fieldforge_group_ids as $post_id ) {
 	wp_delete_post( (int) $post_id, true );
 }
 

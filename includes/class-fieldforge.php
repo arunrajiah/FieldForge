@@ -58,7 +58,6 @@ final class FieldForge {
 		}
 
 		$this->registry->register_core_fields();
-		$this->load_textdomain();
 	}
 
 	public static function get_instance(): self {
@@ -80,7 +79,4 @@ final class FieldForge {
 		flush_rewrite_rules();
 	}
 
-	private function load_textdomain(): void {
-		load_plugin_textdomain( 'fieldforge', false, dirname( plugin_basename( FIELDFORGE_PLUGIN_FILE ) ) . '/languages' );
-	}
 }
