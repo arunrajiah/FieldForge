@@ -6,8 +6,8 @@ Requires at least: 6.2
 Tested up to: 6.9
 Requires PHP: 7.4
 Stable tag: 0.1.1
-License: MIT
-License URI: https://opensource.org/licenses/MIT
+License: GPL-2.0-or-later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
 A powerful, open-source custom fields plugin for WordPress — with a native Repeater field, Flexible Content, Options Pages, conditional logic, and a polished field group editor.
 

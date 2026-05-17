@@ -3,15 +3,15 @@
  * Plugin Name: FieldForge
  * Plugin URI:  https://github.com/arunrajiah/fieldforge
  * Description: Open-source, community-governed custom fields plugin for WordPress with native Repeater, Flexible Content, Options Pages, and conditional logic.
- * Version:     0.1.0
+ * Version:     0.1.1
  * Author:      arunrajiah
  * Author URI:  https://github.com/arunrajiah
- * License:     MIT
- * License URI: https://opensource.org/licenses/MIT
+ * License:     GPL-2.0-or-later
+ * License URI: https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain: fieldforge
  * Domain Path: /languages
  * Requires at least: 6.2
- * Tested up to:      6.8
+ * Tested up to:      6.9
  * Requires PHP:      7.4
  *
  * @package FieldForge
@@ -21,7 +21,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit;
 }
 
-define( 'FIELDFORGE_VERSION', '0.1.0' );
+define( 'FIELDFORGE_VERSION', '0.1.1' );
 define( 'FIELDFORGE_PLUGIN_FILE', __FILE__ );
 define( 'FIELDFORGE_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
 define( 'FIELDFORGE_PLUGIN_URL', plugin_dir_url( __FILE__ ) );
