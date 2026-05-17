@@ -4,8 +4,8 @@
  * Plugin URI:  https://github.com/arunrajiah/fieldforge
  * Description: Open-source, community-governed custom fields plugin for WordPress with native Repeater, Flexible Content, Options Pages, and conditional logic.
  * Version:     0.1.0
- * Author:      FieldForge Contributors
- * Author URI:  https://github.com/arunrajiah/fieldforge
+ * Author:      arunrajiah
+ * Author URI:  https://github.com/arunrajiah
  * License:     MIT
  * License URI: https://opensource.org/licenses/MIT
  * Text Domain: fieldforge
