@@ -2186,3 +2186,689 @@
 .fieldforge-field-row.is-open .fieldforge-toggle-field .dashicons {
   transform: rotate(180deg);
 }
+
+/* ==========================================================================
+   FieldForge Admin — v2 Design Polish
+   Elevated typography, richer tokens, smoother motion, premium feel.
+   Overrides earlier declarations to produce a classy, refined interface.
+   ========================================================================== */
+
+/* ---------- Upgraded design tokens ---------- */
+:root {
+  --ff-radius:           5px;
+  --ff-radius-lg:        10px;
+  --ff-radius-xl:        14px;
+
+  /* Multi-layer shadows for depth */
+  --ff-shadow-sm:        0 1px 3px rgba(0,0,0,.06), 0 1px 2px rgba(0,0,0,.04);
+  --ff-shadow:           0 3px 10px rgba(0,0,0,.09), 0 1px 3px rgba(0,0,0,.05);
+  --ff-shadow-lg:        0 12px 32px rgba(0,0,0,.13), 0 3px 8px rgba(0,0,0,.06);
+  --ff-shadow-primary:   0 4px 14px rgba(34,113,177,.2);
+
+  /* Richer transitions */
+  --ff-transition:       170ms cubic-bezier(.4,0,.2,1);
+  --ff-transition-lg:    280ms cubic-bezier(.4,0,.2,1);
+  --ff-spring:           340ms cubic-bezier(.34,1.56,.64,1);
+
+  /* Slightly warmer surface */
+  --ff-surface-alt:      #f8f9fa;
+  --ff-border:           #e2e4e7;
+
+  /* Category header gradients — subtle tint, never garish */
+  --ff-grad-text:        linear-gradient(135deg, #eff6ff 0%, #f8faff 100%);
+  --ff-grad-choice:      linear-gradient(135deg, #f5f3ff 0%, #faf8ff 100%);
+  --ff-grad-media:       linear-gradient(135deg, #f0fdf4 0%, #f7fff9 100%);
+  --ff-grad-relation:    linear-gradient(135deg, #fffbeb 0%, #fffef5 100%);
+  --ff-grad-content:     linear-gradient(135deg, #ecfeff 0%, #f4fffe 100%);
+  --ff-grad-layout:      linear-gradient(135deg, #fdf2f8 0%, #fff6fc 100%);
+}
+
+/* ---------- Field rows — premium card feel ---------- */
+
+.fieldforge-field-row {
+  border-radius: var(--ff-radius-xl);
+  margin-bottom: 10px;
+  transition: box-shadow var(--ff-transition), border-color var(--ff-transition), transform var(--ff-transition);
+}
+
+.fieldforge-field-row:hover {
+  border-color: #c5c8cd;
+  box-shadow: var(--ff-shadow);
+  transform: translateY(-1px);
+}
+
+.fieldforge-field-row.ui-sortable-helper {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: var(--ff-shadow-lg);
+}
+
+/* ---------- Field row header — category-tinted gradient ---------- */
+
+.fieldforge-field-row-header {
+  padding: 12px 16px;
+  border-radius: var(--ff-radius-xl) var(--ff-radius-xl) 0 0;
+}
+
+/* Category gradient + thicker left accent */
+.fieldforge-field-row[data-category="text"]     .fieldforge-field-row-header { background: var(--ff-grad-text);     border-left-width: 4px; }
+.fieldforge-field-row[data-category="choice"]   .fieldforge-field-row-header { background: var(--ff-grad-choice);   border-left-width: 4px; }
+.fieldforge-field-row[data-category="media"]    .fieldforge-field-row-header { background: var(--ff-grad-media);    border-left-width: 4px; }
+.fieldforge-field-row[data-category="relation"] .fieldforge-field-row-header { background: var(--ff-grad-relation); border-left-width: 4px; }
+.fieldforge-field-row[data-category="content"]  .fieldforge-field-row-header { background: var(--ff-grad-content);  border-left-width: 4px; }
+.fieldforge-field-row[data-category="layout"]   .fieldforge-field-row-header { background: var(--ff-grad-layout);   border-left-width: 4px; }
+
+/* ---------- Type icon — 32 px square with soft shadow ---------- */
+
+.fieldforge-field-type-icon,
+.ff-type-icon--text,
+.ff-type-icon--choice,
+.ff-type-icon--media,
+.ff-type-icon--relation,
+.ff-type-icon--content,
+.ff-type-icon--layout {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  font-size: 14px;
+  box-shadow: 0 1px 4px rgba(0,0,0,.1);
+  flex-shrink: 0;
+}
+
+/* ---------- Field label typography ---------- */
+
+.fieldforge-field-label-preview {
+  font-size: 13.5px;
+  font-weight: 600;
+  letter-spacing: -.1px;
+}
+
+/* Monospace name tag with subtle pill background */
+.fieldforge-field-name-preview {
+  background: rgba(0,0,0,.05);
+  padding: 2px 7px;
+  border-radius: 5px;
+  font-size: 11px;
+  letter-spacing: .1px;
+}
+
+/* ---------- Type badges — generous pill ---------- */
+
+.fieldforge-field-type-badge,
+.ff-badge--text,
+.ff-badge--choice,
+.ff-badge--media,
+.ff-badge--relation,
+.ff-badge--content,
+.ff-badge--layout {
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 11px;
+  letter-spacing: .3px;
+}
+
+/* ---------- Field row body — more breathing room ---------- */
+
+.fieldforge-field-row-body {
+  padding: 20px 20px 16px;
+}
+
+/* ---------- Settings grid — stronger label hierarchy ---------- */
+
+.ff-field-settings-grid {
+  gap: 14px 24px;
+  margin-bottom: 16px;
+}
+
+.ff-field-setting {
+  gap: 5px;
+}
+
+.ff-field-setting label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: .35px;
+  color: var(--ff-text-muted);
+}
+
+/* ---------- Icon buttons — slightly larger hit area ---------- */
+
+.ff-btn-icon {
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+}
+
+/* ---------- Add Field — solid primary button ---------- */
+
+.fieldforge-add-field {
+  background: var(--ff-primary) !important;
+  color: #fff !important;
+  border-color: var(--ff-primary) !important;
+  border-radius: 20px !important;
+  padding: 7px 18px !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  letter-spacing: -.1px !important;
+  box-shadow: var(--ff-shadow-primary) !important;
+  transition: background var(--ff-transition), border-color var(--ff-transition), transform 0.12s ease, box-shadow var(--ff-transition) !important;
+}
+
+.fieldforge-add-field:hover {
+  background: var(--ff-primary-dark) !important;
+  border-color: var(--ff-primary-dark) !important;
+  color: #fff !important;
+  transform: translateY(-2px) !important;
+  box-shadow: 0 6px 20px rgba(34,113,177,.28) !important;
+}
+
+.fieldforge-add-field:active {
+  transform: translateY(0) !important;
+  box-shadow: var(--ff-shadow-primary) !important;
+}
+
+/* ---------- Add-field wrapper — more space ---------- */
+
+.fieldforge-add-field-wrap {
+  margin-top: 14px;
+  padding-top: 14px;
+}
+
+/* ---------- Empty state — more polished ---------- */
+
+.fieldforge-empty-state {
+  border-radius: var(--ff-radius-xl);
+  padding: 56px 32px;
+  background: linear-gradient(160deg, #f8f9fa 0%, #fff 100%);
+}
+
+.fieldforge-empty-state__icon {
+  font-size: 48px;
+  opacity: .45;
+  margin-bottom: 14px;
+}
+
+.fieldforge-empty-state__title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.2px;
+  margin: 0 0 8px;
+}
+
+.fieldforge-empty-state__desc {
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 340px;
+  margin: 0 auto;
+}
+
+/* ---------- Modal — backdrop blur, more refined ---------- */
+
+.ff-modal-overlay {
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  background: rgba(0,0,0,.42);
+}
+
+.ff-modal {
+  border-radius: var(--ff-radius-xl);
+  box-shadow: 0 24px 64px rgba(0,0,0,.16), 0 4px 16px rgba(0,0,0,.08);
+}
+
+.ff-modal-header {
+  padding: 18px 22px 16px;
+}
+
+.ff-modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -.25px;
+}
+
+.ff-modal-search {
+  border-radius: var(--ff-radius-lg);
+  padding: 9px 14px;
+  font-size: 13.5px;
+}
+
+/* ---------- Type picker grid — elevated buttons ---------- */
+
+.ff-type-btn {
+  border-radius: var(--ff-radius-lg);
+  padding: 11px 12px;
+  transition: border-color var(--ff-transition), background var(--ff-transition), box-shadow var(--ff-transition), transform var(--ff-transition);
+}
+
+.ff-type-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.ff-type-btn:active {
+  transform: translateY(0);
+}
+
+.ff-type-btn__icon {
+  width: 34px;
+  height: 34px;
+  border-radius: 8px;
+  font-size: 15px;
+}
+
+.ff-type-btn__label {
+  font-size: 12.5px;
+  letter-spacing: -.1px;
+}
+
+/* ---------- Type group labels — cleaner separator ---------- */
+
+.ff-type-group-label {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border-bottom: none;
+  padding-bottom: 0;
+  margin: 18px 0 9px;
+}
+
+.ff-type-group-label::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: var(--ff-border);
+}
+
+/* ---------- Sub-fields editor — cleaner inset ---------- */
+
+.fieldforge-sub-fields-editor,
+.fieldforge-layouts-editor {
+  border-radius: var(--ff-radius-lg);
+  padding: 14px 14px 10px;
+  border-color: #e0e2e6;
+}
+
+.fieldforge-sub-fields-editor h4,
+.fieldforge-sub-fields-editor h5,
+.fieldforge-layouts-editor h4,
+.fieldforge-layouts-editor h5 {
+  font-size: 11px;
+  letter-spacing: .5px;
+  color: var(--ff-text-light);
+  margin-bottom: 12px;
+}
+
+/* ---------- Sub-field rows — rounder, subtler ---------- */
+
+.fieldforge-sub-field-row {
+  border-radius: var(--ff-radius);
+  transition: box-shadow var(--ff-transition), transform var(--ff-transition);
+}
+
+.fieldforge-sub-field-row:hover {
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.fieldforge-sub-field-header {
+  padding: 8px 12px;
+}
+
+/* ---------- Location group — more polished ---------- */
+
+#fieldforge-location-editor .fieldforge-location-group {
+  border-radius: var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow-sm);
+}
+
+.fieldforge-location-group-header {
+  padding: 10px 16px;
+  font-size: 11px;
+  letter-spacing: .5px;
+}
+
+.ff-location-group-footer {
+  padding: 9px 16px;
+  gap: 8px;
+}
+
+/* ---------- Toast — more refined ---------- */
+
+.ff-toast {
+  border-radius: var(--ff-radius-lg);
+  padding: 13px 18px;
+  box-shadow: 0 8px 24px rgba(0,0,0,.13), 0 2px 6px rgba(0,0,0,.06);
+  font-size: 13px;
+}
+
+/* ---------- Tools/Import page cards ---------- */
+
+.fieldforge-tools-section {
+  border-radius: var(--ff-radius-lg);
+  padding: 24px 28px;
+}
+
+.fieldforge-tools-section h2 {
+  font-size: 16px;
+  letter-spacing: -.2px;
+  margin-bottom: 6px;
+}
+
+/* Export textarea — darker code block */
+#fieldforge-export-result {
+  background: #0f172a;
+  color: #cbd5e1;
+  border-radius: var(--ff-radius-lg);
+  font-size: 11.5px;
+}
+
+/* ---------- Attribution strip ---------- */
+
+.fieldforge-attribution-strip {
+  border-radius: var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow-sm);
+  border-color: #dbe1f0;
+}
+
+/* ---------- Repeater header ---------- */
+
+.fieldforge-repeater-header {
+  padding: 10px 16px;
+}
+
+.fieldforge-repeater-header-cell {
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: .55px;
+}
+
+.fieldforge-repeater {
+  border-radius: var(--ff-radius-lg);
+}
+
+/* ---------- FC row header — more premium ---------- */
+
+.fieldforge-fc-row {
+  border-radius: var(--ff-radius-lg);
+}
+
+.fieldforge-fc-row-header {
+  padding: 11px 16px;
+  background: linear-gradient(135deg, #f5f0ff 0%, #fdf8ff 100%);
+}
+
+.fieldforge-fc-layout-label {
+  font-size: 13px;
+  letter-spacing: -.1px;
+}
+
+/* ---------- Drag placeholder — more polished ---------- */
+
+.fieldforge-field-row.ui-sortable-placeholder {
+  border-radius: var(--ff-radius-xl);
+  opacity: .6;
+}
+
+/* ---------- Better focus rings ---------- */
+
+.fieldforge-input:focus,
+.ff-modal-search:focus,
+.ff-field-setting input:focus,
+.ff-field-setting textarea:focus,
+.ff-field-setting select:focus {
+  border-color: var(--ff-border-focus);
+  box-shadow: 0 0 0 2px rgba(34,113,177,.12), 0 0 0 3px var(--ff-border-focus);
+  outline: none;
+}
+
+/* ---------- Meta box field list — better separation ---------- */
+
+.fieldforge-field {
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+/* ---------- Settings sidebar meta box ---------- */
+
+#fieldforge_settings .form-table th,
+#fieldforge_settings .form-table td {
+  padding: 11px 16px;
+}
+
+/* ---------- Small utility buttons — rounder ---------- */
+
+.ff-btn {
+  border-radius: 20px;
+  padding: 5px 14px;
+}
+
+.ff-btn--sm {
+  padding: 3px 10px;
+}
+
+/* ---------- Type-specific table heading ---------- */
+
+.ff-type-specific-wrap {
+  border-top-style: solid;
+  border-top-color: var(--ff-border);
+}
+
+/* ---------- Choices editor ---------- */
+
+.ff-choices-editor th {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .5px;
+}
+
+/* ---------- Conditional logic builder ---------- */
+
+.ff-conditional-logic-builder {
+  border-top: 1px solid var(--ff-border);
+  border-top-style: solid;
+}
+
+/* ---------- Post edit field meta box — polished labels ---------- */
+
+.fieldforge-label {
+  font-size: 13.5px;
+  font-weight: 700;
+  letter-spacing: -.1px;
+  margin-bottom: 6px;
+}
+
+.fieldforge-instructions {
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--ff-text-muted);
+}
+
+/* ---------- Tab field — rounder corners ---------- */
+
+.fieldforge-tab-label {
+  border-radius: var(--ff-radius) var(--ff-radius) 0 0;
+  padding: 6px 16px;
+  letter-spacing: .3px;
+}
+
+/* ---------- Message field — slightly softer ---------- */
+
+.fieldforge-message {
+  border-radius: 0 var(--ff-radius-lg) var(--ff-radius-lg) 0;
+  padding: 12px 16px;
+  font-size: 13.5px;
+  line-height: 1.6;
+}
+
+/* ---------- Gallery thumbnails — slightly rounder ---------- */
+
+.fieldforge-gallery-list li {
+  border-radius: var(--ff-radius-lg);
+}
+
+/* ---------- Picker tags — rounder pill ---------- */
+
+.fieldforge-picker-tag {
+  border-radius: 20px;
+  padding: 3px 8px;
+  font-size: 12px;
+}
+
+/* ---------- Picker dropdown — more refined ---------- */
+
+.fieldforge-picker-dropdown {
+  border-radius: 0 0 var(--ff-radius-lg) var(--ff-radius-lg);
+  box-shadow: var(--ff-shadow);
+}
+
+/* ---------- Conditional logic header ---------- */
+
+.fieldforge-conditional-logic-header {
+  padding: 10px 14px;
+}
+
+/* ---------- Location OR divider ---------- */
+
+.fieldforge-location-or span {
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: .6px;
+  padding: 3px 11px;
+  border-radius: 20px;
+}
+
+/* ---------- Settings page — section headings ---------- */
+
+.wrap h2 {
+  letter-spacing: -.2px;
+}
+
+/* ---------- Drag handle — stronger grab indicator ---------- */
+
+.fieldforge-field-row-header .fieldforge-drag-handle {
+  color: #c0c4cc;
+  font-size: 17px;
+  cursor: grab;
+  transition: color var(--ff-transition);
+}
+
+.fieldforge-field-row-header .fieldforge-drag-handle:hover {
+  color: #8c8f94;
+}
+
+/* ---------- Layout row — category border ---------- */
+
+.fieldforge-layout-header {
+  border-left-width: 4px;
+  padding: 8px 12px;
+}
+
+/* ---------- Sub-field category borders — thicker ---------- */
+
+.fieldforge-sub-field-row[data-category="text"]     .fieldforge-sub-field-header,
+.fieldforge-sub-field-row[data-category="choice"]   .fieldforge-sub-field-header,
+.fieldforge-sub-field-row[data-category="media"]    .fieldforge-sub-field-header,
+.fieldforge-sub-field-row[data-category="relation"] .fieldforge-sub-field-header,
+.fieldforge-sub-field-row[data-category="content"]  .fieldforge-sub-field-header,
+.fieldforge-sub-field-row[data-category="layout"]   .fieldforge-sub-field-header {
+  border-left-width: 4px;
+}
+
+/* ---------- FF modal search bar larger ---------- */
+
+.ff-modal-search-wrap {
+  padding: 14px 22px;
+}
+
+/* ---------- Modal body scroll area ---------- */
+
+.ff-modal-body {
+  padding: 14px 22px 22px;
+}
+
+/* ---------- Required mark ---------- */
+
+.fieldforge-required-mark,
+.fieldforge-required-indicator {
+  font-size: 15px;
+  vertical-align: middle;
+  line-height: 1;
+  margin-left: 2px;
+}
+
+/* ---------- Type picker trigger (inline field type display) ---------- */
+
+.ff-type-picker-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 12px;
+  border: 1px solid var(--ff-border);
+  border-radius: var(--ff-radius-lg);
+  background: var(--ff-surface);
+  cursor: pointer;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--ff-text);
+  transition: border-color var(--ff-transition), background var(--ff-transition), box-shadow var(--ff-transition);
+  user-select: none;
+  min-height: 32px;
+}
+
+.ff-type-picker-trigger:hover {
+  border-color: var(--ff-primary);
+  background: var(--ff-primary-light);
+  color: var(--ff-primary-dark);
+  box-shadow: 0 0 0 1px var(--ff-primary);
+}
+
+.ff-type-picker-trigger .ff-type-picker-icon {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  color: var(--ff-primary);
+  flex-shrink: 0;
+}
+
+.ff-type-picker-trigger .ff-type-picker-label {
+  flex: 1;
+  min-width: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ff-type-picker-trigger .dashicons-arrow-down-alt2 {
+  font-size: 13px;
+  width: 13px;
+  height: 13px;
+  color: var(--ff-text-light);
+  flex-shrink: 0;
+}
+
+/* ---------- Scrollbar polish (WebKit) ---------- */
+
+.ff-modal-body::-webkit-scrollbar,
+#fieldforge-export-result::-webkit-scrollbar,
+.fieldforge-picker-dropdown::-webkit-scrollbar {
+  width: 6px;
+}
+
+.ff-modal-body::-webkit-scrollbar-track,
+#fieldforge-export-result::-webkit-scrollbar-track,
+.fieldforge-picker-dropdown::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ff-modal-body::-webkit-scrollbar-thumb,
+#fieldforge-export-result::-webkit-scrollbar-thumb,
+.fieldforge-picker-dropdown::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,.18);
+  border-radius: 3px;
+}
+
+.ff-modal-body::-webkit-scrollbar-thumb:hover,
+#fieldforge-export-result::-webkit-scrollbar-thumb:hover {
+  background: rgba(0,0,0,.28);
+}
