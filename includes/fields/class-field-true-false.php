@@ -47,7 +47,7 @@ class FieldForge_Field_True_False extends FieldForge_Field_Base {
 			if ( null === $value || '' === $value ) {
 				return sprintf(
 					/* translators: %s: field label */
-					__( '"%s" is required.', 'fieldforge' ),
+					__( '"%s" is required.', 'arunrajiah-fieldforge' ),
 					$this->field['label'] ?? $this->field['name']
 				);
 			}

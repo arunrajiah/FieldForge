@@ -15,9 +15,9 @@ if ( ! defined( 'ABSPATH' ) ) {
 class FieldForge_Field_Tab extends FieldForge_Field_Base {
 
 	public function render( int $post_id ): void {
-		$label = esc_html( $this->field['label'] ?? __( 'Tab', 'fieldforge' ) );
+		$label = esc_html( $this->field['label'] ?? __( 'Tab', 'arunrajiah-fieldforge' ) );
 		echo '<div class="fieldforge-field fieldforge-field--tab">';
-		echo '<div class="fieldforge-tab-label">' . esc_html( $this->field['label'] ?? __( 'Tab', 'fieldforge' ) ) . '</div>';
+		echo '<div class="fieldforge-tab-label">' . esc_html( $this->field['label'] ?? __( 'Tab', 'arunrajiah-fieldforge' ) ) . '</div>';
 		echo '</div>';
 	}
 

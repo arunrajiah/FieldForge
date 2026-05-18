@@ -67,7 +67,7 @@ class FieldForge_ACF_Importer {
 	public function import( string $json ) {
 		$data = json_decode( $json, true );
 		if ( null === $data ) {
-			return new WP_Error( 'invalid_json', __( 'Invalid JSON provided.', 'fieldforge' ) );
+			return new WP_Error( 'invalid_json', __( 'Invalid JSON provided.', 'arunrajiah-fieldforge' ) );
 		}
 
 		// ACF exports a single object or an array.
@@ -76,7 +76,7 @@ class FieldForge_ACF_Importer {
 		}
 
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'invalid_format', __( 'Unexpected JSON structure.', 'fieldforge' ) );
+			return new WP_Error( 'invalid_format', __( 'Unexpected JSON structure.', 'arunrajiah-fieldforge' ) );
 		}
 
 		$ids = array();
@@ -98,7 +98,7 @@ class FieldForge_ACF_Importer {
 	 */
 	private function import_group( array $acf ) {
 		if ( empty( $acf['key'] ) || empty( $acf['title'] ) ) {
-			return new WP_Error( 'missing_fields', __( 'ACF group missing key or title.', 'fieldforge' ) );
+			return new WP_Error( 'missing_fields', __( 'ACF group missing key or title.', 'arunrajiah-fieldforge' ) );
 		}
 
 		$title = sanitize_text_field( $acf['title'] );
@@ -258,7 +258,7 @@ class FieldForge_ACF_Importer {
 				$field['min']          = (int) ( $acf['min'] ?? 0 );
 				$field['max']          = (int) ( $acf['max'] ?? 0 );
 				$field['layout']       = sanitize_text_field( $acf['layout'] ?? 'table' );
-				$field['button_label'] = sanitize_text_field( $acf['button_label'] ?? __( 'Add Row', 'fieldforge' ) );
+				$field['button_label'] = sanitize_text_field( $acf['button_label'] ?? __( 'Add Row', 'arunrajiah-fieldforge' ) );
 				break;
 
 			case 'number':
@@ -271,7 +271,7 @@ class FieldForge_ACF_Importer {
 				$field['layouts']      = $this->convert_layouts( $acf['layouts'] ?? array() );
 				$field['min']          = (int) ( $acf['min'] ?? 0 );
 				$field['max']          = (int) ( $acf['max'] ?? 0 );
-				$field['button_label'] = sanitize_text_field( $acf['button_label'] ?? __( 'Add Layout', 'fieldforge' ) );
+				$field['button_label'] = sanitize_text_field( $acf['button_label'] ?? __( 'Add Layout', 'arunrajiah-fieldforge' ) );
 				break;
 		}
 
@@ -370,7 +370,7 @@ class FieldForge_ACF_Importer {
 		check_ajax_referer( 'fieldforge_admin', 'nonce' );
 
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'fieldforge' ) ), 403 );
+			wp_send_json_error( array( 'message' => __( 'Insufficient permissions.', 'arunrajiah-fieldforge' ) ), 403 );
 		}
 
 		// phpcs:ignore WordPress.Security.ValidatedSanitizedInput.InputNotSanitized

@@ -24,7 +24,7 @@ class FieldForge_Field_Select extends FieldForge_Field_Base {
 
 		$html = '<select name="' . $name_attr . '" id="' . $id . '" class="fieldforge-select widefat"' . $multi_attr . '>';
 		if ( $allow_null ) {
-			$html .= '<option value="">' . esc_html__( '— Select —', 'fieldforge' ) . '</option>';
+			$html .= '<option value="">' . esc_html__( '— Select —', 'arunrajiah-fieldforge' ) . '</option>';
 		}
 		foreach ( $choices as $val => $label ) {
 			$selected = $multiple
@@ -39,7 +39,7 @@ class FieldForge_Field_Select extends FieldForge_Field_Base {
 			$html .= '<p class="fieldforge-orphaned-warning"><span class="dashicons dashicons-warning"></span> '
 				. sprintf(
 					/* translators: %s: the orphaned saved value */
-					esc_html__( 'Saved value "%s" is no longer a valid choice.', 'fieldforge' ),
+					esc_html__( 'Saved value "%s" is no longer a valid choice.', 'arunrajiah-fieldforge' ),
 					esc_html( $saved )
 				)
 				. '</p>';

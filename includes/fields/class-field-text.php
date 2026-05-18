@@ -40,7 +40,7 @@ class FieldForge_Field_Text extends FieldForge_Field_Base {
 		if ( '' !== $maxlength && strlen( (string) $value ) > (int) $maxlength ) {
 			return sprintf(
 				/* translators: 1: field label, 2: max length */
-				__( '"%1$s" must be no longer than %2$d characters.', 'fieldforge' ),
+				__( '"%1$s" must be no longer than %2$d characters.', 'arunrajiah-fieldforge' ),
 				$this->field['label'] ?? $this->field['name'],
 				(int) $maxlength
 			);

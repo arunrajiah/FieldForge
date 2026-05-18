@@ -55,7 +55,7 @@ class FieldForge_Meta_Box_Renderer {
 				'key'   => 'field_preview',
 				'type'  => $type,
 				'name'  => 'preview',
-				'label' => __( 'New Field', 'fieldforge' ),
+				'label' => __( 'New Field', 'arunrajiah-fieldforge' ),
 			)
 		);
 

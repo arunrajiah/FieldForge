@@ -106,7 +106,7 @@ abstract class FieldForge_Field_Base {
 			$empty = ( '' === $value || array() === $value || null === $value || 0 === $value || '0' === (string) $value );
 			if ( $empty ) {
 				/* translators: %s: field label */
-				return sprintf( __( '"%s" is required.', 'fieldforge' ), $this->field['label'] ?? $this->field['name'] );
+				return sprintf( __( '"%s" is required.', 'arunrajiah-fieldforge' ), $this->field['label'] ?? $this->field['name'] );
 			}
 		}
 		return true;

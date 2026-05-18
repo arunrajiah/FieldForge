@@ -21,13 +21,13 @@ class FieldForge_Field_Link extends FieldForge_Field_Base {
 		$target = $saved['target'] ?? '';
 
 		$html  = '<div class="fieldforge-link-field">';
-		$html .= '<label class="fieldforge-sub-label">' . esc_html__( 'URL', 'fieldforge' ) . '</label>';
+		$html .= '<label class="fieldforge-sub-label">' . esc_html__( 'URL', 'arunrajiah-fieldforge' ) . '</label>';
 		$html .= '<input type="url" name="' . $prefix . '[url]" value="' . $url . '" placeholder="https://" class="fieldforge-input widefat" />';
-		$html .= '<label class="fieldforge-sub-label">' . esc_html__( 'Link Text', 'fieldforge' ) . '</label>';
+		$html .= '<label class="fieldforge-sub-label">' . esc_html__( 'Link Text', 'arunrajiah-fieldforge' ) . '</label>';
 		$html .= '<input type="text" name="' . $prefix . '[title]" value="' . $title . '" class="fieldforge-input widefat" />';
 		$html .= '<label class="fieldforge-sub-label">';
 		$html .= '<input type="checkbox" name="' . $prefix . '[target]" value="_blank"' . checked( $target, '_blank', false ) . ' /> ';
-		$html .= esc_html__( 'Open in new tab', 'fieldforge' );
+		$html .= esc_html__( 'Open in new tab', 'arunrajiah-fieldforge' );
 		$html .= '</label>';
 		$html .= '</div>';
 
@@ -58,7 +58,7 @@ class FieldForge_Field_Link extends FieldForge_Field_Base {
 			if ( ! filter_var( $value['url'], FILTER_VALIDATE_URL ) ) {
 				return sprintf(
 					/* translators: %s: field label */
-					__( '"%s" must contain a valid URL.', 'fieldforge' ),
+					__( '"%s" must contain a valid URL.', 'arunrajiah-fieldforge' ),
 					$this->field['label'] ?? $this->field['name']
 				);
 			}

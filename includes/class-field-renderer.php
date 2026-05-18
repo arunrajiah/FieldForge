@@ -65,7 +65,7 @@ class FieldForge_Field_Renderer {
 	public function render_meta_box( WP_Post $post, array $meta_box ): void {
 		$group = $meta_box['args']['group'] ?? array();
 		if ( empty( $group['fields'] ) ) {
-			echo '<p>' . esc_html__( 'No fields defined.', 'fieldforge' ) . '</p>';
+			echo '<p>' . esc_html__( 'No fields defined.', 'arunrajiah-fieldforge' ) . '</p>';
 			return;
 		}
 
@@ -133,12 +133,12 @@ class FieldForge_Field_Renderer {
 				'nonce'          => wp_create_nonce( 'fieldforge_admin' ),
 				'conditionalLogic' => $cl_fields,
 				'i18n'           => array(
-					'addRow'    => __( 'Add Row', 'fieldforge' ),
-					'removeRow' => __( 'Remove Row', 'fieldforge' ),
-					'noRows'    => __( 'No rows yet.', 'fieldforge' ),
-					'maxRows'   => __( 'Maximum number of rows reached.', 'fieldforge' ),
-					'minRows'   => __( 'Minimum number of rows required.', 'fieldforge' ),
-					'confirmRemove' => __( 'Remove this row?', 'fieldforge' ),
+					'addRow'    => __( 'Add Row', 'arunrajiah-fieldforge' ),
+					'removeRow' => __( 'Remove Row', 'arunrajiah-fieldforge' ),
+					'noRows'    => __( 'No rows yet.', 'arunrajiah-fieldforge' ),
+					'maxRows'   => __( 'Maximum number of rows reached.', 'arunrajiah-fieldforge' ),
+					'minRows'   => __( 'Minimum number of rows required.', 'arunrajiah-fieldforge' ),
+					'confirmRemove' => __( 'Remove this row?', 'arunrajiah-fieldforge' ),
 				),
 			)
 		);

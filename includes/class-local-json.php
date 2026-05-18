@@ -274,7 +274,7 @@ class FieldForge_Local_JSON {
 				?>
 				<button type="button" class="button button-small fieldforge-sync-json" style="margin-left:8px"
 					data-nonce="<?php echo esc_attr( wp_create_nonce( 'fieldforge_sync_json' ) ); ?>">
-					<?php esc_html_e( 'Sync from JSON', 'fieldforge' ); ?>
+					<?php esc_html_e( 'Sync from JSON', 'arunrajiah-fieldforge' ); ?>
 				</button>
 				<span class="fieldforge-sync-result" style="margin-left:8px"></span>
 			</p>
