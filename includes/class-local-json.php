@@ -79,7 +79,12 @@ class FieldForge_Local_JSON {
 	public function get_save_path(): string {
 		$settings = FieldForge_Settings_Page::get_settings();
 		$from_opt = ! empty( $settings['local_json_path'] ) ? trim( $settings['local_json_path'] ) : '';
-		$default  = $from_opt ? $from_opt : get_stylesheet_directory() . '/fieldforge-json';
+		if ( $from_opt ) {
+			$default = $from_opt;
+		} else {
+			$upload  = wp_upload_dir();
+			$default = $upload['basedir'] . '/fieldforge-json';
+		}
 		return apply_filters( 'fieldforge/local_json/save_path', $default );
 	}
 

@@ -168,10 +168,11 @@ class FieldForge_Conditional_Logic {
 		if ( empty( $logic ) ) {
 			return;
 		}
-		?>
-		<script type="text/javascript">
-		window.fieldforgeConditionalLogic = <?php echo wp_json_encode( $logic ); ?>;
-		</script>
-		<?php
+
+		wp_add_inline_script(
+			'fieldforge-admin',
+			'window.fieldforgeConditionalLogic = ' . wp_json_encode( $logic ) . ';',
+			'before'
+		);
 	}
 }
