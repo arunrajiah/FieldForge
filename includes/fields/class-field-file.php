@@ -25,8 +25,8 @@ class FieldForge_Field_File extends FieldForge_Field_Base {
 		} else {
 			$html .= '<p class="fieldforge-file-info" style="display:none"></p>';
 		}
-		$html .= '<button type="button" class="button fieldforge-file-select">' . esc_html__( 'Select File', 'arunrajiah-fieldforge' ) . '</button> ';
-		$html .= '<button type="button" class="button fieldforge-file-remove"' . ( $attachment_id ? '' : ' style="display:none"' ) . '>' . esc_html__( 'Remove', 'arunrajiah-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button fieldforge-file-select">' . esc_html__( 'Select File', 'ar-fieldforge' ) . '</button> ';
+		$html .= '<button type="button" class="button fieldforge-file-remove"' . ( $attachment_id ? '' : ' style="display:none"' ) . '>' . esc_html__( 'Remove', 'ar-fieldforge' ) . '</button>';
 		$html .= '</div>';
 
 		$this->render_wrapper( $html );

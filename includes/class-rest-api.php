@@ -77,7 +77,7 @@ class FieldForge_REST_API {
 		$page_slug = $request->get_param( 'page_slug' );
 		$page      = FieldForge_Options_Page::get_page( $page_slug );
 		if ( ! $page ) {
-			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'arunrajiah-fieldforge' ), array( 'status' => 404 ) );
+			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'ar-fieldforge' ), array( 'status' => 404 ) );
 		}
 
 		$ff       = FieldForge::get_instance();
@@ -113,12 +113,12 @@ class FieldForge_REST_API {
 		$page_slug = $request->get_param( 'page_slug' );
 		$page      = FieldForge_Options_Page::get_page( $page_slug );
 		if ( ! $page ) {
-			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'arunrajiah-fieldforge' ), array( 'status' => 404 ) );
+			return new WP_Error( 'fieldforge_options_not_found', __( 'Options page not found.', 'ar-fieldforge' ), array( 'status' => 404 ) );
 		}
 
 		$body = $request->get_json_params();
 		if ( ! is_array( $body ) ) {
-			return new WP_Error( 'fieldforge_options_invalid', __( 'Request body must be a JSON object.', 'arunrajiah-fieldforge' ), array( 'status' => 400 ) );
+			return new WP_Error( 'fieldforge_options_invalid', __( 'Request body must be a JSON object.', 'ar-fieldforge' ), array( 'status' => 400 ) );
 		}
 
 		$ff       = FieldForge::get_instance();
@@ -158,7 +158,7 @@ class FieldForge_REST_API {
 					'get_callback'    => array( $this, 'get_fields_for_post' ),
 					'update_callback' => array( $this, 'update_fields_for_post' ),
 					'schema'          => array(
-						'description' => __( 'FieldForge custom field values for this post.', 'arunrajiah-fieldforge' ),
+						'description' => __( 'FieldForge custom field values for this post.', 'ar-fieldforge' ),
 						'type'        => 'object',
 						'context'     => array( 'view', 'edit' ),
 					),
@@ -267,7 +267,7 @@ class FieldForge_REST_API {
 		if ( ! current_user_can( 'edit_post', $post->ID ) ) {
 			return new WP_Error(
 				'fieldforge_rest_forbidden',
-				__( 'You do not have permission to edit this post.', 'arunrajiah-fieldforge' ),
+				__( 'You do not have permission to edit this post.', 'ar-fieldforge' ),
 				array( 'status' => 403 )
 			);
 		}
@@ -275,7 +275,7 @@ class FieldForge_REST_API {
 		if ( ! is_array( $value ) ) {
 			return new WP_Error(
 				'fieldforge_rest_invalid',
-				__( 'fieldforge_fields must be an object.', 'arunrajiah-fieldforge' ),
+				__( 'fieldforge_fields must be an object.', 'ar-fieldforge' ),
 				array( 'status' => 400 )
 			);
 		}

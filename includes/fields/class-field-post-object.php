@@ -44,7 +44,7 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			. ' data-multiple="' . ( $multiple ? '1' : '0' ) . '"'
 			. ' data-post-types="' . esc_attr( implode( ',', $post_types ) ) . '"'
 			. ' data-field-name="' . esc_attr( $name_attr ) . '">';
-		$html .= '<input type="text" class="fieldforge-picker-search widefat" placeholder="' . esc_attr__( 'Search…', 'arunrajiah-fieldforge' ) . '" autocomplete="off" />';
+		$html .= '<input type="text" class="fieldforge-picker-search widefat" placeholder="' . esc_attr__( 'Search…', 'ar-fieldforge' ) . '" autocomplete="off" />';
 		$html .= '<div class="fieldforge-picker-dropdown" style="display:none"></div>';
 		$html .= '<div class="fieldforge-picker-tags">';
 		foreach ( $selected_items as $item ) {
@@ -69,7 +69,7 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			esc_attr( $name_attr ),
 			$id,
 			esc_html( $title ),
-			esc_attr__( 'Remove', 'arunrajiah-fieldforge' )
+			esc_attr__( 'Remove', 'ar-fieldforge' )
 		);
 	}
 
@@ -90,7 +90,7 @@ class FieldForge_Field_Post_Object extends FieldForge_Field_Base {
 			if ( '' !== $id && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
 				return sprintf(
 					/* translators: %s: field label */
-					__( '"%s" contains one or more invalid post IDs.', 'arunrajiah-fieldforge' ),
+					__( '"%s" contains one or more invalid post IDs.', 'ar-fieldforge' ),
 					$this->field['label'] ?? $this->field['name']
 				);
 			}

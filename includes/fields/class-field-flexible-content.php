@@ -19,7 +19,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 	public function render( int $post_id ): void {
 		$name         = $this->field['name'];
 		$layouts      = $this->field['layouts'] ?? array();
-		$button_label = esc_html( $this->field['button_label'] ?? __( 'Add Layout', 'arunrajiah-fieldforge' ) );
+		$button_label = esc_html( $this->field['button_label'] ?? __( 'Add Layout', 'ar-fieldforge' ) );
 		$min          = (int) ( $this->field['min'] ?? 0 );
 		$max          = (int) ( $this->field['max'] ?? 0 );
 		$rows         = $this->load( $post_id );
@@ -43,7 +43,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 				$html .= $this->render_row( (int) $i, $row, $layout, $registry, $name );
 			}
 		} else {
-			$html .= '<p class="fieldforge-fc-empty">' . esc_html__( 'No layouts added yet.', 'arunrajiah-fieldforge' ) . '</p>';
+			$html .= '<p class="fieldforge-fc-empty">' . esc_html__( 'No layouts added yet.', 'ar-fieldforge' ) . '</p>';
 		}
 		$html .= '</div>'; // .fieldforge-fc-rows
 
@@ -77,8 +77,8 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 		$html .= '<div class="fieldforge-fc-row-header">';
 		$html .= '<span class="dashicons dashicons-menu fieldforge-fc-drag"></span>';
 		$html .= '<strong class="fieldforge-fc-layout-label">' . esc_html( $layout['label'] ) . '</strong>';
-		$html .= '<button type="button" class="button button-link fieldforge-fc-toggle">' . esc_html__( 'Collapse', 'arunrajiah-fieldforge' ) . '</button>';
-		$html .= '<button type="button" class="button button-link-delete fieldforge-fc-remove">' . esc_html__( 'Remove', 'arunrajiah-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button button-link fieldforge-fc-toggle">' . esc_html__( 'Collapse', 'ar-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button button-link-delete fieldforge-fc-remove">' . esc_html__( 'Remove', 'ar-fieldforge' ) . '</button>';
 		$html .= '</div>'; // .fieldforge-fc-row-header
 
 		// Hidden field: stores which layout this row uses.

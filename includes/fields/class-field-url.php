@@ -40,7 +40,7 @@ class FieldForge_Field_Url extends FieldForge_Field_Base {
 		if ( ! filter_var( (string) $value, FILTER_VALIDATE_URL ) ) {
 			return sprintf(
 				/* translators: %s: field label */
-				__( '"%s" must be a valid URL.', 'arunrajiah-fieldforge' ),
+				__( '"%s" must be a valid URL.', 'ar-fieldforge' ),
 				$this->field['label'] ?? $this->field['name']
 			);
 		}

@@ -23,12 +23,12 @@ class FieldForge_Field_Group {
 
 	public static function register_cpt(): void {
 		$labels = array(
-			'name'          => __( 'Field Groups', 'arunrajiah-fieldforge' ),
-			'singular_name' => __( 'Field Group', 'arunrajiah-fieldforge' ),
-			'add_new'       => __( 'Add New', 'arunrajiah-fieldforge' ),
-			'add_new_item'  => __( 'Add New Field Group', 'arunrajiah-fieldforge' ),
-			'edit_item'     => __( 'Edit Field Group', 'arunrajiah-fieldforge' ),
-			'menu_name'     => __( 'FieldForge', 'arunrajiah-fieldforge' ),
+			'name'          => __( 'Field Groups', 'ar-fieldforge' ),
+			'singular_name' => __( 'Field Group', 'ar-fieldforge' ),
+			'add_new'       => __( 'Add New', 'ar-fieldforge' ),
+			'add_new_item'  => __( 'Add New Field Group', 'ar-fieldforge' ),
+			'edit_item'     => __( 'Edit Field Group', 'ar-fieldforge' ),
+			'menu_name'     => __( 'FieldForge', 'ar-fieldforge' ),
 		);
 
 		register_post_type(
@@ -310,7 +310,7 @@ class FieldForge_Field_Group {
 	public function import_json( string $json ) {
 		$data = json_decode( $json, true );
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'invalid_json', __( 'Invalid JSON.', 'arunrajiah-fieldforge' ) );
+			return new WP_Error( 'invalid_json', __( 'Invalid JSON.', 'ar-fieldforge' ) );
 		}
 		return $this->save_group( $data );
 	}

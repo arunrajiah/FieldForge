@@ -23,11 +23,11 @@ class FieldForge_Field_Gallery extends FieldForge_Field_Base {
 			$html .= '<li data-id="' . esc_attr( (string) $attachment_id ) . '">';
 			$html .= '<img src="' . esc_url( (string) $url ) . '" width="80" height="80" />';
 			$html .= '<input type="hidden" name="' . $name . '[]" value="' . esc_attr( (string) $attachment_id ) . '" />';
-			$html .= '<button type="button" class="fieldforge-gallery-remove" aria-label="' . esc_attr__( 'Remove', 'arunrajiah-fieldforge' ) . '">&times;</button>';
+			$html .= '<button type="button" class="fieldforge-gallery-remove" aria-label="' . esc_attr__( 'Remove', 'ar-fieldforge' ) . '">&times;</button>';
 			$html .= '</li>';
 		}
 		$html .= '</ul>';
-		$html .= '<button type="button" class="button fieldforge-gallery-add">' . esc_html__( 'Add Images', 'arunrajiah-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button fieldforge-gallery-add">' . esc_html__( 'Add Images', 'ar-fieldforge' ) . '</button>';
 		$html .= '</div>';
 
 		$this->render_wrapper( $html );
@@ -51,7 +51,7 @@ class FieldForge_Field_Gallery extends FieldForge_Field_Base {
 				if ( ! is_numeric( $id ) || (int) $id <= 0 ) {
 					return sprintf(
 						/* translators: %s: field label */
-						__( '"%s" contains one or more invalid image IDs.', 'arunrajiah-fieldforge' ),
+						__( '"%s" contains one or more invalid image IDs.', 'ar-fieldforge' ),
 						$this->field['label'] ?? $this->field['name']
 					);
 				}

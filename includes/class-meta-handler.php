@@ -170,7 +170,7 @@ class FieldForge_Meta_Handler {
 		delete_transient( 'fieldforge_validation_errors_' . $post_id . '_' . $uid );
 
 		echo '<div class="notice notice-error">';
-		echo '<p><strong>' . esc_html__( 'FieldForge could not save some field values:', 'arunrajiah-fieldforge' ) . '</strong></p>';
+		echo '<p><strong>' . esc_html__( 'FieldForge could not save some field values:', 'ar-fieldforge' ) . '</strong></p>';
 		echo '<ul style="list-style:disc;margin-left:1.5em">';
 		foreach ( (array) $errors as $error ) {
 			echo '<li>' . esc_html( (string) $error ) . '</li>';

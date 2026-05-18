@@ -49,8 +49,8 @@ class FieldForge_Settings_Page {
 	public function add_menu(): void {
 		$this->hook_suffix = (string) add_submenu_page(
 			'edit.php?post_type=' . FieldForge_Field_Group::CPT,
-			__( 'FieldForge Settings', 'arunrajiah-fieldforge' ),
-			__( 'Settings', 'arunrajiah-fieldforge' ),
+			__( 'FieldForge Settings', 'ar-fieldforge' ),
+			__( 'Settings', 'ar-fieldforge' ),
 			'manage_options',
 			'fieldforge-settings',
 			array( $this, 'render' )
@@ -67,12 +67,12 @@ class FieldForge_Settings_Page {
 			)
 		);
 
-		add_settings_section( 'fieldforge_local_json', __( 'Local JSON', 'arunrajiah-fieldforge' ), '__return_false', 'fieldforge-settings' );
-		add_settings_section( 'fieldforge_debug', __( 'Debug', 'arunrajiah-fieldforge' ), '__return_false', 'fieldforge-settings' );
+		add_settings_section( 'fieldforge_local_json', __( 'Local JSON', 'ar-fieldforge' ), '__return_false', 'fieldforge-settings' );
+		add_settings_section( 'fieldforge_debug', __( 'Debug', 'ar-fieldforge' ), '__return_false', 'fieldforge-settings' );
 
 		add_settings_field(
 			'local_json_path',
-			__( 'JSON Save Path', 'arunrajiah-fieldforge' ),
+			__( 'JSON Save Path', 'ar-fieldforge' ),
 			array( $this, 'render_local_json_path' ),
 			'fieldforge-settings',
 			'fieldforge_local_json'
@@ -80,7 +80,7 @@ class FieldForge_Settings_Page {
 
 		add_settings_field(
 			'local_json_load',
-			__( 'JSON Load Path', 'arunrajiah-fieldforge' ),
+			__( 'JSON Load Path', 'ar-fieldforge' ),
 			array( $this, 'render_local_json_load' ),
 			'fieldforge-settings',
 			'fieldforge_local_json'
@@ -88,7 +88,7 @@ class FieldForge_Settings_Page {
 
 		add_settings_field(
 			'debug_log',
-			__( 'Enable Debug Logging', 'arunrajiah-fieldforge' ),
+			__( 'Enable Debug Logging', 'ar-fieldforge' ),
 			array( $this, 'render_debug_log' ),
 			'fieldforge-settings',
 			'fieldforge_debug'
@@ -112,11 +112,11 @@ class FieldForge_Settings_Page {
 
 	public function render(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Insufficient permissions.', 'arunrajiah-fieldforge' ) );
+			wp_die( esc_html__( 'Insufficient permissions.', 'ar-fieldforge' ) );
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'FieldForge Settings', 'arunrajiah-fieldforge' ); ?></h1>
+			<h1><?php esc_html_e( 'FieldForge Settings', 'ar-fieldforge' ); ?></h1>
 
 			<?php $this->render_attribution_strip(); ?>
 
@@ -130,9 +130,9 @@ class FieldForge_Settings_Page {
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Local JSON Sync', 'arunrajiah-fieldforge' ); ?></h2>
-			<p><?php esc_html_e( 'Import all field groups from the configured JSON load path into the database.', 'arunrajiah-fieldforge' ); ?></p>
-			<button type="button" class="button" id="fieldforge-sync-json"><?php esc_html_e( 'Sync from JSON', 'arunrajiah-fieldforge' ); ?></button>
+			<h2><?php esc_html_e( 'Local JSON Sync', 'ar-fieldforge' ); ?></h2>
+			<p><?php esc_html_e( 'Import all field groups from the configured JSON load path into the database.', 'ar-fieldforge' ); ?></p>
+			<button type="button" class="button" id="fieldforge-sync-json"><?php esc_html_e( 'Sync from JSON', 'ar-fieldforge' ); ?></button>
 			<span id="fieldforge-sync-result" style="margin-left:10px"></span>
 		</div>
 		<?php
@@ -157,7 +157,7 @@ class FieldForge_Settings_Page {
 						<?php
 						printf(
 							/* translators: %s: linked author name */
-							esc_html__( 'FieldForge is a free plugin developed and maintained by %s.', 'arunrajiah-fieldforge' ),
+							esc_html__( 'FieldForge is a free plugin developed and maintained by %s.', 'ar-fieldforge' ),
 							'<a href="https://github.com/arunrajiah" target="_blank" rel="noopener noreferrer">arunrajiah</a>'
 						);
 						?>
@@ -174,7 +174,7 @@ class FieldForge_Settings_Page {
 							. ' target="_blank" rel="noopener noreferrer"'
 							. ' class="fieldforge-attribution-strip__sponsor-link">'
 							. $heart_svg
-							. esc_html__( 'becoming a sponsor on GitHub', 'arunrajiah-fieldforge' )
+							. esc_html__( 'becoming a sponsor on GitHub', 'ar-fieldforge' )
 							. '</a>';
 						printf(
 							/* translators: %s: linked sponsor CTA */
@@ -196,21 +196,21 @@ class FieldForge_Settings_Page {
 		$opts = $this->get_settings();
 		$val  = $opts['local_json_path'] ?? '';
 		echo '<input type="text" name="' . esc_attr( self::OPTION_KEY ) . '[local_json_path]" value="' . esc_attr( $val ) . '" class="regular-text" />';
-		echo '<p class="description">' . esc_html__( 'Absolute path where FieldForge writes JSON files. Leave empty to use the default (fieldforge-json/ in your theme).', 'arunrajiah-fieldforge' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Absolute path where FieldForge writes JSON files. Leave empty to use the default (fieldforge-json/ in your theme).', 'ar-fieldforge' ) . '</p>';
 	}
 
 	public function render_local_json_load(): void {
 		$opts = $this->get_settings();
 		$val  = $opts['local_json_load'] ?? '';
 		echo '<input type="text" name="' . esc_attr( self::OPTION_KEY ) . '[local_json_load]" value="' . esc_attr( $val ) . '" class="regular-text" />';
-		echo '<p class="description">' . esc_html__( 'Absolute path to load JSON files from. Leave empty to use the same as the save path.', 'arunrajiah-fieldforge' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Absolute path to load JSON files from. Leave empty to use the same as the save path.', 'ar-fieldforge' ) . '</p>';
 	}
 
 	public function render_debug_log(): void {
 		$opts = $this->get_settings();
 		$val  = ! empty( $opts['debug_log'] );
 		echo '<label><input type="checkbox" name="' . esc_attr( self::OPTION_KEY ) . '[debug_log]" value="1"' . checked( $val, true, false ) . ' /> ';
-		echo esc_html__( 'Log FieldForge activity to the PHP error log.', 'arunrajiah-fieldforge' ) . '</label>';
+		echo esc_html__( 'Log FieldForge activity to the PHP error log.', 'ar-fieldforge' ) . '</label>';
 	}
 
 	/**
