@@ -30,8 +30,8 @@ class FieldForge_Field_Image extends FieldForge_Field_Base {
 		} else {
 			$html .= '<img src="" class="fieldforge-image-preview" style="max-width:150px;display:none;margin-bottom:6px;" />';
 		}
-		$html .= '<button type="button" class="button fieldforge-image-select">' . esc_html__( 'Select Image', 'ar-fieldforge' ) . '</button> ';
-		$html .= '<button type="button" class="button fieldforge-image-remove"' . ( $attachment_id ? '' : ' style="display:none"' ) . '>' . esc_html__( 'Remove', 'ar-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button fieldforge-image-select">' . esc_html__( 'Select Image', 'fieldom' ) . '</button> ';
+		$html .= '<button type="button" class="button fieldforge-image-remove"' . ( $attachment_id ? '' : ' style="display:none"' ) . '>' . esc_html__( 'Remove', 'fieldom' ) . '</button>';
 		$html .= '</div>';
 
 		$this->render_wrapper( $html );

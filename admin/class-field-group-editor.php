@@ -27,7 +27,7 @@ class FieldForge_Field_Group_Editor {
 	public function add_meta_boxes(): void {
 		add_meta_box(
 			'fieldforge_fields',
-			__( 'Fields', 'ar-fieldforge' ),
+			__( 'Fields', 'fieldom' ),
 			array( $this, 'render_fields_meta_box' ),
 			FieldForge_Field_Group::CPT,
 			'normal',
@@ -36,7 +36,7 @@ class FieldForge_Field_Group_Editor {
 
 		add_meta_box(
 			'fieldforge_location',
-			__( 'Location Rules', 'ar-fieldforge' ),
+			__( 'Location Rules', 'fieldom' ),
 			array( $this, 'render_location_meta_box' ),
 			FieldForge_Field_Group::CPT,
 			'normal',
@@ -45,7 +45,7 @@ class FieldForge_Field_Group_Editor {
 
 		add_meta_box(
 			'fieldforge_settings',
-			__( 'Settings', 'ar-fieldforge' ),
+			__( 'Settings', 'fieldom' ),
 			array( $this, 'render_settings_meta_box' ),
 			FieldForge_Field_Group::CPT,
 			'side',
@@ -71,8 +71,8 @@ class FieldForge_Field_Group_Editor {
 		if ( empty( $fields ) ) {
 			echo '<div class="fieldforge-empty-state">';
 			echo '<span class="dashicons dashicons-editor-table fieldforge-empty-state__icon"></span>';
-			echo '<p class="fieldforge-empty-state__title">' . esc_html__( 'No fields yet', 'ar-fieldforge' ) . '</p>';
-			echo '<p class="fieldforge-empty-state__desc">' . esc_html__( 'Click + Add Field to define the first field in this group.', 'ar-fieldforge' ) . '</p>';
+			echo '<p class="fieldforge-empty-state__title">' . esc_html__( 'No fields yet', 'fieldom' ) . '</p>';
+			echo '<p class="fieldforge-empty-state__desc">' . esc_html__( 'Click + Add Field to define the first field in this group.', 'fieldom' ) . '</p>';
 			echo '</div>';
 		} else {
 			foreach ( $fields as $index => $field ) {
@@ -85,7 +85,7 @@ class FieldForge_Field_Group_Editor {
 		echo '<div class="fieldforge-add-field-wrap">';
 		echo '<button type="button" class="button fieldforge-add-field">';
 		echo '<span class="dashicons dashicons-plus-alt2"></span> ';
-		echo esc_html__( 'Add Field', 'ar-fieldforge' );
+		echo esc_html__( 'Add Field', 'fieldom' );
 		echo '</button>';
 		echo '</div>'; // .fieldforge-add-field-wrap
 		echo '</div>'; // #fieldforge-fields-editor
@@ -102,17 +102,17 @@ class FieldForge_Field_Group_Editor {
 
 		echo '<div class="fieldforge-field-row" data-index="' . esc_attr( (string) $index ) . '" data-category="' . esc_attr( $cat ) . '">';
 		echo '<div class="fieldforge-field-row-header">';
-		echo '<span class="fieldforge-drag-handle" title="' . esc_attr__( 'Drag to reorder', 'ar-fieldforge' ) . '"><span class="dashicons dashicons-menu"></span></span>';
+		echo '<span class="fieldforge-drag-handle" title="' . esc_attr__( 'Drag to reorder', 'fieldom' ) . '"><span class="dashicons dashicons-menu"></span></span>';
 		echo '<span class="fieldforge-field-type-icon ff-type-icon--' . esc_attr( $cat ) . '"><span class="dashicons ' . esc_attr( $icon ) . '"></span></span>';
-		echo '<span class="fieldforge-field-label-preview">' . esc_html( $label ? $label : __( 'New Field', 'ar-fieldforge' ) ) . '</span>';
+		echo '<span class="fieldforge-field-label-preview">' . esc_html( $label ? $label : __( 'New Field', 'fieldom' ) ) . '</span>';
 		if ( $name ) {
 			echo '<span class="fieldforge-field-name-preview ff-muted">(' . esc_html( $name ) . ')</span>';
 		}
 		echo '<span class="fieldforge-field-type-badge ff-badge--' . esc_attr( $cat ) . '">' . esc_html( $type_labels[ $type ] ?? $type ) . '</span>';
 		echo '<div class="fieldforge-field-row-actions">';
-		echo '<button type="button" class="ff-btn-icon fieldforge-duplicate-field" title="' . esc_attr__( 'Duplicate', 'ar-fieldforge' ) . '"><span class="dashicons dashicons-admin-page"></span></button>';
-		echo '<button type="button" class="ff-btn-icon fieldforge-toggle-field" title="' . esc_attr__( 'Edit / Collapse', 'ar-fieldforge' ) . '"><span class="dashicons dashicons-arrow-down-alt2"></span></button>';
-		echo '<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-field" title="' . esc_attr__( 'Delete', 'ar-fieldforge' ) . '"><span class="dashicons dashicons-trash"></span></button>';
+		echo '<button type="button" class="ff-btn-icon fieldforge-duplicate-field" title="' . esc_attr__( 'Duplicate', 'fieldom' ) . '"><span class="dashicons dashicons-admin-page"></span></button>';
+		echo '<button type="button" class="ff-btn-icon fieldforge-toggle-field" title="' . esc_attr__( 'Edit / Collapse', 'fieldom' ) . '"><span class="dashicons dashicons-arrow-down-alt2"></span></button>';
+		echo '<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-field" title="' . esc_attr__( 'Delete', 'fieldom' ) . '"><span class="dashicons dashicons-trash"></span></button>';
 		echo '</div>'; // .fieldforge-field-row-actions
 		echo '</div>'; // .fieldforge-field-row-header
 
@@ -138,16 +138,16 @@ class FieldForge_Field_Group_Editor {
 		?>
 		<div class="ff-field-settings-grid">
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Field Label', 'ar-fieldforge' ); ?></label>
+				<label><?php esc_html_e( 'Field Label', 'fieldom' ); ?></label>
 				<input type="text" name="<?php echo esc_attr( $prefix ); ?>[label]" value="<?php echo esc_attr( $field['label'] ?? '' ); ?>" class="widefat fieldforge-field-label-input" />
 			</div>
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Field Name', 'ar-fieldforge' ); ?> <span class="ff-muted">(slug)</span></label>
+				<label><?php esc_html_e( 'Field Name', 'fieldom' ); ?> <span class="ff-muted">(slug)</span></label>
 				<input type="text" name="<?php echo esc_attr( $prefix ); ?>[name]" value="<?php echo esc_attr( $field['name'] ?? '' ); ?>" class="widefat fieldforge-field-name-input" />
 				<p class="ff-field-setting-help ff-name-error" style="display:none;color:#d63638"></p>
 			</div>
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Field Type', 'ar-fieldforge' ); ?></label>
+				<label><?php esc_html_e( 'Field Type', 'fieldom' ); ?></label>
 				<div class="ff-type-picker-trigger">
 					<span class="ff-type-picker-icon dashicons <?php echo esc_attr( $icon ); ?>"></span>
 					<span class="ff-type-picker-label"><?php echo esc_html( $type_labels[ $type ] ?? $type ); ?></span>
@@ -156,21 +156,21 @@ class FieldForge_Field_Group_Editor {
 				</div>
 			</div>
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Instructions', 'ar-fieldforge' ); ?></label>
+				<label><?php esc_html_e( 'Instructions', 'fieldom' ); ?></label>
 				<textarea name="<?php echo esc_attr( $prefix ); ?>[instructions]" rows="2" class="widefat"><?php echo esc_textarea( $field['instructions'] ?? '' ); ?></textarea>
 			</div>
 			<div class="ff-field-setting ff-field-setting--inline">
 				<label>
 					<input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[required]" value="1"<?php checked( ! empty( $field['required'] ) ); ?> />
-					<?php esc_html_e( 'Required field', 'ar-fieldforge' ); ?>
+					<?php esc_html_e( 'Required field', 'fieldom' ); ?>
 				</label>
 			</div>
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Default Value', 'ar-fieldforge' ); ?></label>
+				<label><?php esc_html_e( 'Default Value', 'fieldom' ); ?></label>
 				<input type="text" name="<?php echo esc_attr( $prefix ); ?>[default_value]" value="<?php echo esc_attr( $field['default_value'] ?? '' ); ?>" class="widefat" />
 			</div>
 			<div class="ff-field-setting">
-				<label><?php esc_html_e( 'Placeholder', 'ar-fieldforge' ); ?></label>
+				<label><?php esc_html_e( 'Placeholder', 'fieldom' ); ?></label>
 				<input type="text" name="<?php echo esc_attr( $prefix ); ?>[placeholder]" value="<?php echo esc_attr( $field['placeholder'] ?? '' ); ?>" class="widefat" />
 			</div>
 		</div>
@@ -191,11 +191,11 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Allow Multiple', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Allow Null', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Allow Null', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[allow_null]" value="1"<?php checked( ! empty( $field['allow_null'] ) ); ?> /></td>
 					</tr>
 				</table>
@@ -206,15 +206,15 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Min', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Min', 'fieldom' ); ?></th>
 						<td><input type="number" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? '' ) ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Max', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Max', 'fieldom' ); ?></th>
 						<td><input type="number" name="<?php echo esc_attr( $prefix ); ?>[max]" value="<?php echo esc_attr( (string) ( $field['max'] ?? '' ) ); ?>" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Step', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Step', 'fieldom' ); ?></th>
 						<td><input type="number" step="any" name="<?php echo esc_attr( $prefix ); ?>[step]" value="<?php echo esc_attr( (string) ( $field['step'] ?? '' ) ); ?>" /></td>
 					</tr>
 				</table>
@@ -226,12 +226,12 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'ar-fieldforge' ); ?></option>
-								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URL', 'ar-fieldforge' ); ?></option>
-								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'ar-fieldforge' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldom' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URL', 'fieldom' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -243,12 +243,12 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'IDs', 'ar-fieldforge' ); ?></option>
-								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URLs', 'ar-fieldforge' ); ?></option>
-								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'ar-fieldforge' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'IDs', 'fieldom' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'id', 'url' ); ?>><?php esc_html_e( 'URLs', 'fieldom' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -260,26 +260,26 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Tabs', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Tabs', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[tabs]">
-								<option value="all"<?php selected( $field['tabs'] ?? 'all', 'all' ); ?>><?php esc_html_e( 'Visual & Text', 'ar-fieldforge' ); ?></option>
-								<option value="visual"<?php selected( $field['tabs'] ?? 'all', 'visual' ); ?>><?php esc_html_e( 'Visual Only', 'ar-fieldforge' ); ?></option>
-								<option value="text"<?php selected( $field['tabs'] ?? 'all', 'text' ); ?>><?php esc_html_e( 'Text Only', 'ar-fieldforge' ); ?></option>
+								<option value="all"<?php selected( $field['tabs'] ?? 'all', 'all' ); ?>><?php esc_html_e( 'Visual & Text', 'fieldom' ); ?></option>
+								<option value="visual"<?php selected( $field['tabs'] ?? 'all', 'visual' ); ?>><?php esc_html_e( 'Visual Only', 'fieldom' ); ?></option>
+								<option value="text"<?php selected( $field['tabs'] ?? 'all', 'text' ); ?>><?php esc_html_e( 'Text Only', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Toolbar', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Toolbar', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[toolbar]">
-								<option value="full"<?php selected( $field['toolbar'] ?? 'full', 'full' ); ?>><?php esc_html_e( 'Full', 'ar-fieldforge' ); ?></option>
-								<option value="basic"<?php selected( $field['toolbar'] ?? 'full', 'basic' ); ?>><?php esc_html_e( 'Basic', 'ar-fieldforge' ); ?></option>
+								<option value="full"<?php selected( $field['toolbar'] ?? 'full', 'full' ); ?>><?php esc_html_e( 'Full', 'fieldom' ); ?></option>
+								<option value="basic"<?php selected( $field['toolbar'] ?? 'full', 'basic' ); ?>><?php esc_html_e( 'Basic', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Media Upload', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Media Upload', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[media_upload]" value="1"<?php checked( $field['media_upload'] ?? true ); ?> /></td>
 					</tr>
 				</table>
@@ -290,16 +290,16 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="object"<?php selected( $field['return_format'] ?? 'object', 'object' ); ?>><?php esc_html_e( 'Post Object', 'ar-fieldforge' ); ?></option>
-								<option value="id"<?php selected( $field['return_format'] ?? 'object', 'id' ); ?>><?php esc_html_e( 'ID', 'ar-fieldforge' ); ?></option>
+								<option value="object"<?php selected( $field['return_format'] ?? 'object', 'object' ); ?>><?php esc_html_e( 'Post Object', 'fieldom' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'object', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Allow Multiple', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
 					</tr>
 				</table>
@@ -310,7 +310,7 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Taxonomy', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Taxonomy', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[taxonomy]">
 								<?php foreach ( get_taxonomies( array( 'public' => true ), 'objects' ) as $tax ) : ?>
@@ -320,24 +320,24 @@ class FieldForge_Field_Group_Editor {
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Field Type', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Field Type', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[field_type]">
-								<option value="checkbox"<?php selected( $field['field_type'] ?? 'checkbox', 'checkbox' ); ?>><?php esc_html_e( 'Checkbox', 'ar-fieldforge' ); ?></option>
-								<option value="multi_select"<?php selected( $field['field_type'] ?? 'checkbox', 'multi_select' ); ?>><?php esc_html_e( 'Multi Select', 'ar-fieldforge' ); ?></option>
-								<option value="radio"<?php selected( $field['field_type'] ?? 'checkbox', 'radio' ); ?>><?php esc_html_e( 'Radio', 'ar-fieldforge' ); ?></option>
-								<option value="select"<?php selected( $field['field_type'] ?? 'checkbox', 'select' ); ?>><?php esc_html_e( 'Select', 'ar-fieldforge' ); ?></option>
+								<option value="checkbox"<?php selected( $field['field_type'] ?? 'checkbox', 'checkbox' ); ?>><?php esc_html_e( 'Checkbox', 'fieldom' ); ?></option>
+								<option value="multi_select"<?php selected( $field['field_type'] ?? 'checkbox', 'multi_select' ); ?>><?php esc_html_e( 'Multi Select', 'fieldom' ); ?></option>
+								<option value="radio"<?php selected( $field['field_type'] ?? 'checkbox', 'radio' ); ?>><?php esc_html_e( 'Radio', 'fieldom' ); ?></option>
+								<option value="select"<?php selected( $field['field_type'] ?? 'checkbox', 'select' ); ?>><?php esc_html_e( 'Select', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'ar-fieldforge' ); ?></option>
-								<option value="name"<?php selected( $field['return_format'] ?? 'id', 'name' ); ?>><?php esc_html_e( 'Name', 'ar-fieldforge' ); ?></option>
-								<option value="slug"<?php selected( $field['return_format'] ?? 'id', 'slug' ); ?>><?php esc_html_e( 'Slug', 'ar-fieldforge' ); ?></option>
-								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'Term Object', 'ar-fieldforge' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldom' ); ?></option>
+								<option value="name"<?php selected( $field['return_format'] ?? 'id', 'name' ); ?>><?php esc_html_e( 'Name', 'fieldom' ); ?></option>
+								<option value="slug"<?php selected( $field['return_format'] ?? 'id', 'slug' ); ?>><?php esc_html_e( 'Slug', 'fieldom' ); ?></option>
+								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'Term Object', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -349,24 +349,24 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'ar-fieldforge' ); ?></option>
-								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'User Object', 'ar-fieldforge' ); ?></option>
-								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'ar-fieldforge' ); ?></option>
+								<option value="id"<?php selected( $field['return_format'] ?? 'id', 'id' ); ?>><?php esc_html_e( 'ID', 'fieldom' ); ?></option>
+								<option value="object"<?php selected( $field['return_format'] ?? 'id', 'object' ); ?>><?php esc_html_e( 'User Object', 'fieldom' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'id', 'array' ); ?>><?php esc_html_e( 'Array', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Allow Multiple', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Allow Multiple', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[multiple]" value="1"<?php checked( ! empty( $field['multiple'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Filter by Role', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Filter by Role', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[role]">
-								<option value=""><?php esc_html_e( '— Any Role —', 'ar-fieldforge' ); ?></option>
+								<option value=""><?php esc_html_e( '— Any Role —', 'fieldom' ); ?></option>
 								<?php foreach ( wp_roles()->role_names as $role_slug => $role_name ) : ?>
 									<option value="<?php echo esc_attr( $role_slug ); ?>"<?php selected( $field['role'] ?? '', $role_slug ); ?>><?php echo esc_html( $role_name ); ?></option>
 								<?php endforeach; ?>
@@ -382,27 +382,27 @@ class FieldForge_Field_Group_Editor {
 				$sp_base    = $prefix . '[sub_fields]';
 				?>
 				<div class="fieldforge-sub-fields-editor" data-name-prefix="<?php echo esc_attr( $sp_base ); ?>">
-					<h4><?php esc_html_e( 'Sub Fields', 'ar-fieldforge' ); ?></h4>
+					<h4><?php esc_html_e( 'Sub Fields', 'fieldom' ); ?></h4>
 					<div class="fieldforge-sub-fields-list">
 					<?php foreach ( $sub_fields as $si => $sub ) : ?>
 						<?php $this->render_sub_field_row( $sp_base . '[' . $si . ']', $sub, $si ); ?>
 					<?php endforeach; ?>
 					</div>
 					<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="<?php echo esc_attr( $sp_base ); ?>">
-						<?php esc_html_e( '+ Add Sub Field', 'ar-fieldforge' ); ?>
+						<?php esc_html_e( '+ Add Sub Field', 'fieldom' ); ?>
 					</button>
 					<table class="form-table" style="margin-top:12px">
 						<tr>
-							<th><?php esc_html_e( 'Min Rows', 'ar-fieldforge' ); ?></th>
+							<th><?php esc_html_e( 'Min Rows', 'fieldom' ); ?></th>
 							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? 0 ) ); ?>" class="small-text" /></td>
 						</tr>
 						<tr>
-							<th><?php esc_html_e( 'Max Rows', 'ar-fieldforge' ); ?></th>
+							<th><?php esc_html_e( 'Max Rows', 'fieldom' ); ?></th>
 							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[max]" value="<?php echo esc_attr( (string) ( $field['max'] ?? 0 ) ); ?>" class="small-text" /></td>
 						</tr>
 						<tr>
-							<th><?php esc_html_e( 'Add Row Label', 'ar-fieldforge' ); ?></th>
-							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Row', 'ar-fieldforge' ) ); ?>" class="regular-text" /></td>
+							<th><?php esc_html_e( 'Add Row Label', 'fieldom' ); ?></th>
+							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Row', 'fieldom' ) ); ?>" class="regular-text" /></td>
 						</tr>
 					</table>
 				</div>
@@ -414,27 +414,27 @@ class FieldForge_Field_Group_Editor {
 				$lp_base = $prefix . '[layouts]';
 				?>
 				<div class="fieldforge-layouts-editor" data-name-prefix="<?php echo esc_attr( $lp_base ); ?>">
-					<h4><?php esc_html_e( 'Layouts', 'ar-fieldforge' ); ?></h4>
+					<h4><?php esc_html_e( 'Layouts', 'fieldom' ); ?></h4>
 					<div class="fieldforge-layouts-list">
 					<?php foreach ( $layouts as $li => $layout ) : ?>
 						<?php $this->render_layout_row( $lp_base . '[' . $li . ']', $layout, $li ); ?>
 					<?php endforeach; ?>
 					</div>
 					<button type="button" class="button fieldforge-add-layout" data-name-prefix="<?php echo esc_attr( $lp_base ); ?>">
-						<?php esc_html_e( '+ Add Layout', 'ar-fieldforge' ); ?>
+						<?php esc_html_e( '+ Add Layout', 'fieldom' ); ?>
 					</button>
 					<table class="form-table" style="margin-top:12px">
 						<tr>
-							<th><?php esc_html_e( 'Min Layouts', 'ar-fieldforge' ); ?></th>
+							<th><?php esc_html_e( 'Min Layouts', 'fieldom' ); ?></th>
 							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? 0 ) ); ?>" class="small-text" /></td>
 						</tr>
 						<tr>
-							<th><?php esc_html_e( 'Max Layouts', 'ar-fieldforge' ); ?></th>
+							<th><?php esc_html_e( 'Max Layouts', 'fieldom' ); ?></th>
 							<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[max]" value="<?php echo esc_attr( (string) ( $field['max'] ?? 0 ) ); ?>" class="small-text" /></td>
 						</tr>
 						<tr>
-							<th><?php esc_html_e( 'Add Button Label', 'ar-fieldforge' ); ?></th>
-							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Layout', 'ar-fieldforge' ) ); ?>" class="regular-text" /></td>
+							<th><?php esc_html_e( 'Add Button Label', 'fieldom' ); ?></th>
+							<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[button_label]" value="<?php echo esc_attr( $field['button_label'] ?? __( 'Add Layout', 'fieldom' ) ); ?>" class="regular-text" /></td>
 						</tr>
 					</table>
 				</div>
@@ -445,15 +445,15 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Max Length', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Max Length', 'fieldom' ); ?></th>
 						<td><input type="number" min="0" name="<?php echo esc_attr( $prefix ); ?>[maxlength]" value="<?php echo esc_attr( (string) ( $field['maxlength'] ?? '' ) ); ?>" class="small-text" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Prepend', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Prepend', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[prepend]" value="<?php echo esc_attr( $field['prepend'] ?? '' ); ?>" class="regular-text" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Append', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Append', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[append]" value="<?php echo esc_attr( $field['append'] ?? '' ); ?>" class="regular-text" /></td>
 					</tr>
 				</table>
@@ -464,7 +464,7 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Rows', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Rows', 'fieldom' ); ?></th>
 						<td><input type="number" min="1" name="<?php echo esc_attr( $prefix ); ?>[rows]" value="<?php echo esc_attr( (string) ( $field['rows'] ?? 4 ) ); ?>" class="small-text" /></td>
 					</tr>
 				</table>
@@ -475,17 +475,17 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Display Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Display Format', 'fieldom' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[display_format]" value="<?php echo esc_attr( $field['display_format'] ?? 'd/m/Y' ); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e( 'PHP date() format for admin display.', 'ar-fieldforge' ); ?></p>
+							<p class="description"><?php esc_html_e( 'PHP date() format for admin display.', 'fieldom' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[return_format]" value="<?php echo esc_attr( $field['return_format'] ?? 'Ymd' ); ?>" class="regular-text" />
-							<p class="description"><?php esc_html_e( 'PHP date() format returned by fieldforge_get().', 'ar-fieldforge' ); ?></p>
+							<p class="description"><?php esc_html_e( 'PHP date() format returned by fieldforge_get().', 'fieldom' ); ?></p>
 						</td>
 					</tr>
 				</table>
@@ -496,13 +496,13 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Display Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Display Format', 'fieldom' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[display_format]" value="<?php echo esc_attr( $field['display_format'] ?? 'g:i a' ); ?>" class="regular-text" />
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[return_format]" value="<?php echo esc_attr( $field['return_format'] ?? 'H:i:s' ); ?>" class="regular-text" />
 						</td>
@@ -515,10 +515,10 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Message', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Message', 'fieldom' ); ?></th>
 						<td>
 							<input type="text" name="<?php echo esc_attr( $prefix ); ?>[message]" value="<?php echo esc_attr( $field['message'] ?? '' ); ?>" class="widefat" />
-							<p class="description"><?php esc_html_e( 'Text shown beside the checkbox.', 'ar-fieldforge' ); ?></p>
+							<p class="description"><?php esc_html_e( 'Text shown beside the checkbox.', 'fieldom' ); ?></p>
 						</td>
 					</tr>
 				</table>
@@ -529,11 +529,11 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Return Format', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Return Format', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[return_format]">
-								<option value="array"<?php selected( $field['return_format'] ?? 'array', 'array' ); ?>><?php esc_html_e( 'Array (url, title, target)', 'ar-fieldforge' ); ?></option>
-								<option value="url"<?php selected( $field['return_format'] ?? 'array', 'url' ); ?>><?php esc_html_e( 'URL string only', 'ar-fieldforge' ); ?></option>
+								<option value="array"<?php selected( $field['return_format'] ?? 'array', 'array' ); ?>><?php esc_html_e( 'Array (url, title, target)', 'fieldom' ); ?></option>
+								<option value="url"<?php selected( $field['return_format'] ?? 'array', 'url' ); ?>><?php esc_html_e( 'URL string only', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -545,19 +545,19 @@ class FieldForge_Field_Group_Editor {
 				?>
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Message', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Message', 'fieldom' ); ?></th>
 						<td>
 							<textarea name="<?php echo esc_attr( $prefix ); ?>[message_content]" rows="4" class="widefat"><?php echo esc_textarea( $field['message_content'] ?? '' ); ?></textarea>
-							<p class="description"><?php esc_html_e( 'HTML allowed. This text is shown to editors but not stored.', 'ar-fieldforge' ); ?></p>
+							<p class="description"><?php esc_html_e( 'HTML allowed. This text is shown to editors but not stored.', 'fieldom' ); ?></p>
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'New Lines', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'New Lines', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[new_lines]">
-								<option value="wpautop"<?php selected( $field['new_lines'] ?? 'wpautop', 'wpautop' ); ?>><?php esc_html_e( 'Automatically add paragraphs', 'ar-fieldforge' ); ?></option>
-								<option value="br"<?php selected( $field['new_lines'] ?? 'wpautop', 'br' ); ?>><?php esc_html_e( 'Automatically add &lt;br&gt;', 'ar-fieldforge' ); ?></option>
-								<option value=""<?php selected( $field['new_lines'] ?? 'wpautop', '' ); ?>><?php esc_html_e( 'No formatting', 'ar-fieldforge' ); ?></option>
+								<option value="wpautop"<?php selected( $field['new_lines'] ?? 'wpautop', 'wpautop' ); ?>><?php esc_html_e( 'Automatically add paragraphs', 'fieldom' ); ?></option>
+								<option value="br"<?php selected( $field['new_lines'] ?? 'wpautop', 'br' ); ?>><?php esc_html_e( 'Automatically add &lt;br&gt;', 'fieldom' ); ?></option>
+								<option value=""<?php selected( $field['new_lines'] ?? 'wpautop', '' ); ?>><?php esc_html_e( 'No formatting', 'fieldom' ); ?></option>
 							</select>
 						</td>
 					</tr>
@@ -579,16 +579,16 @@ class FieldForge_Field_Group_Editor {
 		$enabled = ! empty( $field['conditional_logic'] ) ? 1 : 0;
 		$rules   = $field['conditional_logic_rules'] ?? array();
 		$operators = array(
-			'=='         => __( 'is equal to', 'ar-fieldforge' ),
-			'!='         => __( 'is not equal to', 'ar-fieldforge' ),
-			'>'          => __( 'is greater than', 'ar-fieldforge' ),
-			'<'          => __( 'is less than', 'ar-fieldforge' ),
-			'>='         => __( 'is greater than or equal to', 'ar-fieldforge' ),
-			'<='         => __( 'is less than or equal to', 'ar-fieldforge' ),
-			'==empty'    => __( 'has no value', 'ar-fieldforge' ),
-			'!=empty'    => __( 'has any value', 'ar-fieldforge' ),
-			'==contains' => __( 'contains', 'ar-fieldforge' ),
-			'!=contains' => __( 'does not contain', 'ar-fieldforge' ),
+			'=='         => __( 'is equal to', 'fieldom' ),
+			'!='         => __( 'is not equal to', 'fieldom' ),
+			'>'          => __( 'is greater than', 'fieldom' ),
+			'<'          => __( 'is less than', 'fieldom' ),
+			'>='         => __( 'is greater than or equal to', 'fieldom' ),
+			'<='         => __( 'is less than or equal to', 'fieldom' ),
+			'==empty'    => __( 'has no value', 'fieldom' ),
+			'!=empty'    => __( 'has any value', 'fieldom' ),
+			'==contains' => __( 'contains', 'fieldom' ),
+			'!=contains' => __( 'does not contain', 'fieldom' ),
 		);
 		?>
 		<div class="ff-conditional-logic-builder" data-prefix="<?php echo esc_attr( $prefix ); ?>">
@@ -598,18 +598,18 @@ class FieldForge_Field_Group_Editor {
 						name="<?php echo esc_attr( $prefix ); ?>[conditional_logic]"
 						value="1"<?php checked( $enabled, 1 ); ?> />
 					<span class="ff-toggle-track"></span>
-					<span class="ff-toggle-text"><?php esc_html_e( 'Conditional Logic', 'ar-fieldforge' ); ?></span>
+					<span class="ff-toggle-text"><?php esc_html_e( 'Conditional Logic', 'fieldom' ); ?></span>
 				</label>
 			</div>
 			<div class="ff-cl-rules"<?php echo $enabled ? '' : ' style="display:none"'; ?>>
-				<p class="ff-cl-intro"><?php esc_html_e( 'Show this field if', 'ar-fieldforge' ); ?></p>
+				<p class="ff-cl-intro"><?php esc_html_e( 'Show this field if', 'fieldom' ); ?></p>
 				<div class="ff-cl-rules-list">
 					<?php foreach ( $rules as $ri => $rule ) : ?>
 						<div class="ff-cl-rule">
 							<input type="text" class="ff-cl-field-input"
 								name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][field]"
 								value="<?php echo esc_attr( $rule['field'] ?? '' ); ?>"
-								placeholder="<?php esc_attr_e( 'Field name', 'ar-fieldforge' ); ?>" />
+								placeholder="<?php esc_attr_e( 'Field name', 'fieldom' ); ?>" />
 							<select name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][operator]"
 								class="ff-cl-operator-select">
 								<?php foreach ( $operators as $op_val => $op_label ) : ?>
@@ -619,14 +619,14 @@ class FieldForge_Field_Group_Editor {
 							<input type="text" class="ff-cl-value-input"
 								name="<?php echo esc_attr( $prefix ); ?>[cl_rules][<?php echo (int) $ri; ?>][value]"
 								value="<?php echo esc_attr( $rule['value'] ?? '' ); ?>"
-								placeholder="<?php esc_attr_e( 'Value', 'ar-fieldforge' ); ?>" />
+								placeholder="<?php esc_attr_e( 'Value', 'fieldom' ); ?>" />
 							<button type="button" class="button button-link-delete ff-cl-remove-rule"
-								title="<?php esc_attr_e( 'Remove rule', 'ar-fieldforge' ); ?>">✕</button>
+								title="<?php esc_attr_e( 'Remove rule', 'fieldom' ); ?>">✕</button>
 						</div>
 					<?php endforeach; ?>
 				</div>
 				<button type="button" class="button ff-btn ff-btn--sm ff-cl-add-rule">
-					<?php esc_html_e( '+ Add Rule', 'ar-fieldforge' ); ?>
+					<?php esc_html_e( '+ Add Rule', 'fieldom' ); ?>
 				</button>
 			</div>
 		</div>
@@ -642,12 +642,12 @@ class FieldForge_Field_Group_Editor {
 		?>
 		<table class="form-table">
 			<tr>
-				<th><?php esc_html_e( 'Choices', 'ar-fieldforge' ); ?></th>
+				<th><?php esc_html_e( 'Choices', 'fieldom' ); ?></th>
 				<td>
 					<textarea name="<?php echo esc_attr( $prefix ); ?>[choices_raw]" rows="6" class="widefat"
-						placeholder="<?php esc_attr_e( 'red : Red\nblue : Blue', 'ar-fieldforge' ); ?>"
+						placeholder="<?php esc_attr_e( 'red : Red\nblue : Blue', 'fieldom' ); ?>"
 					><?php echo esc_textarea( implode( "\n", $lines ) ); ?></textarea>
-					<p class="description"><?php esc_html_e( 'One per line. Format: value : Label', 'ar-fieldforge' ); ?></p>
+					<p class="description"><?php esc_html_e( 'One per line. Format: value : Label', 'fieldom' ); ?></p>
 				</td>
 			</tr>
 		</table>
@@ -659,7 +659,7 @@ class FieldForge_Field_Group_Editor {
 		$location = is_array( $location ) ? $location : array();
 
 		echo '<div id="fieldforge-location-editor">';
-		echo '<p class="description">' . esc_html__( 'Show this field group when:', 'ar-fieldforge' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Show this field group when:', 'fieldom' ) . '</p>';
 
 		if ( empty( $location ) ) {
 			$location = array(
@@ -688,27 +688,27 @@ class FieldForge_Field_Group_Editor {
 				echo '</select>';
 				// Operator.
 				echo '<select name="' . esc_attr( $p ) . '[operator]">';
-				echo '<option value="=="' . selected( $rule['operator'] ?? '==', '==', false ) . '>' . esc_html__( 'is equal to', 'ar-fieldforge' ) . '</option>';
-				echo '<option value="!="' . selected( $rule['operator'] ?? '==', '!=', false ) . '>' . esc_html__( 'is not equal to', 'ar-fieldforge' ) . '</option>';
+				echo '<option value="=="' . selected( $rule['operator'] ?? '==', '==', false ) . '>' . esc_html__( 'is equal to', 'fieldom' ) . '</option>';
+				echo '<option value="!="' . selected( $rule['operator'] ?? '==', '!=', false ) . '>' . esc_html__( 'is not equal to', 'fieldom' ) . '</option>';
 				echo '</select>';
 				// Value — dynamic widget based on param.
 				echo $this->render_location_value_widget( $p . '[value]', $rule['param'] ?? 'post_type', $rule['value'] ?? '' ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pre-escaped
-				echo '<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-rule" title="' . esc_attr__( 'Remove rule', 'ar-fieldforge' ) . '"><span class="dashicons dashicons-minus"></span></button>';
+				echo '<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-rule" title="' . esc_attr__( 'Remove rule', 'fieldom' ) . '"><span class="dashicons dashicons-minus"></span></button>';
 				echo '</div>'; // .fieldforge-location-rule
 			endforeach;
 			echo '</div>'; // .fieldforge-location-rules
 			echo '<div class="ff-location-group-footer">';
-			echo '<button type="button" class="ff-btn ff-btn--sm fieldforge-add-rule">+ ' . esc_html__( 'and', 'ar-fieldforge' ) . '</button>';
-			echo '<button type="button" class="ff-btn ff-btn--sm ff-btn--danger fieldforge-remove-group">' . esc_html__( 'Remove Group', 'ar-fieldforge' ) . '</button>';
+			echo '<button type="button" class="ff-btn ff-btn--sm fieldforge-add-rule">+ ' . esc_html__( 'and', 'fieldom' ) . '</button>';
+			echo '<button type="button" class="ff-btn ff-btn--sm ff-btn--danger fieldforge-remove-group">' . esc_html__( 'Remove Group', 'fieldom' ) . '</button>';
 			echo '</div>'; // .ff-location-group-footer
 			echo '</div>'; // .fieldforge-location-group
 			if ( $group_index < count( $location ) - 1 ) {
-				echo '<div class="fieldforge-location-or"><span>' . esc_html__( 'or', 'ar-fieldforge' ) . '</span></div>';
+				echo '<div class="fieldforge-location-or"><span>' . esc_html__( 'or', 'fieldom' ) . '</span></div>';
 			}
 			echo '</div>'; // .ff-location-group-wrap
 		endforeach;
 
-		echo '<button type="button" class="ff-btn ff-btn--sm fieldforge-add-location-group"><span class="dashicons dashicons-plus-alt2"></span> ' . esc_html__( 'Add OR Group', 'ar-fieldforge' ) . '</button>';
+		echo '<button type="button" class="ff-btn ff-btn--sm fieldforge-add-location-group"><span class="dashicons dashicons-plus-alt2"></span> ' . esc_html__( 'Add OR Group', 'fieldom' ) . '</button>';
 		echo '</div>'; // #fieldforge-location-editor
 	}
 
@@ -720,19 +720,19 @@ class FieldForge_Field_Group_Editor {
 		?>
 		<table class="form-table">
 			<tr>
-				<th><label for="fieldforge_description"><?php esc_html_e( 'Description', 'ar-fieldforge' ); ?></label></th>
+				<th><label for="fieldforge_description"><?php esc_html_e( 'Description', 'fieldom' ); ?></label></th>
 				<td>
 					<textarea id="fieldforge_description" name="fieldforge_description" rows="3" class="widefat"><?php echo esc_textarea( $description ); ?></textarea>
-					<p class="description"><?php esc_html_e( 'Optional. Visible in the field group list.', 'ar-fieldforge' ); ?></p>
+					<p class="description"><?php esc_html_e( 'Optional. Visible in the field group list.', 'fieldom' ); ?></p>
 				</td>
 			</tr>
 			<tr>
-				<th><?php esc_html_e( 'Position', 'ar-fieldforge' ); ?></th>
+				<th><?php esc_html_e( 'Position', 'fieldom' ); ?></th>
 				<td>
 					<select name="fieldforge_position">
-						<option value="normal"<?php selected( $position, 'normal' ); ?>><?php esc_html_e( 'Normal', 'ar-fieldforge' ); ?></option>
-						<option value="side"<?php selected( $position, 'side' ); ?>><?php esc_html_e( 'Side', 'ar-fieldforge' ); ?></option>
-						<option value="acf_after_title"<?php selected( $position, 'acf_after_title' ); ?>><?php esc_html_e( 'After Title', 'ar-fieldforge' ); ?></option>
+						<option value="normal"<?php selected( $position, 'normal' ); ?>><?php esc_html_e( 'Normal', 'fieldom' ); ?></option>
+						<option value="side"<?php selected( $position, 'side' ); ?>><?php esc_html_e( 'Side', 'fieldom' ); ?></option>
+						<option value="acf_after_title"<?php selected( $position, 'acf_after_title' ); ?>><?php esc_html_e( 'After Title', 'fieldom' ); ?></option>
 					</select>
 				</td>
 			</tr>
@@ -741,7 +741,7 @@ class FieldForge_Field_Group_Editor {
 		// Export button.
 		if ( $post->ID ) {
 			echo '<hr />';
-			echo '<button type="button" class="button fieldforge-export-group" data-id="' . esc_attr( $post->ID ) . '">' . esc_html__( 'Export JSON', 'ar-fieldforge' ) . '</button>';
+			echo '<button type="button" class="button fieldforge-export-group" data-id="' . esc_attr( $post->ID ) . '">' . esc_html__( 'Export JSON', 'fieldom' ) . '</button>';
 		}
 	}
 
@@ -847,7 +847,7 @@ class FieldForge_Field_Group_Editor {
 				$field['min']          = absint( $f['min'] ?? 0 );
 				$field['max']          = absint( $f['max'] ?? 0 );
 				$field['layout']       = sanitize_text_field( $f['layout'] ?? 'table' );
-				$field['button_label'] = sanitize_text_field( $f['button_label'] ?? __( 'Add Row', 'ar-fieldforge' ) );
+				$field['button_label'] = sanitize_text_field( $f['button_label'] ?? __( 'Add Row', 'fieldom' ) );
 			}
 
 			if ( 'flexible_content' === $type && ! empty( $f['layouts'] ) ) {
@@ -996,28 +996,28 @@ class FieldForge_Field_Group_Editor {
 		<?php $sub_cat = $this->get_type_category( $type ); ?>
 		<div class="fieldforge-sub-field-row" data-index="<?php echo esc_attr( (string) $index ); ?>" data-category="<?php echo esc_attr( $sub_cat ); ?>">
 			<div class="fieldforge-sub-field-header">
-				<span class="fieldforge-drag-handle" title="<?php esc_attr_e( 'Drag to reorder', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-menu"></span></span>
+				<span class="fieldforge-drag-handle" title="<?php esc_attr_e( 'Drag to reorder', 'fieldom' ); ?>"><span class="dashicons dashicons-menu"></span></span>
 				<span class="fieldforge-field-type-icon ff-type-icon--<?php echo esc_attr( $sub_cat ); ?>"><span class="dashicons <?php echo esc_attr( $this->get_type_icon( $type ) ); ?>"></span></span>
-				<strong class="ff-sub-label-preview"><?php echo esc_html( $sub['label'] ?? __( '(sub field)', 'ar-fieldforge' ) ); ?></strong>
+				<strong class="ff-sub-label-preview"><?php echo esc_html( $sub['label'] ?? __( '(sub field)', 'fieldom' ) ); ?></strong>
 				<span class="fieldforge-field-type-badge ff-badge--<?php echo esc_attr( $sub_cat ); ?>"><?php echo esc_html( $type_labels[ $type ] ?? $type ); ?></span>
 				<div class="fieldforge-field-row-actions">
-					<button type="button" class="ff-btn-icon fieldforge-toggle-sub-field" title="<?php esc_attr_e( 'Edit / Collapse', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-arrow-down-alt2"></span></button>
-					<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-sub-field" title="<?php esc_attr_e( 'Delete', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-trash"></span></button>
+					<button type="button" class="ff-btn-icon fieldforge-toggle-sub-field" title="<?php esc_attr_e( 'Edit / Collapse', 'fieldom' ); ?>"><span class="dashicons dashicons-arrow-down-alt2"></span></button>
+					<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-sub-field" title="<?php esc_attr_e( 'Delete', 'fieldom' ); ?>"><span class="dashicons dashicons-trash"></span></button>
 				</div>
 			</div>
 			<div class="fieldforge-sub-field-body" style="display:none">
 				<input type="hidden" name="<?php echo esc_attr( $prefix ); ?>[key]" value="<?php echo esc_attr( $sub['key'] ?? 'field_' . uniqid() ); ?>" />
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Label', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Label', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[label]" value="<?php echo esc_attr( $sub['label'] ?? '' ); ?>" class="widefat fieldforge-sub-label-input" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Name', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Name', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[name]" value="<?php echo esc_attr( $sub['name'] ?? '' ); ?>" class="widefat fieldforge-sub-name-input" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Type', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Type', 'fieldom' ); ?></th>
 						<td>
 							<select name="<?php echo esc_attr( $prefix ); ?>[type]" class="fieldforge-sub-type-select">
 								<?php foreach ( $type_labels as $slug => $label ) : ?>
@@ -1027,11 +1027,11 @@ class FieldForge_Field_Group_Editor {
 						</td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Required', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Required', 'fieldom' ); ?></th>
 						<td><input type="checkbox" name="<?php echo esc_attr( $prefix ); ?>[required]" value="1"<?php checked( ! empty( $sub['required'] ) ); ?> /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Instructions', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Instructions', 'fieldom' ); ?></th>
 						<td><textarea name="<?php echo esc_attr( $prefix ); ?>[instructions]" rows="2" class="widefat"><?php echo esc_textarea( $sub['instructions'] ?? '' ); ?></textarea></td>
 					</tr>
 				</table>
@@ -1053,30 +1053,30 @@ class FieldForge_Field_Group_Editor {
 		?>
 		<div class="fieldforge-layout-row" data-index="<?php echo esc_attr( (string) $index ); ?>">
 			<div class="fieldforge-layout-header">
-				<span class="fieldforge-drag-handle" title="<?php esc_attr_e( 'Drag to reorder', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-menu"></span></span>
+				<span class="fieldforge-drag-handle" title="<?php esc_attr_e( 'Drag to reorder', 'fieldom' ); ?>"><span class="dashicons dashicons-menu"></span></span>
 				<span class="fieldforge-field-type-icon ff-type-icon--layout"><span class="dashicons dashicons-layout"></span></span>
-				<strong class="ff-layout-label-preview"><?php echo esc_html( $layout['label'] ?? __( '(layout)', 'ar-fieldforge' ) ); ?></strong>
+				<strong class="ff-layout-label-preview"><?php echo esc_html( $layout['label'] ?? __( '(layout)', 'fieldom' ) ); ?></strong>
 				<?php if ( ! empty( $layout['name'] ) ) : ?>
 					<span class="fieldforge-field-name-preview ff-muted"><?php echo esc_html( '(' . $layout['name'] . ')' ); ?></span>
 				<?php endif; ?>
 				<div class="fieldforge-field-row-actions">
-					<button type="button" class="ff-btn-icon fieldforge-toggle-layout" title="<?php esc_attr_e( 'Edit / Collapse', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-arrow-down-alt2"></span></button>
-					<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-layout" title="<?php esc_attr_e( 'Delete', 'ar-fieldforge' ); ?>"><span class="dashicons dashicons-trash"></span></button>
+					<button type="button" class="ff-btn-icon fieldforge-toggle-layout" title="<?php esc_attr_e( 'Edit / Collapse', 'fieldom' ); ?>"><span class="dashicons dashicons-arrow-down-alt2"></span></button>
+					<button type="button" class="ff-btn-icon ff-btn-icon--danger fieldforge-remove-layout" title="<?php esc_attr_e( 'Delete', 'fieldom' ); ?>"><span class="dashicons dashicons-trash"></span></button>
 				</div>
 			</div>
 			<div class="fieldforge-layout-body" style="display:none">
 				<table class="form-table">
 					<tr>
-						<th><?php esc_html_e( 'Label', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Label', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[label]" value="<?php echo esc_attr( $layout['label'] ?? '' ); ?>" class="widefat fieldforge-layout-label-input" /></td>
 					</tr>
 					<tr>
-						<th><?php esc_html_e( 'Name', 'ar-fieldforge' ); ?></th>
+						<th><?php esc_html_e( 'Name', 'fieldom' ); ?></th>
 						<td><input type="text" name="<?php echo esc_attr( $prefix ); ?>[name]" value="<?php echo esc_attr( $layout['name'] ?? '' ); ?>" class="widefat fieldforge-layout-name-input" /></td>
 					</tr>
 				</table>
 				<div class="fieldforge-sub-fields-editor fieldforge-layout-subfields" data-name-prefix="<?php echo esc_attr( $sf_base ); ?>">
-					<h5><?php esc_html_e( 'Sub Fields', 'ar-fieldforge' ); ?></h5>
+					<h5><?php esc_html_e( 'Sub Fields', 'fieldom' ); ?></h5>
 					<div class="fieldforge-sub-fields-list">
 					<?php foreach ( $layout['sub_fields'] ?? array() as $si => $sf ) : ?>
 						<?php $this->render_sub_field_row( $sf_base . '[' . $si . ']', $sf, $si ); ?>
@@ -1085,7 +1085,7 @@ class FieldForge_Field_Group_Editor {
 					<div class="fieldforge-add-field-wrap" style="margin-top:8px">
 						<button type="button" class="button fieldforge-add-sub-field" data-name-prefix="<?php echo esc_attr( $sf_base ); ?>">
 							<span class="dashicons dashicons-plus-alt2"></span>
-							<?php esc_html_e( 'Add Sub Field', 'ar-fieldforge' ); ?>
+							<?php esc_html_e( 'Add Sub Field', 'fieldom' ); ?>
 						</button>
 					</div>
 				</div>
@@ -1101,8 +1101,8 @@ class FieldForge_Field_Group_Editor {
 	public function add_tools_menu(): void {
 		add_submenu_page(
 			'edit.php?post_type=' . FieldForge_Field_Group::CPT,
-			__( 'Import / Export', 'ar-fieldforge' ),
-			__( 'Import / Export', 'ar-fieldforge' ),
+			__( 'Import / Export', 'fieldom' ),
+			__( 'Import / Export', 'fieldom' ),
 			'manage_options',
 			'fieldforge-tools',
 			array( $this, 'render_tools_page' )
@@ -1119,10 +1119,10 @@ class FieldForge_Field_Group_Editor {
 			return;
 		}
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Insufficient permissions.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Insufficient permissions.', 'fieldom' ) );
 		}
 		if ( ! isset( $_GET['fieldforge_dl_nonce'] ) || ! wp_verify_nonce( sanitize_key( $_GET['fieldforge_dl_nonce'] ), 'fieldforge_download_export' ) ) {
-			wp_die( esc_html__( 'Security check failed.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Security check failed.', 'fieldom' ) );
 		}
 
 		$ff       = FieldForge::get_instance();
@@ -1148,22 +1148,22 @@ class FieldForge_Field_Group_Editor {
 
 	public function render_tools_page(): void {
 		if ( ! current_user_can( 'manage_options' ) ) {
-			wp_die( esc_html__( 'Insufficient permissions.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Insufficient permissions.', 'fieldom' ) );
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'FieldForge — Import / Export', 'ar-fieldforge' ); ?></h1>
+			<h1><?php esc_html_e( 'FieldForge — Import / Export', 'fieldom' ); ?></h1>
 
-			<h2><?php esc_html_e( 'Import Field Group JSON', 'ar-fieldforge' ); ?></h2>
-			<p><?php esc_html_e( 'Paste a field group JSON export below to import it into FieldForge.', 'ar-fieldforge' ); ?></p>
+			<h2><?php esc_html_e( 'Import Field Group JSON', 'fieldom' ); ?></h2>
+			<p><?php esc_html_e( 'Paste a field group JSON export below to import it into FieldForge.', 'fieldom' ); ?></p>
 			<textarea id="fieldforge-import-json" rows="12" style="width:100%;font-family:monospace"></textarea>
 			<br /><br />
-			<button type="button" class="button button-primary" id="fieldforge-do-import"><?php esc_html_e( 'Import', 'ar-fieldforge' ); ?></button>
+			<button type="button" class="button button-primary" id="fieldforge-do-import"><?php esc_html_e( 'Import', 'fieldom' ); ?></button>
 			<span id="fieldforge-import-result" style="margin-left:10px"></span>
 
 			<hr />
 
-			<h2><?php esc_html_e( 'Export Field Group', 'ar-fieldforge' ); ?></h2>
+			<h2><?php esc_html_e( 'Export Field Group', 'fieldom' ); ?></h2>
 			<?php
 			$groups = get_posts(
 				array(
@@ -1178,7 +1178,7 @@ class FieldForge_Field_Group_Editor {
 					echo '<option value="' . esc_attr( $g->ID ) . '">' . esc_html( $g->post_title ) . '</option>';
 				}
 				echo '</select> ';
-				echo '<button type="button" class="button" id="fieldforge-do-export">' . esc_html__( 'Preview JSON', 'ar-fieldforge' ) . '</button>';
+				echo '<button type="button" class="button" id="fieldforge-do-export">' . esc_html__( 'Preview JSON', 'fieldom' ) . '</button>';
 
 				$dl_nonce = wp_create_nonce( 'fieldforge_download_export' );
 				echo ' <a class="button button-primary" id="fieldforge-download-one" href="' . esc_url(
@@ -1192,13 +1192,13 @@ class FieldForge_Field_Group_Editor {
 						),
 						admin_url( 'edit.php' )
 					)
-				) . '">' . esc_html__( 'Download JSON', 'ar-fieldforge' ) . '</a>';
+				) . '">' . esc_html__( 'Download JSON', 'fieldom' ) . '</a>';
 
 				echo '<pre id="fieldforge-export-result" style="margin-top:10px;background:#f6f6f6;padding:10px;display:none"></pre>';
 
 				echo '<hr />';
-				echo '<h3>' . esc_html__( 'Export All Field Groups', 'ar-fieldforge' ) . '</h3>';
-				echo '<p>' . esc_html__( 'Download all field groups as a single JSON file.', 'ar-fieldforge' ) . '</p>';
+				echo '<h3>' . esc_html__( 'Export All Field Groups', 'fieldom' ) . '</h3>';
+				echo '<p>' . esc_html__( 'Download all field groups as a single JSON file.', 'fieldom' ) . '</p>';
 				echo '<a class="button button-primary" href="' . esc_url(
 					add_query_arg(
 						array(
@@ -1210,9 +1210,9 @@ class FieldForge_Field_Group_Editor {
 						),
 						admin_url( 'edit.php' )
 					)
-				) . '">' . esc_html__( 'Download All Groups JSON', 'ar-fieldforge' ) . '</a>';
+				) . '">' . esc_html__( 'Download All Groups JSON', 'fieldom' ) . '</a>';
 			else :
-				echo '<p>' . esc_html__( 'No field groups found.', 'ar-fieldforge' ) . '</p>';
+				echo '<p>' . esc_html__( 'No field groups found.', 'fieldom' ) . '</p>';
 			endif;
 			?>
 		</div>
@@ -1268,15 +1268,15 @@ class FieldForge_Field_Group_Editor {
 				'nonce'     => wp_create_nonce( 'fieldforge_admin' ),
 				'postTypes' => $this->get_post_type_options(),
 				'i18n'      => array(
-					'addRow'       => __( 'Add Row', 'ar-fieldforge' ),
-					'removeRow'    => __( 'Remove Row', 'ar-fieldforge' ),
-					'noRows'       => __( 'No rows yet.', 'ar-fieldforge' ),
-					'confirm'      => __( 'Are you sure?', 'ar-fieldforge' ),
+					'addRow'       => __( 'Add Row', 'fieldom' ),
+					'removeRow'    => __( 'Remove Row', 'fieldom' ),
+					'noRows'       => __( 'No rows yet.', 'fieldom' ),
+					'confirm'      => __( 'Are you sure?', 'fieldom' ),
 					/* translators: %s: field label */
-					'requiredMsg'  => __( 'Required: %s', 'ar-fieldforge' ),
-					'requiredFail' => __( 'Please fill in all required fields before saving.', 'ar-fieldforge' ),
-					'maxRows'      => __( 'Maximum number of rows reached.', 'ar-fieldforge' ),
-					'minRows'      => __( 'Minimum number of rows reached.', 'ar-fieldforge' ),
+					'requiredMsg'  => __( 'Required: %s', 'fieldom' ),
+					'requiredFail' => __( 'Please fill in all required fields before saving.', 'fieldom' ),
+					'maxRows'      => __( 'Maximum number of rows reached.', 'fieldom' ),
+					'minRows'      => __( 'Minimum number of rows reached.', 'fieldom' ),
 				),
 			)
 		);
@@ -1319,7 +1319,7 @@ class FieldForge_Field_Group_Editor {
 				return '<select name="' . esc_attr( $input_name ) . '" class="ff-location-value-select">' . $opts . '</select>';
 
 			case 'page_template':
-				$opts = '<option value="default"' . $sel( 'default' ) . '>' . esc_html__( 'Default Template', 'ar-fieldforge' ) . '</option>';
+				$opts = '<option value="default"' . $sel( 'default' ) . '>' . esc_html__( 'Default Template', 'fieldom' ) . '</option>';
 				foreach ( get_page_templates() as $template_name => $template_file ) {
 					$opts .= '<option value="' . esc_attr( $template_file ) . '"' . $sel( $template_file ) . '>' . esc_html( $template_name ) . '</option>';
 				}
@@ -1333,7 +1333,7 @@ class FieldForge_Field_Group_Editor {
 						'numberposts' => 200,
 					)
 				);
-				$opts  = '<option value="0"' . $sel( '0' ) . '>' . esc_html__( '— No Parent —', 'ar-fieldforge' ) . '</option>';
+				$opts  = '<option value="0"' . $sel( '0' ) . '>' . esc_html__( '— No Parent —', 'fieldom' ) . '</option>';
 				foreach ( $pages as $page ) {
 					$opts .= '<option value="' . esc_attr( $page->ID ) . '"' . $sel( (string) $page->ID ) . '>' . esc_html( $page->post_title ) . '</option>';
 				}
@@ -1346,46 +1346,46 @@ class FieldForge_Field_Group_Editor {
 
 	private function get_type_labels(): array {
 		return array(
-			'text'         => __( 'Text', 'ar-fieldforge' ),
-			'textarea'     => __( 'Textarea', 'ar-fieldforge' ),
-			'number'       => __( 'Number', 'ar-fieldforge' ),
-			'select'       => __( 'Select', 'ar-fieldforge' ),
-			'checkbox'     => __( 'Checkbox', 'ar-fieldforge' ),
-			'radio'        => __( 'Radio', 'ar-fieldforge' ),
-			'true_false'   => __( 'True / False', 'ar-fieldforge' ),
-			'date_picker'  => __( 'Date Picker', 'ar-fieldforge' ),
-			'time_picker'  => __( 'Time Picker', 'ar-fieldforge' ),
-			'color_picker' => __( 'Color Picker', 'ar-fieldforge' ),
-			'url'          => __( 'URL', 'ar-fieldforge' ),
-			'email'        => __( 'Email', 'ar-fieldforge' ),
-			'password'     => __( 'Password', 'ar-fieldforge' ),
-			'file'         => __( 'File', 'ar-fieldforge' ),
-			'image'        => __( 'Image', 'ar-fieldforge' ),
-			'gallery'      => __( 'Gallery', 'ar-fieldforge' ),
-			'post_object'  => __( 'Post Object', 'ar-fieldforge' ),
-			'taxonomy'     => __( 'Taxonomy', 'ar-fieldforge' ),
-			'user'         => __( 'User', 'ar-fieldforge' ),
-			'link'         => __( 'Link', 'ar-fieldforge' ),
-			'wysiwyg'      => __( 'WYSIWYG', 'ar-fieldforge' ),
-			'message'      => __( 'Message', 'ar-fieldforge' ),
-			'tab'          => __( 'Tab', 'ar-fieldforge' ),
-			'accordion'    => __( 'Accordion', 'ar-fieldforge' ),
-			'repeater'         => __( 'Repeater', 'ar-fieldforge' ),
-			'flexible_content' => __( 'Flexible Content', 'ar-fieldforge' ),
+			'text'         => __( 'Text', 'fieldom' ),
+			'textarea'     => __( 'Textarea', 'fieldom' ),
+			'number'       => __( 'Number', 'fieldom' ),
+			'select'       => __( 'Select', 'fieldom' ),
+			'checkbox'     => __( 'Checkbox', 'fieldom' ),
+			'radio'        => __( 'Radio', 'fieldom' ),
+			'true_false'   => __( 'True / False', 'fieldom' ),
+			'date_picker'  => __( 'Date Picker', 'fieldom' ),
+			'time_picker'  => __( 'Time Picker', 'fieldom' ),
+			'color_picker' => __( 'Color Picker', 'fieldom' ),
+			'url'          => __( 'URL', 'fieldom' ),
+			'email'        => __( 'Email', 'fieldom' ),
+			'password'     => __( 'Password', 'fieldom' ),
+			'file'         => __( 'File', 'fieldom' ),
+			'image'        => __( 'Image', 'fieldom' ),
+			'gallery'      => __( 'Gallery', 'fieldom' ),
+			'post_object'  => __( 'Post Object', 'fieldom' ),
+			'taxonomy'     => __( 'Taxonomy', 'fieldom' ),
+			'user'         => __( 'User', 'fieldom' ),
+			'link'         => __( 'Link', 'fieldom' ),
+			'wysiwyg'      => __( 'WYSIWYG', 'fieldom' ),
+			'message'      => __( 'Message', 'fieldom' ),
+			'tab'          => __( 'Tab', 'fieldom' ),
+			'accordion'    => __( 'Accordion', 'fieldom' ),
+			'repeater'         => __( 'Repeater', 'fieldom' ),
+			'flexible_content' => __( 'Flexible Content', 'fieldom' ),
 		);
 	}
 
 	private function get_location_params(): array {
 		return array(
-			'post_type'     => __( 'Post Type', 'ar-fieldforge' ),
-			'post_status'   => __( 'Post Status', 'ar-fieldforge' ),
-			'page_template' => __( 'Page Template', 'ar-fieldforge' ),
-			'page_parent'   => __( 'Page Parent', 'ar-fieldforge' ),
-			'user_role'     => __( 'User Role', 'ar-fieldforge' ),
-			'post_taxonomy' => __( 'Post Taxonomy', 'ar-fieldforge' ),
-			'post_format'   => __( 'Post Format', 'ar-fieldforge' ),
-			'attachment'    => __( 'Attachment', 'ar-fieldforge' ),
-			'options_page'  => __( 'Options Page', 'ar-fieldforge' ),
+			'post_type'     => __( 'Post Type', 'fieldom' ),
+			'post_status'   => __( 'Post Status', 'fieldom' ),
+			'page_template' => __( 'Page Template', 'fieldom' ),
+			'page_parent'   => __( 'Page Parent', 'fieldom' ),
+			'user_role'     => __( 'User Role', 'fieldom' ),
+			'post_taxonomy' => __( 'Post Taxonomy', 'fieldom' ),
+			'post_format'   => __( 'Post Format', 'fieldom' ),
+			'attachment'    => __( 'Attachment', 'fieldom' ),
+			'options_page'  => __( 'Options Page', 'fieldom' ),
 		);
 	}
 

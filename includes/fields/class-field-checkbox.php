@@ -37,7 +37,7 @@ class FieldForge_Field_Checkbox extends FieldForge_Field_Base {
 			$html .= '<p class="fieldforge-orphaned-warning"><span class="dashicons dashicons-warning"></span> '
 				. sprintf(
 					/* translators: %s: comma-separated orphaned values */
-					esc_html__( 'Saved value(s) "%s" are no longer valid choices.', 'ar-fieldforge' ),
+					esc_html__( 'Saved value(s) "%s" are no longer valid choices.', 'fieldom' ),
 					esc_html( implode( '", "', $orphans ) )
 				)
 				. '</p>';

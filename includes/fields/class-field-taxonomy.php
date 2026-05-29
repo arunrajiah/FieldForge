@@ -33,7 +33,7 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 		if ( in_array( $field_type, array( 'select', 'multi_select' ), true ) ) {
 			$multiple = 'multi_select' === $field_type;
 			$html    .= '<select name="' . $name . ( $multiple ? '[]' : '' ) . '" id="' . $id . '" class="fieldforge-select widefat"' . ( $multiple ? ' multiple size="6"' : '' ) . '>';
-			$html    .= '<option value="">' . esc_html__( '— Select —', 'ar-fieldforge' ) . '</option>';
+			$html    .= '<option value="">' . esc_html__( '— Select —', 'fieldom' ) . '</option>';
 			foreach ( $terms as $term ) {
 				$sel   = $multiple
 					? ( in_array( (int) $term->term_id, (array) $saved, true ) ? ' selected' : '' )
@@ -75,7 +75,7 @@ class FieldForge_Field_Taxonomy extends FieldForge_Field_Base {
 			if ( '' !== $id && ( ! is_numeric( $id ) || (int) $id <= 0 ) ) {
 				return sprintf(
 					/* translators: %s: field label */
-					__( '"%s" contains one or more invalid term IDs.', 'ar-fieldforge' ),
+					__( '"%s" contains one or more invalid term IDs.', 'fieldom' ),
 					$this->field['label'] ?? $this->field['name']
 				);
 			}

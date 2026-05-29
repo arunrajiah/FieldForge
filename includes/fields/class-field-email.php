@@ -40,7 +40,7 @@ class FieldForge_Field_Email extends FieldForge_Field_Base {
 		if ( ! is_email( (string) $value ) ) {
 			return sprintf(
 				/* translators: %s: field label */
-				__( '"%s" must be a valid email address.', 'ar-fieldforge' ),
+				__( '"%s" must be a valid email address.', 'fieldom' ),
 				$this->field['label'] ?? $this->field['name']
 			);
 		}

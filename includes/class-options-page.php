@@ -58,8 +58,8 @@ class FieldForge_Options_Page {
 	 */
 	public static function register( array $args ): void {
 		$defaults = array(
-			'page_title'  => __( 'Options', 'ar-fieldforge' ),
-			'menu_title'  => __( 'Options', 'ar-fieldforge' ),
+			'page_title'  => __( 'Options', 'fieldom' ),
+			'menu_title'  => __( 'Options', 'fieldom' ),
 			'menu_slug'   => 'fieldforge-options',
 			'capability'  => 'manage_options',
 			'parent_slug' => '',
@@ -139,7 +139,7 @@ class FieldForge_Options_Page {
 	 */
 	private static function render_page( array $page ): void {
 		if ( ! current_user_can( $page['capability'] ) ) {
-			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Sorry, you are not allowed to access this page.', 'fieldom' ) );
 		}
 
 		$ff     = FieldForge::get_instance();
@@ -157,18 +157,18 @@ class FieldForge_Options_Page {
 
 			<?php if ( $saved ) : ?>
 				<div class="notice notice-success is-dismissible">
-					<p><?php esc_html_e( 'Options saved.', 'ar-fieldforge' ); ?></p>
+					<p><?php esc_html_e( 'Options saved.', 'fieldom' ); ?></p>
 				</div>
 			<?php endif; ?>
 
 			<?php if ( empty( $groups ) ) : ?>
-				<p><?php esc_html_e( 'No field groups are assigned to this options page.', 'ar-fieldforge' ); ?></p>
+				<p><?php esc_html_e( 'No field groups are assigned to this options page.', 'fieldom' ); ?></p>
 				<p>
 					<?php
 					printf(
 						/* translators: %s: link to add new field group */
-						esc_html__( 'Go to %1$s and set the location rule to "Options Page is equal to %2$s".', 'ar-fieldforge' ),
-						'<a href="' . esc_url( admin_url( 'edit.php?post_type=fieldforge_group' ) ) . '">' . esc_html__( 'Field Groups', 'ar-fieldforge' ) . '</a>',
+						esc_html__( 'Go to %1$s and set the location rule to "Options Page is equal to %2$s".', 'fieldom' ),
+						'<a href="' . esc_url( admin_url( 'edit.php?post_type=fieldforge_group' ) ) . '">' . esc_html__( 'Field Groups', 'fieldom' ) . '</a>',
 						'<code>' . esc_html( $page['menu_slug'] ) . '</code>'
 					);
 					?>
@@ -199,7 +199,7 @@ class FieldForge_Options_Page {
 						</div>
 					<?php endforeach; ?>
 
-					<?php submit_button( __( 'Save Options', 'ar-fieldforge' ) ); ?>
+					<?php submit_button( __( 'Save Options', 'fieldom' ) ); ?>
 				</form>
 			<?php endif; ?>
 		</div>
@@ -213,16 +213,16 @@ class FieldForge_Options_Page {
 		$slug = isset( $_POST['fieldforge_options_page'] ) ? sanitize_key( wp_unslash( $_POST['fieldforge_options_page'] ) ) : '';
 
 		if ( ! $slug ) {
-			wp_die( esc_html__( 'Invalid request.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Invalid request.', 'fieldom' ) );
 		}
 
 		$page = self::get_page( $slug );
 		if ( ! $page || ! current_user_can( $page['capability'] ) ) {
-			wp_die( esc_html__( 'Insufficient permissions.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Insufficient permissions.', 'fieldom' ) );
 		}
 
 		if ( ! isset( $_POST['fieldforge_options_nonce'] ) || ! wp_verify_nonce( sanitize_key( wp_unslash( $_POST['fieldforge_options_nonce'] ) ), 'fieldforge_save_options_' . $slug ) ) {
-			wp_die( esc_html__( 'Nonce verification failed.', 'ar-fieldforge' ) );
+			wp_die( esc_html__( 'Nonce verification failed.', 'fieldom' ) );
 		}
 
 		$ff       = FieldForge::get_instance();

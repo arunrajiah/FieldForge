@@ -53,7 +53,7 @@ class FieldForge_Field_Number extends FieldForge_Field_Base {
 		if ( '' !== $min && $num < floatval( $min ) ) {
 			return sprintf(
 				/* translators: 1: field label, 2: min value */
-				__( '"%1$s" must be at least %2$s.', 'ar-fieldforge' ),
+				__( '"%1$s" must be at least %2$s.', 'fieldom' ),
 				$this->field['label'] ?? $this->field['name'],
 				$min
 			);
@@ -61,7 +61,7 @@ class FieldForge_Field_Number extends FieldForge_Field_Base {
 		if ( '' !== $max && $num > floatval( $max ) ) {
 			return sprintf(
 				/* translators: 1: field label, 2: max value */
-				__( '"%1$s" must be no greater than %2$s.', 'ar-fieldforge' ),
+				__( '"%1$s" must be no greater than %2$s.', 'fieldom' ),
 				$this->field['label'] ?? $this->field['name'],
 				$max
 			);

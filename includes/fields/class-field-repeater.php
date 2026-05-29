@@ -19,7 +19,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 		$rows         = $this->load( $post_id );
 		$sub_fields   = $this->field['sub_fields'] ?? array();
 		$name         = esc_attr( $this->field['name'] );
-		$button_label = esc_html( $this->field['button_label'] ?? __( 'Add Row', 'ar-fieldforge' ) );
+		$button_label = esc_html( $this->field['button_label'] ?? __( 'Add Row', 'fieldom' ) );
 		$min          = (int) ( $this->field['min'] ?? 0 );
 		$max          = (int) ( $this->field['max'] ?? 0 );
 		$layout       = in_array( $this->field['layout'] ?? 'table', array( 'table', 'block', 'row' ), true ) ? $this->field['layout'] : 'table';
@@ -39,7 +39,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 			foreach ( $sub_fields as $sub ) {
 				$html .= '<div class="fieldforge-repeater-header-cell">' . esc_html( $sub['label'] ?? '' ) . '</div>';
 			}
-			$html .= '<div class="fieldforge-repeater-header-cell fieldforge-repeater-order">' . esc_html__( 'Order', 'ar-fieldforge' ) . '</div>';
+			$html .= '<div class="fieldforge-repeater-header-cell fieldforge-repeater-order">' . esc_html__( 'Order', 'fieldom' ) . '</div>';
 			$html .= '</div>';
 		}
 
@@ -50,7 +50,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 				$html .= $this->render_row( (int) $row_index, $row_data, $sub_fields, $registry, $name, $layout );
 			}
 		} else {
-			$html .= '<p class="fieldforge-repeater-empty">' . esc_html__( 'No rows yet.', 'ar-fieldforge' ) . '</p>';
+			$html .= '<p class="fieldforge-repeater-empty">' . esc_html__( 'No rows yet.', 'fieldom' ) . '</p>';
 		}
 
 		$html .= '</div>'; // .fieldforge-repeater-rows
@@ -83,14 +83,14 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 	private function render_row( int $row_index, array $row_data, array $sub_fields, FieldForge_Field_Registry $registry, string $name, string $layout ): string {
 		$html  = '<div class="fieldforge-repeater-row" data-row="' . esc_attr( (string) $row_index ) . '">';
 		$html .= '<div class="fieldforge-repeater-row-header">';
-		$html .= '<span class="fieldforge-repeater-drag dashicons dashicons-menu" title="' . esc_attr__( 'Drag to reorder', 'ar-fieldforge' ) . '"></span>';
+		$html .= '<span class="fieldforge-repeater-drag dashicons dashicons-menu" title="' . esc_attr__( 'Drag to reorder', 'fieldom' ) . '"></span>';
 		/* translators: %d: row number */
-		$html .= '<span class="fieldforge-repeater-row-label">' . sprintf( esc_html__( 'Row %d', 'ar-fieldforge' ), $row_index + 1 ) . '</span>';
+		$html .= '<span class="fieldforge-repeater-row-label">' . sprintf( esc_html__( 'Row %d', 'fieldom' ), $row_index + 1 ) . '</span>';
 		$html .= '<div class="fieldforge-repeater-row-actions">';
-		$toggle_title = esc_attr__( 'Collapse row', 'ar-fieldforge' );
+		$toggle_title = esc_attr__( 'Collapse row', 'fieldom' );
 		$html        .= '<button type="button" class="fieldforge-repeater-row-toggle button-link" title="' . $toggle_title . '">'
 			. '<span class="dashicons dashicons-arrow-up-alt2"></span></button>';
-		$html .= '<button type="button" class="button fieldforge-repeater-remove-row">' . esc_html__( 'Remove', 'ar-fieldforge' ) . '</button>';
+		$html .= '<button type="button" class="button fieldforge-repeater-remove-row">' . esc_html__( 'Remove', 'fieldom' ) . '</button>';
 		$html .= '</div>';
 		$html .= '</div>';
 		$html .= '<div class="fieldforge-repeater-row-body">';

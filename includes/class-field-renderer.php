@@ -65,7 +65,7 @@ class FieldForge_Field_Renderer {
 	public function render_meta_box( WP_Post $post, array $meta_box ): void {
 		$group = $meta_box['args']['group'] ?? array();
 		if ( empty( $group['fields'] ) ) {
-			echo '<p>' . esc_html__( 'No fields defined.', 'ar-fieldforge' ) . '</p>';
+			echo '<p>' . esc_html__( 'No fields defined.', 'fieldom' ) . '</p>';
 			return;
 		}
 
@@ -133,12 +133,12 @@ class FieldForge_Field_Renderer {
 				'nonce'          => wp_create_nonce( 'fieldforge_admin' ),
 				'conditionalLogic' => $cl_fields,
 				'i18n'           => array(
-					'addRow'    => __( 'Add Row', 'ar-fieldforge' ),
-					'removeRow' => __( 'Remove Row', 'ar-fieldforge' ),
-					'noRows'    => __( 'No rows yet.', 'ar-fieldforge' ),
-					'maxRows'   => __( 'Maximum number of rows reached.', 'ar-fieldforge' ),
-					'minRows'   => __( 'Minimum number of rows required.', 'ar-fieldforge' ),
-					'confirmRemove' => __( 'Remove this row?', 'ar-fieldforge' ),
+					'addRow'    => __( 'Add Row', 'fieldom' ),
+					'removeRow' => __( 'Remove Row', 'fieldom' ),
+					'noRows'    => __( 'No rows yet.', 'fieldom' ),
+					'maxRows'   => __( 'Maximum number of rows reached.', 'fieldom' ),
+					'minRows'   => __( 'Minimum number of rows required.', 'fieldom' ),
+					'confirmRemove' => __( 'Remove this row?', 'fieldom' ),
 				),
 			)
 		);

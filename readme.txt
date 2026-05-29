@@ -1,4 +1,4 @@
-=== AR FieldForge ===
+=== Fieldom ===
 Contributors: arunrajiah
 Donate link: https://github.com/sponsors/arunrajiah
 Tags: custom fields, meta box, repeater, flexible content, field groups
@@ -13,7 +13,7 @@ Open-source custom fields plugin with 26 field types, Repeater, Flexible Content
 
 == Description ==
 
-**FieldForge** gives agencies and developers a community-governed, feature-rich custom fields plugin for WordPress.
+**Fieldom** gives agencies and developers a community-governed, feature-rich custom fields plugin for WordPress.
 
 Every feature is built and maintained in the open. No freemium gates, no SaaS backend, no phone-home. Just a solid custom-fields plugin that runs entirely inside WordPress.
 
@@ -34,7 +34,7 @@ Every feature is built and maintained in the open. No freemium gates, no SaaS ba
 
 = Basic Usage =
 
-1. Go to **FieldForge → Add New** to create a field group.
+1. Go to **Fieldom → Add New** to create a field group.
 2. Click **+ Add Field**, choose a field type, give it a name and label.
 3. Set a location rule (e.g. "Post Type is equal to Post").
 4. Publish the field group.
@@ -63,7 +63,7 @@ Or simply:
 
 = JSON Import =
 
-Go to **FieldForge → Import / Export**, paste your field group JSON, and click Import. All supported field types and location rules are mapped automatically.
+Go to **Fieldom → Import / Export**, paste your field group JSON, and click Import. All supported field types and location rules are mapped automatically.
 
 See `docs/json-import.md` in the plugin folder for the full import guide.
 
@@ -77,18 +77,18 @@ See `docs/json-import.md` in the plugin folder for the full import guide.
 
 = From the WordPress plugin directory =
 
-1. Go to **Plugins → Add New** and search for "FieldForge".
+1. Go to **Plugins → Add New** and search for "Fieldom".
 2. Click **Install Now**, then **Activate**.
 
 = From a ZIP file =
 
-1. Download the latest `fieldforge.zip` from the [GitHub Releases page](https://github.com/arunrajiah/fieldforge/releases).
+1. Download the latest `fieldom.zip` from the [GitHub Releases page](https://github.com/arunrajiah/fieldforge/releases).
 2. Go to **Plugins → Add New → Upload Plugin**.
 3. Upload the zip and click **Install Now**, then **Activate**.
 
 = From source =
 
-1. Clone the repository into `wp-content/plugins/fieldforge`.
+1. Clone the repository into `wp-content/plugins/fieldom`.
 2. Run `composer install` to install dev dependencies.
 3. Activate the plugin from **Plugins → Installed Plugins**.
 
@@ -96,11 +96,11 @@ See `docs/json-import.md` in the plugin folder for the full import guide.
 
 = What field types and features are included? =
 
-FieldForge includes 26 field types (text, textarea, number, email, URL, password, select, checkbox, radio, true/false, date picker, time picker, color picker, image, file, gallery, post object, taxonomy, user, link, WYSIWYG, message, tab, accordion, Repeater, and Flexible Content), plus Options Pages, conditional logic, a REST API, a JSON importer, and local JSON sync. The Clone field and Gutenberg block fields are on the roadmap.
+Fieldom includes 26 field types (text, textarea, number, email, URL, password, select, checkbox, radio, true/false, date picker, time picker, color picker, image, file, gallery, post object, taxonomy, user, link, WYSIWYG, message, tab, accordion, Repeater, and Flexible Content), plus Options Pages, conditional logic, a REST API, a JSON importer, and local JSON sync. The Clone field and Gutenberg block fields are on the roadmap.
 
 = Can I import existing field group configurations? =
 
-Yes — go to **FieldForge → Import / Export** and paste a field group JSON export. FieldForge maps all supported field types, choices, location rules, sub-fields, and Flexible Content layouts automatically.
+Yes — go to **Fieldom → Import / Export** and paste a field group JSON export. Fieldom maps all supported field types, choices, location rules, sub-fields, and Flexible Content layouts automatically.
 
 = Is it safe to use on a production site? =
 
@@ -110,9 +110,9 @@ v0.1 is an early but stable release. The core save/load path is covered by a PHP
 
 Use `fieldforge_get( 'field_name' )` to return a value, or `fieldforge_the( 'field_name' )` to echo it safely escaped. For Repeater fields, use the `fieldforge_have_rows()` / `fieldforge_the_row()` / `fieldforge_sub_field()` loop helpers.
 
-= Does FieldForge conflict with other custom field plugins? =
+= Does Fieldom conflict with other custom field plugins? =
 
-FieldForge registers its own function names, CPT slugs, and meta keys and does not interfere with other custom field plugins. You can run multiple custom field plugins simultaneously.
+Fieldom registers its own function names, CPT slugs, and meta keys and does not interfere with other custom field plugins. You can run multiple custom field plugins simultaneously.
 
 == Screenshots ==
 
@@ -120,7 +120,7 @@ FieldForge registers its own function names, CPT slugs, and meta keys and does n
 2. **Field Group Editor — field expanded.** The "Subtitle" Text field is open, showing the two-column settings grid: label, slug, type picker, instructions, required toggle, default value, and placeholder.
 3. **Field Group Editor — empty state.** A fresh group before any fields are added — dashed placeholder card prompts you to click + Add Field.
 4. **Field Groups list.** The standard WordPress list table showing all published field groups at a glance.
-5. **Post edit screen — custom meta box.** FieldForge renders its fields as a standard WordPress meta box on the post editor, respecting location rules.
+5. **Post edit screen — custom meta box.** Fieldom renders its fields as a standard WordPress meta box on the post editor, respecting location rules.
 6. **Import / Export page.** Paste any JSON field-group export and click Import to bring fields across from any site.
 7. **Settings page.** Configure local JSON sync paths, enable debug logging, and sponsor the project — all in one place.
 

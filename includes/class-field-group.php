@@ -23,12 +23,12 @@ class FieldForge_Field_Group {
 
 	public static function register_cpt(): void {
 		$labels = array(
-			'name'          => __( 'Field Groups', 'ar-fieldforge' ),
-			'singular_name' => __( 'Field Group', 'ar-fieldforge' ),
-			'add_new'       => __( 'Add New', 'ar-fieldforge' ),
-			'add_new_item'  => __( 'Add New Field Group', 'ar-fieldforge' ),
-			'edit_item'     => __( 'Edit Field Group', 'ar-fieldforge' ),
-			'menu_name'     => __( 'FieldForge', 'ar-fieldforge' ),
+			'name'          => __( 'Field Groups', 'fieldom' ),
+			'singular_name' => __( 'Field Group', 'fieldom' ),
+			'add_new'       => __( 'Add New', 'fieldom' ),
+			'add_new_item'  => __( 'Add New Field Group', 'fieldom' ),
+			'edit_item'     => __( 'Edit Field Group', 'fieldom' ),
+			'menu_name'     => __( 'FieldForge', 'fieldom' ),
 		);
 
 		register_post_type(
@@ -310,7 +310,7 @@ class FieldForge_Field_Group {
 	public function import_json( string $json ) {
 		$data = json_decode( $json, true );
 		if ( ! is_array( $data ) ) {
-			return new WP_Error( 'invalid_json', __( 'Invalid JSON.', 'ar-fieldforge' ) );
+			return new WP_Error( 'invalid_json', __( 'Invalid JSON.', 'fieldom' ) );
 		}
 		return $this->save_group( $data );
 	}

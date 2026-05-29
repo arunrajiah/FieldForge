@@ -37,7 +37,7 @@ class FieldForge_Field_Radio extends FieldForge_Field_Base {
 			$html .= '<p class="fieldforge-orphaned-warning"><span class="dashicons dashicons-warning"></span> '
 				. sprintf(
 					/* translators: %s: the orphaned saved value */
-					esc_html__( 'Saved value "%s" is no longer a valid choice.', 'ar-fieldforge' ),
+					esc_html__( 'Saved value "%s" is no longer a valid choice.', 'fieldom' ),
 					esc_html( $saved )
 				)
 				. '</p>';
