@@ -244,7 +244,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 					'"%1$s" requires at least %2$d layout.',
 					'"%1$s" requires at least %2$d layouts.',
 					$min,
-					'fieldforge'
+					'fieldom'
 				),
 				$this->field['label'] ?? $this->field['name'],
 				$min
@@ -258,7 +258,7 @@ class FieldForge_Field_Flexible_Content extends FieldForge_Field_Base {
 					'"%1$s" may have at most %2$d layout.',
 					'"%1$s" may have at most %2$d layouts.',
 					$max,
-					'fieldforge'
+					'fieldom'
 				),
 				$this->field['label'] ?? $this->field['name'],
 				$max

@@ -251,7 +251,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 					'"%1$s" requires at least %2$d row.',
 					'"%1$s" requires at least %2$d rows.',
 					$min,
-					'fieldforge'
+					'fieldom'
 				),
 				$this->field['label'] ?? $this->field['name'],
 				$min
@@ -265,7 +265,7 @@ class FieldForge_Field_Repeater extends FieldForge_Field_Base {
 					'"%1$s" may have at most %2$d row.',
 					'"%1$s" may have at most %2$d rows.',
 					$max,
-					'fieldforge'
+					'fieldom'
 				),
 				$this->field['label'] ?? $this->field['name'],
 				$max

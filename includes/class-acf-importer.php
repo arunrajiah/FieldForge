@@ -385,7 +385,7 @@ class FieldForge_ACF_Importer {
 			array(
 				'message' => sprintf(
 					/* translators: %d number of groups imported */
-					_n( '%d field group imported.', '%d field groups imported.', count( $result ), 'fieldforge' ),
+					_n( '%d field group imported.', '%d field groups imported.', count( $result ), 'fieldom' ),
 					count( $result )
 				),
 				'ids'     => $result,

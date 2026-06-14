@@ -42,8 +42,10 @@ class FieldForge_REST_API {
 				array(
 					'methods'             => WP_REST_Server::READABLE,
 					'callback'            => array( $this, 'get_options_page_fields' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
+					'permission_callback' => function ( WP_REST_Request $request ) {
+						$page = FieldForge_Options_Page::get_page( $request->get_param( 'page_slug' ) );
+						$cap  = $page ? ( $page['capability'] ?? 'manage_options' ) : 'manage_options';
+						return current_user_can( $cap );
 					},
 					'args'                => array(
 						'page_slug' => array(
@@ -54,8 +56,10 @@ class FieldForge_REST_API {
 				array(
 					'methods'             => WP_REST_Server::CREATABLE,
 					'callback'            => array( $this, 'update_options_page_fields' ),
-					'permission_callback' => function () {
-						return current_user_can( 'manage_options' );
+					'permission_callback' => function ( WP_REST_Request $request ) {
+						$page = FieldForge_Options_Page::get_page( $request->get_param( 'page_slug' ) );
+						$cap  = $page ? ( $page['capability'] ?? 'manage_options' ) : 'manage_options';
+						return current_user_can( $cap );
 					},
 					'args'                => array(
 						'page_slug' => array(

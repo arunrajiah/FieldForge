@@ -180,7 +180,7 @@ class FieldForge_Settings_Page {
 							/* translators: %s: linked sponsor CTA */
 							esc_html__(
 								'If you find it useful, please consider %s — it helps keep the project alive and growing.',
-								'fieldforge'
+								'fieldom'
 							),
 							$sponsor_link // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- pre-escaped above
 						);

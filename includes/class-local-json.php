@@ -79,13 +79,34 @@ class FieldForge_Local_JSON {
 	public function get_save_path(): string {
 		$settings = FieldForge_Settings_Page::get_settings();
 		$from_opt = ! empty( $settings['local_json_path'] ) ? trim( $settings['local_json_path'] ) : '';
-		if ( $from_opt ) {
+
+		$upload  = wp_upload_dir();
+		$default = $upload['basedir'] . '/fieldforge-json';
+
+		// Only allow a user-configured path if it stays within the uploads directory.
+		if ( $from_opt && $this->is_within_uploads( $from_opt, $upload['basedir'] ) ) {
 			$default = $from_opt;
-		} else {
-			$upload  = wp_upload_dir();
-			$default = $upload['basedir'] . '/fieldforge-json';
 		}
+
 		return apply_filters( 'fieldforge/local_json/save_path', $default );
+	}
+
+	/**
+	 * Check whether a path is located inside the uploads base directory.
+	 *
+	 * @param string $path         Absolute path to check.
+	 * @param string $uploads_base Absolute path to wp-content/uploads (or network equivalent).
+	 * @return bool
+	 */
+	private function is_within_uploads( string $path, string $uploads_base ): bool {
+		// Resolve symlinks for existing paths; fall back to string-prefix for not-yet-created dirs.
+		$real_base = realpath( $uploads_base );
+		$check     = file_exists( $path ) ? $path : dirname( $path );
+		$real_path = realpath( $check );
+		if ( $real_path && $real_base ) {
+			return 0 === strpos( trailingslashit( $real_path ), trailingslashit( $real_base ) );
+		}
+		return 0 === strpos( $path, trailingslashit( $uploads_base ) );
 	}
 
 	/**
@@ -268,7 +289,7 @@ class FieldForge_Local_JSON {
 					'FieldForge: %d field group JSON file is newer than the database.',
 					'FieldForge: %d field group JSON files are newer than the database.',
 					$count,
-					'fieldforge'
+					'fieldom'
 				);
 				printf( esc_html( $msg ), (int) $count );
 				?>
@@ -306,7 +327,7 @@ class FieldForge_Local_JSON {
 			array(
 				'message' => sprintf(
 				/* translators: %d: number of groups synced */
-					_n( '%d group synced.', '%d groups synced.', $synced, 'fieldforge' ),
+					_n( '%d group synced.', '%d groups synced.', $synced, 'fieldom' ),
 					$synced
 				),
 			)
