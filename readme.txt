@@ -3,7 +3,7 @@ Contributors: arunrajiah
 Donate link: https://github.com/sponsors/arunrajiah
 Tags: custom fields, meta box, repeater, flexible content, field groups
 Requires at least: 6.2
-Tested up to: 6.9
+Tested up to: 7.0
 Requires PHP: 7.4
 Stable tag: 0.1.1
 License: GPL-2.0-or-later
