@@ -1,29 +1,25 @@
 name: Deploy to WordPress.org
 
-# This workflow is DISABLED until the plugin is submitted to the
-# WordPress.org plugin directory and SVN credentials are added to
-# repository secrets.
+# Deploys the plugin to the WordPress.org SVN repository.
 #
-# To enable:
-#   1. Submit the plugin at https://wordpress.org/plugins/developers/add/
-#   2. Wait for approval and receive the plugin slug.
-#   3. Add repository secrets:
-#        WPORG_SVN_USERNAME  — your WordPress.org username
-#        WPORG_SVN_PASSWORD  — your WordPress.org password (or app password)
-#   4. Change the trigger below from workflow_dispatch back to:
-#        on:
-#          push:
-#            tags:
-#              - 'v[0-9]+.[0-9]+.[0-9]+'
+# Triggers automatically when a version tag (e.g. v0.1.1) is pushed, and can
+# also be run manually from the Actions tab for a specific tag.
 #
-# Until then, releases are distributed as GitHub Release zip files only.
-# See .github/workflows/release.yml for the zip build workflow.
+# Requires two repository secrets (Settings → Secrets and variables → Actions):
+#   WPORG_SVN_USERNAME  — your WordPress.org username (arunrajiah)
+#   WPORG_SVN_PASSWORD  — the SVN password from your WordPress.org profile
+#                         (Account & Security → generate a new password)
+#
+# The plugin's `Stable tag` in readme.txt must match the version being deployed.
 
 on:
+  push:
+    tags:
+      - 'v[0-9]+.[0-9]+.[0-9]+'
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Tag to deploy (e.g. v1.0.0)'
+        description: 'Tag to deploy (e.g. v0.1.1)'
         required: true
 
 jobs:
@@ -35,13 +31,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.tag }}
+          ref: ${{ github.event.inputs.tag || github.ref }}
 
       - name: Check SVN credentials are configured
         run: |
           if [ -z "$SVN_USERNAME" ] || [ -z "$SVN_PASSWORD" ]; then
             echo "::error::WPORG_SVN_USERNAME and WPORG_SVN_PASSWORD secrets are not set."
-            echo "::error::Add them in Settings → Secrets → Actions before running this workflow."
+            echo "::error::Add them in Settings → Secrets and variables → Actions before running this workflow."
             exit 1
           fi
         env:
@@ -50,7 +46,9 @@ jobs:
 
       - name: Extract version from tag
         id: version
-        run: echo "VERSION=${INPUT_TAG#v}" >> "$GITHUB_OUTPUT"
+        run: |
+          REF="${INPUT_TAG:-$GITHUB_REF_NAME}"
+          echo "VERSION=${REF#v}" >> "$GITHUB_OUTPUT"
         env:
           INPUT_TAG: ${{ github.event.inputs.tag }}
 
@@ -59,6 +57,6 @@ jobs:
         env:
           SVN_USERNAME: ${{ secrets.WPORG_SVN_USERNAME }}
           SVN_PASSWORD: ${{ secrets.WPORG_SVN_PASSWORD }}
-          SLUG: fieldforge
+          SLUG: fieldom
           VERSION: ${{ steps.version.outputs.VERSION }}
           ASSETS_DIR: .wordpress-org
