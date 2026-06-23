@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1544" height="500" viewBox="0 0 1544 500">
+  <defs>
+    <linearGradient id="bnr" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2c8ae0"/>
+      <stop offset="1" stop-color="#0f4f80"/>
+    </linearGradient>
+  </defs>
+  <rect width="1544" height="500" fill="url(#bnr)"/>
+  <g transform="translate(150,118) scale(0.52)">
+    <rect x="158" y="132" width="66" height="248" rx="22" fill="#ffffff"/>
+    <rect x="158" y="132" width="212" height="66" rx="22" fill="#ffffff"/>
+    <rect x="158" y="223" width="150" height="66" rx="22" fill="#ffffff"/>
+    <circle cx="404" cy="165" r="24" fill="#ffc23d"/>
+  </g>
+  <text x="470" y="245" font-family="Helvetica,Arial,sans-serif" font-size="130" font-weight="700" fill="#ffffff">Fieldom</text>
+  <text x="474" y="320" font-family="Helvetica,Arial,sans-serif" font-size="48" font-weight="400" fill="#cfe4f7">Custom fields for WordPress</text>
+</svg>
