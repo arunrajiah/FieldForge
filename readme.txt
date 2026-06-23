@@ -5,7 +5,7 @@ Tags: custom fields, meta box, repeater, flexible content, field groups
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.1
+Stable tag: 0.1.2
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,13 @@ Fieldom registers its own function names, CPT slugs, and meta keys and does not 
 7. **Settings page.** Configure local JSON sync paths, enable debug logging, and sponsor the project — all in one place.
 
 == Changelog ==
+
+= 0.1.2 =
+* First build published to the WordPress.org plugin directory.
+* Security: local JSON save path is now restricted to the uploads directory.
+* Security: REST options endpoints enforce each options page's own capability.
+* Internationalization: all strings use the `fieldom` text domain.
+* Compatibility: tested up to WordPress 7.0.
 
 = 0.1.1 =
 * Fixed: sub-fields inside Repeater and Flexible Content rows rendering blank.

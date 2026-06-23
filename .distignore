@@ -4,6 +4,9 @@
 .gitignore
 .distignore
 .editorconfig
+.wordpress-org
+phpcs.xml
+phpcs.xml.dist
 .phpcs.xml
 .phpunit.xml
 composer.json
