@@ -5,7 +5,7 @@ Tags: custom fields, meta box, repeater, flexible content, field groups
 Requires at least: 6.2
 Tested up to: 7.0
 Requires PHP: 7.4
-Stable tag: 0.1.2
+Stable tag: 0.1.3
 License: GPL-2.0-or-later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -125,6 +125,10 @@ Fieldom registers its own function names, CPT slugs, and meta keys and does not 
 7. **Settings page.** Configure local JSON sync paths, enable debug logging, and sponsor the project — all in one place.
 
 == Changelog ==
+
+= 0.1.3 =
+* Branding: updated the in-plugin logo and replaced remaining old-name references with "Fieldom" across the admin menu, settings page, import/export screen, admin notices, and REST schema.
+* Settings: clarified that the local JSON path must be inside the uploads directory.
 
 = 0.1.2 =
 * First build published to the WordPress.org plugin directory.

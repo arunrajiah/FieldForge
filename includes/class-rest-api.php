@@ -162,7 +162,7 @@ class FieldForge_REST_API {
 					'get_callback'    => array( $this, 'get_fields_for_post' ),
 					'update_callback' => array( $this, 'update_fields_for_post' ),
 					'schema'          => array(
-						'description' => __( 'FieldForge custom field values for this post.', 'fieldom' ),
+						'description' => __( 'Fieldom custom field values for this post.', 'fieldom' ),
 						'type'        => 'object',
 						'context'     => array( 'view', 'edit' ),
 					),

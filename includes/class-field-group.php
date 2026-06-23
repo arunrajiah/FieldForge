@@ -28,7 +28,7 @@ class FieldForge_Field_Group {
 			'add_new'       => __( 'Add New', 'fieldom' ),
 			'add_new_item'  => __( 'Add New Field Group', 'fieldom' ),
 			'edit_item'     => __( 'Edit Field Group', 'fieldom' ),
-			'menu_name'     => __( 'FieldForge', 'fieldom' ),
+			'menu_name'     => __( 'Fieldom', 'fieldom' ),
 		);
 
 		register_post_type(

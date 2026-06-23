@@ -286,8 +286,8 @@ class FieldForge_Local_JSON {
 				<?php
 				/* translators: %d: number of out-of-sync JSON files */
 				$msg = _n(
-					'FieldForge: %d field group JSON file is newer than the database.',
-					'FieldForge: %d field group JSON files are newer than the database.',
+					'Fieldom: %d field group JSON file is newer than the database.',
+					'Fieldom: %d field group JSON files are newer than the database.',
 					$count,
 					'fieldom'
 				);

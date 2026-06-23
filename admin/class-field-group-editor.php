@@ -1152,10 +1152,10 @@ class FieldForge_Field_Group_Editor {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'FieldForge — Import / Export', 'fieldom' ); ?></h1>
+			<h1><?php esc_html_e( 'Fieldom — Import / Export', 'fieldom' ); ?></h1>
 
 			<h2><?php esc_html_e( 'Import Field Group JSON', 'fieldom' ); ?></h2>
-			<p><?php esc_html_e( 'Paste a field group JSON export below to import it into FieldForge.', 'fieldom' ); ?></p>
+			<p><?php esc_html_e( 'Paste a field group JSON export below to import it into Fieldom.', 'fieldom' ); ?></p>
 			<textarea id="fieldforge-import-json" rows="12" style="width:100%;font-family:monospace"></textarea>
 			<br /><br />
 			<button type="button" class="button button-primary" id="fieldforge-do-import"><?php esc_html_e( 'Import', 'fieldom' ); ?></button>

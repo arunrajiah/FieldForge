@@ -49,7 +49,7 @@ class FieldForge_Settings_Page {
 	public function add_menu(): void {
 		$this->hook_suffix = (string) add_submenu_page(
 			'edit.php?post_type=' . FieldForge_Field_Group::CPT,
-			__( 'FieldForge Settings', 'fieldom' ),
+			__( 'Fieldom Settings', 'fieldom' ),
 			__( 'Settings', 'fieldom' ),
 			'manage_options',
 			'fieldforge-settings',
@@ -116,7 +116,7 @@ class FieldForge_Settings_Page {
 		}
 		?>
 		<div class="wrap">
-			<h1><?php esc_html_e( 'FieldForge Settings', 'fieldom' ); ?></h1>
+			<h1><?php esc_html_e( 'Fieldom Settings', 'fieldom' ); ?></h1>
 
 			<?php $this->render_attribution_strip(); ?>
 
@@ -146,18 +146,21 @@ class FieldForge_Settings_Page {
 		<div class="fieldforge-attribution-strip">
 			<div class="fieldforge-attribution-strip__inner">
 				<div class="fieldforge-attribution-strip__logo">
-					<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
-						<rect width="28" height="28" rx="6" fill="#2563EB"/>
-						<path d="M7 14.5L11.5 19L21 9" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+					<svg width="28" height="28" viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+						<rect width="512" height="512" rx="116" fill="#2271b1"/>
+						<rect x="158" y="132" width="66" height="248" rx="22" fill="#ffffff"/>
+						<rect x="158" y="132" width="212" height="66" rx="22" fill="#ffffff"/>
+						<rect x="158" y="223" width="150" height="66" rx="22" fill="#ffffff"/>
+						<circle cx="404" cy="165" r="24" fill="#ffc23d"/>
 					</svg>
-					<span class="fieldforge-attribution-strip__name">FieldForge</span>
+					<span class="fieldforge-attribution-strip__name">Fieldom</span>
 				</div>
 				<div class="fieldforge-attribution-strip__text">
 					<p class="fieldforge-attribution-strip__tagline">
 						<?php
 						printf(
 							/* translators: %s: linked author name */
-							esc_html__( 'FieldForge is a free plugin developed and maintained by %s.', 'fieldom' ),
+							esc_html__( 'Fieldom is a free plugin developed and maintained by %s.', 'fieldom' ),
 							'<a href="https://github.com/arunrajiah" target="_blank" rel="noopener noreferrer">arunrajiah</a>'
 						);
 						?>
@@ -196,7 +199,7 @@ class FieldForge_Settings_Page {
 		$opts = $this->get_settings();
 		$val  = $opts['local_json_path'] ?? '';
 		echo '<input type="text" name="' . esc_attr( self::OPTION_KEY ) . '[local_json_path]" value="' . esc_attr( $val ) . '" class="regular-text" />';
-		echo '<p class="description">' . esc_html__( 'Absolute path where FieldForge writes JSON files. Leave empty to use the default (fieldforge-json/ in your theme).', 'fieldom' ) . '</p>';
+		echo '<p class="description">' . esc_html__( 'Absolute path where Fieldom writes JSON files. Leave empty to use the default (fieldforge-json/ in your uploads directory). Paths outside the uploads directory are ignored.', 'fieldom' ) . '</p>';
 	}
 
 	public function render_local_json_load(): void {
@@ -210,7 +213,7 @@ class FieldForge_Settings_Page {
 		$opts = $this->get_settings();
 		$val  = ! empty( $opts['debug_log'] );
 		echo '<label><input type="checkbox" name="' . esc_attr( self::OPTION_KEY ) . '[debug_log]" value="1"' . checked( $val, true, false ) . ' /> ';
-		echo esc_html__( 'Log FieldForge activity to the PHP error log.', 'fieldom' ) . '</label>';
+		echo esc_html__( 'Log Fieldom activity to the PHP error log.', 'fieldom' ) . '</label>';
 	}
 
 	/**
