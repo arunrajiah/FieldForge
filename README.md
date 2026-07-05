@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/assets/logo.svg" alt="Fieldom logo" width="96" height="96">
+</p>
+
 # FieldForge
 
 **A 100% GPL WordPress custom fields plugin** — native Repeater, Flexible Content, Options Pages, conditional logic, JSON import/export, and local JSON sync. Runs entirely inside WordPress. No SaaS, no phone-home, no lock-in.
