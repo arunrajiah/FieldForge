@@ -207,7 +207,13 @@ class FieldForge_Field_Group_Editor {
 				<table class="form-table">
 					<tr>
 						<th><?php esc_html_e( 'Min', 'fieldom' ); ?></th>
-						<td><input type="number" name="<?php echo esc_attr( $prefix ); ?>[min]" value="<?php echo esc_attr( (string) ( $field['min'] ?? '' ) ); ?>" /></td>
+						<td>
+							<input
+								type="number"
+								name="<?php echo esc_attr( $prefix ); ?>[min]"
+								value="<?php echo esc_attr( (string) ( $field['min'] ?? '' ) ); ?>"
+							/>
+						</td>
 					</tr>
 					<tr>
 						<th><?php esc_html_e( 'Max', 'fieldom' ); ?></th>
