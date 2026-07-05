@@ -78,5 +78,4 @@ final class FieldForge {
 		delete_transient( 'fieldforge_field_groups' );
 		flush_rewrite_rules();
 	}
-
 }
