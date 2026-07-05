@@ -199,7 +199,12 @@ class FieldForge_Settings_Page {
 		$opts = $this->get_settings();
 		$val  = $opts['local_json_path'] ?? '';
 		echo '<input type="text" name="' . esc_attr( self::OPTION_KEY ) . '[local_json_path]" value="' . esc_attr( $val ) . '" class="regular-text" />';
-		echo '<p class="description">' . esc_html__( 'Absolute path where Fieldom writes JSON files. Leave empty to use the default (fieldforge-json/ in your uploads directory). Paths outside the uploads directory are ignored.', 'fieldom' ) . '</p>';
+		echo '<p class="description">'
+			. esc_html__(
+				'Absolute path where Fieldom writes JSON files. Leave empty to use the default (fieldforge-json/ in your uploads directory). Paths outside the uploads directory are ignored.',
+				'fieldom'
+			)
+			. '</p>';
 	}
 
 	public function render_local_json_load(): void {
