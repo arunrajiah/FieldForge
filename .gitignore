@@ -7,3 +7,12 @@ build/
 *.log
 *.zip
 /composer.lock
+
+# Local AI assistant / OS / env files
+.claude/
+CLAUDE.md
+CLAUDE.local.md
+.mcp.json
+.env
+.env.*
+!.env.example

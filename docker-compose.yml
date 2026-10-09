@@ -37,9 +37,9 @@ services:
       WORDPRESS_DEBUG: "1"
     volumes:
       # FieldForge plugin (this repo)
-      - /Users/arunrajiah/claude workspace/FieldForge:/var/www/html/wp-content/plugins/fieldforge
+      - .:/var/www/html/wp-content/plugins/fieldforge
       # FlowPress plugin (existing project)
-      - /Users/arunrajiah/claude workspace/FlowPress:/var/www/html/wp-content/plugins/flowpress
+      - ../FlowPress:/var/www/html/wp-content/plugins/flowpress
       # Persist WordPress uploads and core between restarts
       - fp_wp_data:/var/www/html
     networks:
